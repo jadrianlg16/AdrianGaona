@@ -1,9 +1,8 @@
-
-// src/components/AboutSection.tsx - ONLY Image component changes
+// src/components/AboutSection.tsx
 'use client'
 import React from 'react'
 import Image from 'next/image'
-import { CodeIcon, PaletteIcon, UsersIcon } from 'lucide-react'
+import { CodeIcon, BrainIcon, UsersIcon } from 'lucide-react'
 import pfp from '../../../public/images/pfp.png'
 
 export const AboutSection = () => {
@@ -19,8 +18,8 @@ export const AboutSection = () => {
           <div className="relative">
             <div className="bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg absolute inset-0 transform translate-x-3 translate-y-3"></div>
             <Image
-              src= {pfp}
-              alt="John Doe"
+              src={pfp}
+              alt="Jesús Adrián López García"
               width={800}
               height={600}
               className="rounded-lg shadow-2xl relative z-10 w-full h-auto border-4 border-white/20"
@@ -30,15 +29,16 @@ export const AboutSection = () => {
           <div>
             <h3 className="text-2xl font-bold mb-6 text-white">Who am I?</h3>
             <p className="text-white/80 mb-6 leading-relaxed">
-              I'm a passionate developer and designer with over 5 years of
-              experience creating digital products that users love. I combine
-              technical expertise with creative thinking to build solutions that
-              are both beautiful and functional.
+              I'm a multidisciplinary engineer, accountant, and entrepreneur from Nuevo León, Mexico, 
+              with five years of hands-on experience crafting full-stack web applications, AI-powered 
+              automation pipelines, and secure back-office systems. Currently pursuing Computer Science 
+              at Tecnológico de Monterrey with a 93 average.
             </p>
             <p className="text-white/80 mb-8 leading-relaxed">
-              When I'm not coding or designing, you can find me hiking in the
-              mountains, experimenting with photography, or exploring new coffee
-              shops in the city.
+              I thrive in fast-moving, ambiguity-heavy environments and enjoy leading projects end-to-end: 
+              from ideation to architecture to deployment. When I'm not coding, you'll find me training for 
+              my next half marathon, planning my artisanal panadería, or exploring new cities through 
+              immersive cultural experiences.
             </p>
             
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
@@ -46,19 +46,19 @@ export const AboutSection = () => {
                 <div className="bg-purple-500/20 p-3 rounded-full w-12 h-12 flex items-center justify-center mb-4">
                   <CodeIcon size={24} className="text-purple-400" />
                 </div>
-                <h4 className="font-bold mb-2 text-white">Development</h4>
+                <h4 className="font-bold mb-2 text-white">Full-Stack Development</h4>
                 <p className="text-sm text-white/70">
-                  Clean, efficient code that scales
+                  React, Django, FastAPI, and modern cloud architectures
                 </p>
               </div>
               
               <div className="p-6 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg hover:bg-white/10 transition-all duration-300">
                 <div className="bg-pink-500/20 p-3 rounded-full w-12 h-12 flex items-center justify-center mb-4">
-                  <PaletteIcon size={24} className="text-pink-400" />
+                  <BrainIcon size={24} className="text-pink-400" />
                 </div>
-                <h4 className="font-bold mb-2 text-white">Design</h4>
+                <h4 className="font-bold mb-2 text-white">AI & Automation</h4>
                 <p className="text-sm text-white/70">
-                  Intuitive, user-centered interfaces
+                  LangChain, RAG pipelines, and on-premises LLM deployments
                 </p>
               </div>
               
@@ -66,9 +66,9 @@ export const AboutSection = () => {
                 <div className="bg-yellow-500/20 p-3 rounded-full w-12 h-12 flex items-center justify-center mb-4">
                   <UsersIcon size={24} className="text-yellow-400" />
                 </div>
-                <h4 className="font-bold mb-2 text-white">Collaboration</h4>
+                <h4 className="font-bold mb-2 text-white">Business Leadership</h4>
                 <p className="text-sm text-white/70">
-                  Strong team player and communicator
+                  Project management, stakeholder comms, and team coordination
                 </p>
               </div>
             </div>

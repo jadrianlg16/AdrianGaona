@@ -1,6 +1,6 @@
-// ContactSection.tsx
+// src/components/ContactSection.tsx
 import React from 'react'
-import { MailIcon, PhoneIcon, MapPinIcon, SendIcon } from 'lucide-react'
+import { MailIcon, PhoneIcon, MapPinIcon, SendIcon, GithubIcon, LinkedinIcon } from 'lucide-react'
 
 export const ContactSection = () => {
   return (
@@ -10,8 +10,8 @@ export const ContactSection = () => {
           <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">Get In Touch</h2>
           <div className="h-1 w-24 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto mb-8"></div>
           <p className="max-w-2xl mx-auto text-white/70">
-            Have a project in mind or want to discuss potential collaborations?
-            I'd love to hear from you!
+            Interested in collaborating on a project or discussing opportunities? 
+            I'm always excited to work on innovative solutions that make a real impact.
           </p>
         </div>
         
@@ -53,7 +53,7 @@ export const ContactSection = () => {
                   type="text"
                   id="subject"
                   className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-white placeholder-white/50 backdrop-blur-sm"
-                  placeholder="Project Inquiry"
+                  placeholder="Project Inquiry / Collaboration"
                   required
                 />
               </div>
@@ -65,7 +65,7 @@ export const ContactSection = () => {
                   id="message"
                   rows={5}
                   className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-white placeholder-white/50 backdrop-blur-sm resize-none"
-                  placeholder="Tell me about your project..."
+                  placeholder="Tell me about your project or opportunity..."
                   required
                 ></textarea>
               </div>
@@ -83,8 +83,8 @@ export const ContactSection = () => {
             <div>
               <h3 className="text-xl font-bold mb-6">Contact Information</h3>
               <p className="mb-8 text-white/90">
-                I'm excited to hear about your project. Feel free to reach out
-                through any of the channels below.
+                Currently based in Nuevo León, Mexico, with native-level English and Spanish fluency. 
+                Open to remote work and relocation opportunities worldwide.
               </p>
               
               <div className="space-y-6">
@@ -94,7 +94,8 @@ export const ContactSection = () => {
                   </div>
                   <div>
                     <h4 className="font-medium">Email</h4>
-                    <p className="text-white/80">hello@johndoe.com</p>
+                    <p className="text-white/80">jesus@adriangaona.dev</p>
+                    <p className="text-white/80 text-sm">jadrianlg16@gmail.com</p>
                   </div>
                 </div>
                 
@@ -104,7 +105,7 @@ export const ContactSection = () => {
                   </div>
                   <div>
                     <h4 className="font-medium">Phone</h4>
-                    <p className="text-white/80">+1 (555) 123-4567</p>
+                    <p className="text-white/80">+1 (210) 636-1040</p>
                   </div>
                 </div>
                 
@@ -114,24 +115,46 @@ export const ContactSection = () => {
                   </div>
                   <div>
                     <h4 className="font-medium">Location</h4>
-                    <p className="text-white/80">San Francisco, CA</p>
+                    <p className="text-white/80">Nuevo León, Mexico</p>
+                    <p className="text-white/70 text-sm">Remote & relocation friendly</p>
                   </div>
                 </div>
               </div>
             </div>
             
             <div className="mt-8 pt-8 border-t border-white/20">
-              <h4 className="font-medium mb-4">Follow me</h4>
+              <h4 className="font-medium mb-4">Connect with me</h4>
               <div className="flex space-x-4">
-                {['Github', 'LinkedIn', 'Twitter', 'Dribbble'].map((platform) => (
-                  <a
-                    key={platform}
-                    href="#"
-                    className="bg-white/20 p-3 rounded-full hover:bg-white/30 transition-colors backdrop-blur-sm text-sm"
-                  >
-                    {platform}
-                  </a>
-                ))}
+                <a
+                  href="#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-white/20 p-3 rounded-full hover:bg-white/30 transition-colors backdrop-blur-sm flex items-center justify-center"
+                  aria-label="GitHub Profile"
+                >
+                  <GithubIcon size={20} className="text-white" />
+                </a>
+                <a
+                  href="#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-white/20 p-3 rounded-full hover:bg-white/30 transition-colors backdrop-blur-sm flex items-center justify-center"
+                  aria-label="LinkedIn Profile"
+                >
+                  <LinkedinIcon size={20} className="text-white" />
+                </a>
+                <a
+                  href="mailto:jesus@adriangaona.dev"
+                  className="bg-white/20 px-4 py-3 rounded-full hover:bg-white/30 transition-colors backdrop-blur-sm text-sm font-medium"
+                >
+                  Email Me
+                </a>
+              </div>
+              
+              <div className="mt-4 text-sm text-white/80">
+                <p>Available for remote work</p>
+                <p>Currently training for SF Half Marathon</p>
+                <p>Computer Science @ Tecnológico de Monterrey</p>
               </div>
             </div>
           </div>

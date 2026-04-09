@@ -9,8 +9,14 @@ import { Footer } from './components/Footer'
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      <Header />
+    // <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    // <div className="min-h-screen bg-[#0f172a] text-white"> {/* Tailwind's slate-900 */}
+    // <div className="min-h-screen bg-[#31363b] text-white"> {/* Custom steel grey */}
+    <div className="min-h-screen bg-[#31363b] text-white"> {/* Custom steel grey */}
+
+
+
+    <Header />
       <main className="w-full">
         <HeroSection />
         <AboutSection />

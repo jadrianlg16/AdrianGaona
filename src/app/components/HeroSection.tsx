@@ -1,8 +1,7 @@
-
-// src/components/HeroSection.tsx - EXACTLY THE SAME
+// src/components/HeroSection.tsx
 'use client'
 import React, { useEffect, useState } from 'react'
-import { ChevronDownIcon, GithubIcon, LinkedinIcon, TwitterIcon } from 'lucide-react'
+import { ChevronDownIcon, GithubIcon, LinkedinIcon, MailIcon } from 'lucide-react'
 
 export const HeroSection = () => {
   const [scrollY, setScrollY] = useState(0)
@@ -37,35 +36,43 @@ export const HeroSection = () => {
             Hello, I'm
           </p>
           <h1 className="text-5xl md:text-7xl font-bold mb-6 text-white animate-fade-in">
-            John Doe
+            Jesús Adrián
           </h1>
           <div className="h-1 w-24 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto mb-6"></div>
           <h2 className="text-2xl md:text-3xl text-white/80 mb-8">
-            Creative Developer & Designer
+            Full-Stack Engineer & AI Developer
           </h2>
           <p className="text-white/70 mb-12 max-w-2xl mx-auto text-lg">
-            I craft beautiful, functional digital experiences with a focus on
-            user-centered design and clean, efficient code.
+            Computer Science student and multidisciplinary engineer with 5+ years building 
+            full-stack applications, AI-powered automation, and secure enterprise systems. 
+            Passionate about merging business intelligence with cutting-edge technology.
           </p>
           
           <div className="flex justify-center space-x-6 mb-12">
             <a
-              href="#"
+              href="https://github.com/yourusername"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-white/60 hover:text-white transition-colors p-3 bg-white/5 rounded-full backdrop-blur-sm border border-white/10 hover:bg-white/10"
+              aria-label="GitHub Profile"
             >
               <GithubIcon size={24} />
             </a>
             <a
               href="#"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-white/60 hover:text-white transition-colors p-3 bg-white/5 rounded-full backdrop-blur-sm border border-white/10 hover:bg-white/10"
+              aria-label="LinkedIn Profile"
             >
               <LinkedinIcon size={24} />
             </a>
             <a
-              href="#"
+              href="mailto:jesus@adriangaona.dev"
               className="text-white/60 hover:text-white transition-colors p-3 bg-white/5 rounded-full backdrop-blur-sm border border-white/10 hover:bg-white/10"
+              aria-label="Email Contact"
             >
-              <TwitterIcon size={24} />
+              <MailIcon size={24} />
             </a>
           </div>
           

@@ -1,5 +1,4 @@
-
-// src/components/Header.tsx - EXACTLY THE SAME
+// src/components/Header.tsx
 'use client'
 import React, { useEffect, useState } from 'react'
 import { MenuIcon, XIcon } from 'lucide-react'
@@ -34,7 +33,7 @@ export const Header = () => {
     >
       <div className="container mx-auto px-6 flex justify-between items-center">
         <div className="text-2xl font-bold text-white">
-          Portfolio
+          Jesús Adrián
         </div>
         
         <nav className="hidden md:flex space-x-8">

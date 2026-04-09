@@ -1,4 +1,4 @@
-// Footer.tsx
+// src/components/Footer.tsx
 'use client'
 import React from 'react'
 import { ArrowUpIcon } from 'lucide-react'
@@ -14,10 +14,10 @@ export const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-6 md:mb-0">
             <div className="text-2xl font-bold text-white">
-              Portfolio
+              Jesús Adrián López Gaona
             </div>
             <p className="text-white/60 mt-2">
-              Creating digital experiences that inspire.
+              Building innovative solutions with AI and full-stack expertise.
             </p>
           </div>
           
@@ -37,12 +37,17 @@ export const Footer = () => {
         <hr className="border-white/10 my-8" />
         
         <div className="flex flex-col md:flex-row justify-between items-center">
-          <p className="text-white/60 text-sm">
-            © {new Date().getFullYear()} John Doe. All rights reserved.
-          </p>
+          <div className="text-center md:text-left mb-4 md:mb-0">
+            <p className="text-white/60 text-sm">
+              © {new Date().getFullYear()} Jesús Adrián López Gaona. All rights reserved.
+            </p>
+            <p className="text-white/40 text-xs mt-1">
+              Computer Science Student @ Tecnológico de Monterrey • Nuevo León, Mexico
+            </p>
+          </div>
           <button
             onClick={scrollToTop}
-            className="mt-4 md:mt-0 bg-white/10 p-3 rounded-full hover:bg-white/20 transition-colors backdrop-blur-sm border border-white/20"
+            className="bg-white/10 p-3 rounded-full hover:bg-white/20 transition-colors backdrop-blur-sm border border-white/20"
             aria-label="Scroll to top"
           >
             <ArrowUpIcon size={20} className="text-white" />
