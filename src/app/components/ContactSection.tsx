@@ -8,7 +8,7 @@ export const ContactSection = () => {
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">Get In Touch</h2>
-          <div className="h-1 w-24 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto mb-8"></div>
+          <div className="h-1 w-24 bg-white/20 mx-auto mb-8 rounded-full"></div>
           <p className="max-w-2xl mx-auto text-white/70">
             Interested in collaborating on a project or discussing opportunities? 
             I'm always excited to work on innovative solutions that make a real impact.
@@ -71,7 +71,7 @@ export const ContactSection = () => {
               </div>
               <button
                 type="submit"
-                className="w-full py-3 px-6 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center"
+                className="w-full py-3 px-6 bg-white/10 border border-white/20 text-white font-medium rounded-lg hover:bg-white/20 transition-all flex items-center justify-center"
               >
                 Send Message
                 <SendIcon size={18} className="ml-2" />
@@ -79,7 +79,7 @@ export const ContactSection = () => {
             </form>
           </div>
           
-          <div className="bg-gradient-to-br from-purple-600 to-pink-600 rounded-lg p-8 text-white flex flex-col justify-between">
+          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-8 text-white flex flex-col justify-between hover:bg-white/10 transition-all duration-300">
             <div>
               <h3 className="text-xl font-bold mb-6">Contact Information</h3>
               <p className="mb-8 text-white/90">
