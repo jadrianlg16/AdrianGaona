@@ -32,6 +32,8 @@ export type Project = {
   stack: string[];
   palette: [string, string];
   link?: string;
+  /** public repo URL — the card shows a GitHub link when set */
+  github?: string;
   image?: string;
   demo?: ProjectDemo;
 };

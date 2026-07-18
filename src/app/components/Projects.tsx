@@ -131,6 +131,18 @@ function ProjectCard({
             <span className="font-mono text-xs uppercase tracking-widest text-muted">
               {project.role}
             </span>
+            <span className="flex items-center gap-4">
+            {project.github && (
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-cursor="hover"
+                className="font-mono text-xs uppercase tracking-widest text-muted transition-colors hover:text-accent"
+              >
+                GitHub ↗
+              </a>
+            )}
             {demo ? (
               <button
                 type="button"
@@ -156,6 +168,7 @@ function ProjectCard({
                 </a>
               )
             )}
+            </span>
           </div>
         </div>
 
