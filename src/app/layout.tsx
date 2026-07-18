@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Syne, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -12,24 +12,41 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const syne = Syne({
+  variable: "--font-syne",
+  subsets: ["latin"],
+  weight: ["600", "700", "800"],
+});
+
+const instrument = Instrument_Serif({
+  variable: "--font-instrument",
+  subsets: ["latin"],
+  weight: "400",
+  style: "italic",
+});
+
 export const metadata: Metadata = {
-  title: "Jesús Adrián López Gaona - Full-Stack Engineer & AI Developer",
-  description: "Computer Science student and multidisciplinary engineer with 5+ years building full-stack applications, AI-powered automation, and secure enterprise systems.",
-  keywords: "Full-Stack Developer, AI Engineer, Python, React, Django, Machine Learning, Nuevo León, Mexico",
+  title: "Adrián Gaona — Software & AI Systems",
+  description:
+    "Computer science engineer building web platforms and AI systems that turn busywork into momentum. Software for business productivity, shipped with discipline.",
+  keywords:
+    "Software Engineer, AI Systems, Web Development, Business Automation, Next.js, Python, Nuevo León, Mexico",
   authors: [{ name: "Jesús Adrián López Gaona" }],
   creator: "Jesús Adrián López Gaona",
   openGraph: {
-    title: "Jesús Adrián López Gaona - Full-Stack Engineer & AI Developer",
-    description: "Computer Science student and multidisciplinary engineer with 5+ years building full-stack applications, AI-powered automation, and secure enterprise systems.",
+    title: "Adrián Gaona — Software & AI Systems",
+    description:
+      "Web platforms and AI systems that turn busywork into momentum.",
     url: "https://adriangaona.dev",
-    siteName: "Jesús Adrián López Gaona Portfolio",
+    siteName: "Adrián Gaona",
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Jesús Adrián López Gaona - Full-Stack Engineer & AI Developer",
-    description: "Computer Science student and multidisciplinary engineer with 5+ years building full-stack applications, AI-powered automation, and secure enterprise systems.",
+    title: "Adrián Gaona — Software & AI Systems",
+    description:
+      "Web platforms and AI systems that turn busywork into momentum.",
   },
   robots: {
     index: true,
@@ -45,7 +62,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${syne.variable} ${instrument.variable} grain antialiased`}
       >
         {children}
       </body>
