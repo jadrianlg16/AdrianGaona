@@ -2,14 +2,14 @@
 
 /* ---------------------------------------------------------------------------
    Design tokens — "Engineering Leverage"
-   Warm near-black ink, bone white type, signal-lime accent.
+   Warm near-black ink, bone white type, sea-green accent.
 --------------------------------------------------------------------------- */
 :root {
   --ink: #0c0c0a;
   --ink-soft: #141412;
   --bone: #e9e7e2;
   --muted: #8d8a81;
-  --accent: #d4ff3f;
+  --accent: #4fd1b5;
   --line: rgba(233, 231, 226, 0.1);
 }
 
@@ -55,18 +55,26 @@ body {
   border-radius: 99px;
 }
 
-/* Hide the native cursor when the custom one is active (fine pointers only) */
-@media (pointer: fine) {
-  .has-custom-cursor,
-  .has-custom-cursor a,
-  .has-custom-cursor button {
-    cursor: none;
-  }
-}
-
 /* ---------------------------------------------------------------------------
    Utilities
 --------------------------------------------------------------------------- */
+
+.hero-title {
+  font-size: clamp(1.4rem, 6.8vw, 7rem);
+}
+
+.hero-scrim {
+  background: linear-gradient(
+    to bottom,
+    rgba(12, 12, 10, 0.86) 0%,
+    rgba(12, 12, 10, 0.62) 48%,
+    rgba(12, 12, 10, 0.98) 100%
+  );
+}
+
+.hero-copy-shadow {
+  text-shadow: 0 2px 18px rgba(12, 12, 10, 0.95);
+}
 
 /* Film-grain overlay */
 .grain::after {
@@ -125,5 +133,66 @@ body {
   .grain::after,
   .marquee-track {
     animation: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .grain::after {
+    inset: 0;
+    opacity: 0.025;
+    animation: none;
+  }
+
+  .hero-scrim {
+    background: linear-gradient(
+      to bottom,
+      rgba(12, 12, 10, 0.9) 0%,
+      rgba(12, 12, 10, 0.66) 48%,
+      rgba(12, 12, 10, 0.98) 100%
+    );
+  }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero-title {
+    font-size: clamp(2.1rem, 7vw, 4rem);
+  }
+
+  .hero-content {
+    padding-top: 6rem;
+    padding-bottom: 2rem;
+  }
+
+  .project-wrapper {
+    height: auto !important;
+    min-height: 100svh;
+  }
+
+  .project-sticky {
+    position: relative !important;
+    height: auto !important;
+    min-height: 100svh;
+    padding: 1rem !important;
+  }
+
+  .project-card {
+    height: auto !important;
+    min-height: calc(100svh - 2rem) !important;
+    grid-template-columns: 1fr !important;
+    grid-template-rows: 1fr !important;
+  }
+
+  .project-copy {
+    padding: 1.25rem !important;
+  }
+
+  .project-visual {
+    display: none !important;
+  }
+
+  .nav-link {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
   }
 }

@@ -1,9 +1,14 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useRef } from "react";
 import { gsap, useGSAP } from "../lib/gsap";
 import { useApp } from "./AppProvider";
-import { ParticleField } from "./ParticleField";
+
+const ParticleField = dynamic(
+  () => import("./ParticleField").then((module) => module.ParticleField),
+  { ssr: false }
+);
 
 export function Hero() {
   const { loaded } = useApp();
@@ -51,18 +56,18 @@ export function Hero() {
     <section
       ref={rootRef}
       id="top"
-      className="relative flex h-[100svh] flex-col justify-end overflow-hidden"
+      className="relative flex min-h-[100svh] flex-col justify-end overflow-hidden"
     >
       <ParticleField />
       {/* readability scrim over the particle field */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ink/60 via-transparent to-ink" />
+      <div className="hero-scrim pointer-events-none absolute inset-0" />
 
-      <div className="hero-content relative z-10 px-6 pb-14 md:px-12 md:pb-20">
-        <p className="hero-fade mb-6 max-w-md translate-y-4 font-mono text-xs uppercase tracking-[0.25em] text-muted opacity-0 md:text-sm">
+      <div className="hero-content hero-copy-shadow relative z-10 px-5 pb-10 pt-28 sm:px-6 sm:pb-14 md:px-12 md:pb-20">
+        <p className="hero-fade mb-5 max-w-md translate-y-4 font-mono text-xs uppercase tracking-[0.22em] text-bone/85 opacity-0 md:mb-6 md:text-sm md:tracking-[0.25em]">
           Adrián Gaona — Software & AI Systems
         </p>
 
-        <h1 className="font-display text-[clamp(3.2rem,11vw,10.5rem)] font-extrabold uppercase leading-[0.92] tracking-tight">
+        <h1 className="hero-title font-display font-extrabold uppercase leading-[0.92] tracking-tight">
           <span className="clip-line hero-line">
             <span className="translate-y-full">Engineering</span>
           </span>
@@ -76,12 +81,11 @@ export function Hero() {
           </span>
         </h1>
 
-        <div className="mt-8 flex flex-col gap-6 md:mt-10 md:flex-row md:items-end md:justify-between">
-          <p className="hero-fade max-w-md translate-y-4 text-balance text-base leading-relaxed text-bone/80 opacity-0 md:text-lg">
-            Web platforms and AI systems that turn busywork into momentum —
-            built with discipline, shipped with care.
+        <div className="mt-7 flex flex-col gap-5 md:mt-10 md:flex-row md:items-end md:justify-between md:gap-6">
+          <p className="hero-fade max-w-md translate-y-4 text-balance text-base leading-relaxed text-bone opacity-0 md:text-lg">
+            Web platforms and AI systems that turn busywork into momentum.
           </p>
-          <div className="hero-fade flex translate-y-4 items-center gap-3 font-mono text-xs uppercase tracking-widest text-muted opacity-0">
+          <div className="hero-fade flex translate-y-4 items-center gap-3 font-mono text-xs uppercase tracking-widest text-bone opacity-0">
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />

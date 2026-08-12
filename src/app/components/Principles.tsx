@@ -41,7 +41,7 @@ export function Principles() {
         (04) — How I work
       </p>
 
-      <h2 className="principles-heading mb-20 font-display text-[clamp(2.5rem,7vw,6rem)] font-extrabold uppercase leading-[0.95] tracking-tight md:mb-28">
+      <h2 className="principles-heading mb-20 font-display text-[clamp(2rem,7vw,6rem)] font-extrabold uppercase leading-[0.95] tracking-tight md:mb-28">
         <span className="clip-line">
           <span>Extraordinary</span>
         </span>

@@ -48,7 +48,7 @@ export function Contact() {
           (05) — Next chapter
         </p>
 
-        <h2 className="contact-heading font-display text-[clamp(2.8rem,9vw,8.5rem)] font-extrabold uppercase leading-[0.95] tracking-tight">
+        <h2 className="contact-heading font-display text-[clamp(2rem,9vw,8.5rem)] font-extrabold uppercase leading-[0.95] tracking-tight">
           <span className="clip-line">
             <span>Let&apos;s build the</span>
           </span>

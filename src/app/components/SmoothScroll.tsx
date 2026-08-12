@@ -12,6 +12,11 @@ export const getLenis = () => lenisInstance;
 /** Lenis smooth scrolling, driven by GSAP's ticker so ScrollTrigger stays in sync. */
 export function SmoothScroll() {
   useEffect(() => {
+    const useNativeScroll = window.matchMedia(
+      "(pointer: coarse), (prefers-reduced-motion: reduce)"
+    ).matches;
+    if (useNativeScroll) return;
+
     const lenis = new Lenis({
       duration: 1.1,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),

@@ -22,23 +22,29 @@ export function Projects() {
 
   useGSAP(
     () => {
-      const wrappers = gsap.utils.toArray<HTMLElement>(".project-wrapper");
-      wrappers.forEach((wrapper, i) => {
-        const next = wrappers[i + 1];
-        if (!next) return;
-        const card = wrapper.querySelector(".project-card");
-        gsap.to(card, {
-          scale: 0.92,
-          opacity: 0.35,
-          ease: "none",
-          scrollTrigger: {
-            trigger: next,
-            start: "top bottom",
-            end: "top top",
-            scrub: true,
-          },
+      const media = gsap.matchMedia();
+      media.add(
+        "(min-width: 768px) and (min-height: 501px) and (prefers-reduced-motion: no-preference)",
+        () => {
+          const wrappers = gsap.utils.toArray<HTMLElement>(".project-wrapper");
+          wrappers.forEach((wrapper, i) => {
+            const next = wrappers[i + 1];
+            if (!next) return;
+            const card = wrapper.querySelector(".project-card");
+            gsap.to(card, {
+              scale: 0.92,
+              opacity: 0.35,
+              ease: "none",
+              scrollTrigger: {
+                trigger: next,
+                start: "top bottom",
+                end: "top top",
+                scrub: true,
+              },
+            });
+          });
         });
-      });
+      return () => media.revert();
     },
     { scope: rootRef }
   );
@@ -49,7 +55,7 @@ export function Projects() {
         <p className="mb-6 font-mono text-xs uppercase tracking-[0.25em] text-muted">
           (03) — Selected work
         </p>
-        <h2 className="font-display text-[clamp(2.5rem,8vw,7rem)] font-extrabold uppercase leading-none tracking-tight">
+        <h2 className="font-display text-[clamp(2rem,8vw,7rem)] font-extrabold uppercase leading-none tracking-tight">
           Built to <span className="font-serif normal-case text-accent">move</span>{" "}
           <span className="text-stroke">numbers</span>
         </h2>
@@ -60,7 +66,10 @@ export function Projects() {
       </div>
 
       {projects.map((project, i) => (
-        <div key={project.slug} className="project-wrapper h-[100svh]">
+        <div
+          key={project.slug}
+          className="project-wrapper min-h-[100svh] md:h-[100svh]"
+        >
           <ProjectCard project={project} index={i} onLaunch={setOpenProject} />
         </div>
       ))}
@@ -84,10 +93,10 @@ function ProjectCard({
   const demo = project.demo;
 
   return (
-    <article className="sticky top-0 flex h-[100svh] items-center px-4 md:px-10">
+    <article className="project-sticky relative flex min-h-[100svh] items-center px-4 py-4 md:sticky md:top-0 md:h-[100svh] md:px-10 md:py-0">
       <div
-        className="project-card relative grid h-[88svh] w-full grid-rows-[auto_1fr] overflow-hidden rounded-2xl
-          border border-line bg-ink-soft will-change-transform md:grid-cols-2 md:grid-rows-1"
+        className="project-card relative grid min-h-[calc(100svh-2rem)] w-full grid-rows-1 overflow-hidden rounded-2xl
+          border border-line bg-ink-soft md:h-[88svh] md:min-h-0 md:grid-cols-2 md:grid-rows-1 md:will-change-transform"
       >
         {/* ambient glow keyed to the project palette */}
         <div
@@ -98,28 +107,28 @@ function ProjectCard({
         />
 
         {/* copy */}
-        <div className="relative z-10 flex flex-col justify-between p-7 md:p-12">
+        <div className="project-copy relative z-10 flex flex-col justify-between p-5 sm:p-7 md:p-12">
           <div className="flex items-baseline justify-between font-mono text-sm text-muted">
             <span className="text-accent">{String(index + 1).padStart(2, "0")}</span>
             <span>{project.year}</span>
           </div>
 
           <div>
-            <h3 className="font-display text-[clamp(2.2rem,5vw,4.5rem)] font-bold uppercase leading-none tracking-tight">
+            <h3 className="font-display text-[clamp(1.8rem,9vw,4.5rem)] font-bold uppercase leading-none tracking-tight md:text-[clamp(2.2rem,5vw,4.5rem)]">
               {project.title}
             </h3>
             <p className="mt-3 font-serif text-xl text-bone/80 md:text-2xl">
               {project.tagline}
             </p>
-            <p className="mt-6 max-w-md leading-relaxed text-bone/60">
+            <p className="mt-4 max-w-md text-sm leading-relaxed text-bone/70 sm:mt-6 sm:text-base sm:text-bone/60">
               {project.description}
             </p>
 
-            <div className="mt-8 flex flex-wrap gap-2">
+            <div className="mt-5 flex flex-wrap gap-2 sm:mt-8">
               {project.stack.map((tech) => (
                 <span
                   key={tech}
-                  className="rounded-full border border-line px-3 py-1 font-mono text-xs uppercase tracking-wider text-muted"
+                  className="rounded-full border border-line px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-muted sm:text-xs"
                 >
                   {tech}
                 </span>
@@ -127,7 +136,7 @@ function ProjectCard({
             </div>
           </div>
 
-          <div className="flex items-center justify-between gap-4 pt-6">
+          <div className="flex flex-wrap items-center justify-between gap-4 pt-5 sm:pt-6">
             <span className="font-mono text-xs uppercase tracking-widest text-muted">
               {project.role}
             </span>
@@ -138,7 +147,7 @@ function ProjectCard({
                 target="_blank"
                 rel="noopener noreferrer"
                 data-cursor="hover"
-                className="font-mono text-xs uppercase tracking-widest text-muted transition-colors hover:text-accent"
+                className="inline-flex min-h-11 items-center font-mono text-xs uppercase tracking-widest text-muted transition-colors hover:text-accent"
               >
                 GitHub ↗
               </a>
@@ -148,7 +157,7 @@ function ProjectCard({
                 type="button"
                 onClick={() => onLaunch(project)}
                 data-cursor="hover"
-                className="group inline-flex items-center gap-2 rounded-full border border-accent/50 bg-accent/10 px-5 py-2.5 font-mono text-sm uppercase tracking-widest text-accent transition-colors hover:bg-accent hover:text-ink"
+                className="group inline-flex min-h-11 items-center gap-2 rounded-full border border-accent/50 bg-accent/10 px-4 py-2.5 font-mono text-xs uppercase tracking-widest text-accent transition-colors hover:bg-accent hover:text-ink sm:px-5 sm:text-sm"
               >
                 {demo.kind === "live" ? "Launch app" : "Play demo"}
                 <span className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1">
@@ -173,7 +182,7 @@ function ProjectCard({
         </div>
 
         {/* visual: live mini-app, walkthrough, image, or generated gradient */}
-        <div className="relative hidden overflow-hidden md:block">
+        <div className="project-visual relative hidden overflow-hidden md:block">
           {demo ? (
             <DemoVisual project={project} onLaunch={onLaunch} />
           ) : project.image ? (

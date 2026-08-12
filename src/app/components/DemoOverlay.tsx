@@ -120,7 +120,7 @@ export function DemoOverlay({
               onClick={close}
               data-cursor="hover"
               aria-label="Close demo"
-              className="flex h-7 w-7 items-center justify-center rounded-full border border-line font-mono text-xs text-muted transition-colors hover:border-accent/50 hover:text-accent"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-line font-mono text-xs text-muted transition-colors hover:border-accent/50 hover:text-accent sm:h-9 sm:w-9"
             >
               ✕
             </button>

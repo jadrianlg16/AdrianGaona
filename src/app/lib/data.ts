@@ -59,7 +59,7 @@ export const projects: Project[] = [
     year: "2025",
     role: "AI Web Product",
     stack: ["AI Transcription", "Web Platform", "Automation"],
-    palette: ["#d4ff3f", "#1a3a1a"],
+    palette: ["#4fd1b5", "#123c34"],
     image: "/images/howlx-intro.png",
   },
   {

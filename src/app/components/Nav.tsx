@@ -57,13 +57,13 @@ export function Nav() {
   return (
     <header
       ref={rootRef}
-      className="fixed inset-x-0 top-0 z-50 mix-blend-difference"
+      className="fixed inset-x-0 top-0 z-50 bg-gradient-to-b from-ink/90 to-transparent"
     >
       <nav className="flex items-center justify-between px-6 py-5 md:px-12">
         <a
           href="#top"
           onClick={(e) => scrollTo(e, "#top")}
-          className="font-display text-lg font-bold uppercase tracking-tight"
+          className="inline-flex min-h-11 items-center font-display text-lg font-bold uppercase tracking-tight"
         >
           AG<span className="text-accent">©</span>
         </a>
@@ -74,7 +74,7 @@ export function Nav() {
               <a
                 href={link.href}
                 onClick={(e) => scrollTo(e, link.href)}
-                className="relative transition-opacity hover:opacity-60"
+                className="nav-link relative transition-opacity hover:opacity-60"
               >
                 {link.label}
               </a>
@@ -87,9 +87,9 @@ export function Nav() {
           <a
             href="#contact"
             onClick={(e) => scrollTo(e, "#contact")}
-            className="md:hidden"
+            className="inline-flex min-h-11 items-center md:hidden"
           >
-            Menu ↓
+            Contact ↓
           </a>
         </div>
       </nav>
