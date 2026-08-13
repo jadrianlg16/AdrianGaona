@@ -33,7 +33,7 @@ export function Footer() {
         </ul>
 
         <p className="font-mono text-xs uppercase tracking-widest text-muted">
-          © {year} — Designed & built with discipline
+          © {year} — adriangaona.dev
         </p>
       </div>
     </footer>

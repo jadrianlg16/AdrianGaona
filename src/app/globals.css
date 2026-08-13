@@ -64,16 +64,159 @@ body {
 }
 
 .hero-scrim {
-  background: linear-gradient(
-    to bottom,
-    rgba(12, 12, 10, 0.86) 0%,
-    rgba(12, 12, 10, 0.62) 48%,
-    rgba(12, 12, 10, 0.98) 100%
-  );
+  background:
+    linear-gradient(
+      90deg,
+      rgba(8, 12, 14, 0.88) 0%,
+      rgba(8, 12, 14, 0.62) 42%,
+      rgba(8, 12, 14, 0.12) 78%
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(8, 12, 14, 0.5) 0%,
+      rgba(8, 12, 14, 0.12) 48%,
+      rgba(8, 12, 14, 0.96) 100%
+    );
 }
 
 .hero-copy-shadow {
   text-shadow: 0 2px 18px rgba(12, 12, 10, 0.95);
+}
+
+/* Alpine hero */
+.alpine-scene {
+  background: #071015;
+  isolation: isolate;
+}
+
+.alpine-scene__image {
+  object-position: 53% center;
+  transform: scale(1.055);
+  transform-origin: center;
+  will-change: transform;
+}
+
+.alpine-scene__haze {
+  z-index: 1;
+  background:
+    radial-gradient(circle at 52% 77%, rgba(186, 222, 222, 0.14), transparent 12%),
+    radial-gradient(circle at 70% 28%, rgba(79, 209, 181, 0.1), transparent 27%),
+    linear-gradient(to bottom, rgba(4, 10, 14, 0.08), rgba(4, 10, 14, 0.3));
+  mix-blend-mode: screen;
+}
+
+.alpine-scene__snow {
+  z-index: 2;
+  pointer-events: none;
+}
+
+.alpine-scene__snow canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.alpine-scene__spindrift {
+  z-index: 3;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0.36;
+  filter: blur(10px);
+}
+
+.alpine-scene__spindrift::before,
+.alpine-scene__spindrift::after {
+  content: "";
+  position: absolute;
+  width: 74%;
+  height: 48%;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(222, 239, 239, 0.28) 0%,
+    rgba(154, 193, 198, 0.1) 42%,
+    transparent 72%
+  );
+  animation: alpine-spindrift 9s ease-in-out infinite alternate;
+}
+
+.alpine-scene__spindrift::before {
+  left: -24%;
+  bottom: -14%;
+}
+
+.alpine-scene__spindrift::after {
+  right: -22%;
+  bottom: -5%;
+  animation-delay: -4.5s;
+  animation-duration: 11s;
+}
+
+@keyframes alpine-spindrift {
+  from { transform: translate3d(-4%, 8%, 0) scale(0.92); }
+  to { transform: translate3d(18%, -8%, 0) scale(1.08); }
+}
+
+/* Alpine loader */
+.alpine-loader__sky {
+  background:
+    radial-gradient(circle at 74% 24%, rgba(79, 209, 181, 0.12), transparent 24%),
+    radial-gradient(circle at 50% 110%, rgba(233, 231, 226, 0.11), transparent 44%),
+    linear-gradient(145deg, #080c0d 0%, #101719 55%, #071015 100%);
+}
+
+.alpine-loader__sky::before,
+.alpine-loader__sky::after {
+  content: "";
+  position: absolute;
+  inset: -15%;
+  pointer-events: none;
+}
+
+.alpine-loader__sky::before {
+  background-image:
+    radial-gradient(circle, rgba(233, 231, 226, 0.5) 0 1px, transparent 1.5px),
+    radial-gradient(circle, rgba(79, 209, 181, 0.38) 0 1px, transparent 1.7px);
+  background-position: 0 0, 31px 27px;
+  background-size: 52px 52px, 89px 89px;
+  opacity: 0.3;
+  animation: loader-snow 3.8s linear infinite;
+}
+
+.alpine-loader__sky::after {
+  background: linear-gradient(
+    105deg,
+    transparent 20%,
+    rgba(214, 232, 233, 0.09) 48%,
+    transparent 72%
+  );
+  filter: blur(18px);
+  animation: loader-gust 3s ease-in-out infinite alternate;
+}
+
+.loader-whiteout {
+  z-index: 20;
+  pointer-events: none;
+  transform: translateX(-10%);
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    rgba(231, 242, 242, 0.4) 18%,
+    rgba(242, 249, 248, 0.98) 48%,
+    rgba(180, 216, 213, 0.54) 76%,
+    transparent 100%
+  );
+  filter: blur(20px);
+}
+
+@keyframes loader-snow {
+  from { transform: translate3d(-2%, -7%, 0); }
+  to { transform: translate3d(5%, 8%, 0); }
+}
+
+@keyframes loader-gust {
+  from { transform: translate3d(-12%, 0, 0); opacity: 0.35; }
+  to { transform: translate3d(12%, -3%, 0); opacity: 0.7; }
 }
 
 /* Film-grain overlay */
@@ -131,7 +274,11 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .grain::after,
-  .marquee-track {
+  .marquee-track,
+  .alpine-scene__spindrift::before,
+  .alpine-scene__spindrift::after,
+  .alpine-loader__sky::before,
+  .alpine-loader__sky::after {
     animation: none;
   }
 }
@@ -144,12 +291,28 @@ body {
   }
 
   .hero-scrim {
-    background: linear-gradient(
-      to bottom,
-      rgba(12, 12, 10, 0.9) 0%,
-      rgba(12, 12, 10, 0.66) 48%,
-      rgba(12, 12, 10, 0.98) 100%
-    );
+    background:
+      linear-gradient(
+        90deg,
+        rgba(5, 10, 12, 0.82) 0%,
+        rgba(5, 10, 12, 0.52) 72%,
+        rgba(5, 10, 12, 0.34) 100%
+      ),
+      linear-gradient(
+        to bottom,
+        rgba(5, 10, 12, 0.54) 0%,
+        rgba(5, 10, 12, 0.14) 42%,
+        rgba(5, 10, 12, 0.98) 100%
+      );
+  }
+
+  .alpine-scene__image {
+    object-position: 54% center;
+    transform: scale(1.035);
+  }
+
+  .alpine-scene__spindrift {
+    opacity: 0.2;
   }
 }
 

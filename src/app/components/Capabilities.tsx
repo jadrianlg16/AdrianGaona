@@ -31,6 +31,7 @@ export function Capabilities() {
 
   return (
     <section ref={rootRef} className="px-6 py-24 md:px-12 md:py-36">
+      <h2 className="sr-only">Software engineering capabilities</h2>
       <p className="mb-16 font-mono text-xs uppercase tracking-[0.25em] text-muted">
         (02) — What I do
       </p>

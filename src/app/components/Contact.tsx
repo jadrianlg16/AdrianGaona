@@ -2,7 +2,8 @@
 
 import { useRef } from "react";
 import { gsap, useGSAP } from "../lib/gsap";
-import { contact, marqueeItems } from "../lib/data";
+import { contact } from "../lib/data";
+// import { marqueeItems } from "../lib/data";
 import { Magnetic } from "./Magnetic";
 
 export function Contact() {
@@ -28,11 +29,11 @@ export function Contact() {
     { scope: rootRef }
   );
 
-  const doubled = [...marqueeItems, ...marqueeItems];
+  // const doubled = [...marqueeItems, ...marqueeItems];
 
   return (
     <section ref={rootRef} id="contact" className="relative overflow-hidden pt-32 md:pt-44">
-      {/* interests / hobbies ticker */}
+      {/* Interests / hobbies ticker intentionally hidden.
       <div className="border-y border-line py-4">
         <div className="marquee-track gap-8 font-mono text-sm uppercase tracking-widest text-muted">
           {doubled.map((item, i) => (
@@ -42,6 +43,7 @@ export function Contact() {
           ))}
         </div>
       </div>
+      */}
 
       <div className="flex flex-col items-center px-6 py-28 text-center md:py-40">
         <p className="mb-8 font-mono text-xs uppercase tracking-[0.25em] text-muted">
@@ -62,7 +64,7 @@ export function Contact() {
           </span>
         </h2>
 
-        <div className="contact-cta mt-14">
+        <div className="contact-cta mt-14 flex flex-col items-center gap-4 sm:flex-row">
           <Magnetic>
             <a
               href={`mailto:${contact.email}`}
@@ -71,6 +73,20 @@ export function Contact() {
               {contact.email}
               <span className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1">
                 ↗
+              </span>
+            </a>
+          </Magnetic>
+
+          <Magnetic strength={0.2}>
+            <a
+              href="/downloads/adrian-gaona-resume.pdf"
+              download="Jesus-Adrian-Lopez-Gaona-Resume.pdf"
+              className="group inline-flex items-center gap-3 rounded-full border border-bone/35 px-10 py-5 font-mono text-sm font-bold uppercase tracking-widest text-bone transition-colors duration-300 hover:border-accent hover:text-accent"
+              aria-label="Download Jesús Adrián López Gaona's résumé as a PDF"
+            >
+              Download résumé
+              <span className="transition-transform duration-300 group-hover:translate-y-1">
+                ↓
               </span>
             </a>
           </Magnetic>

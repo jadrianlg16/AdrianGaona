@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Syne, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 
@@ -25,33 +25,103 @@ const instrument = Instrument_Serif({
   style: "italic",
 });
 
+const siteUrl = "https://adriangaona.dev";
+const title = "Jesús Adrián López Gaona | Software Engineer & AI Systems";
+const description =
+  "Software engineer in Nuevo León, Mexico, building full-stack web platforms, AI systems, and business automation with Next.js, React, Python, and Django.";
+
 export const metadata: Metadata = {
-  title: "Adrián Gaona — Software & AI Systems",
-  description:
-    "Computer science engineer building web platforms and AI systems that turn busywork into momentum. Software for business productivity, shipped with discipline.",
-  keywords:
-    "Software Engineer, AI Systems, Web Development, Business Automation, Next.js, Python, Nuevo León, Mexico",
+  metadataBase: new URL(siteUrl),
+  applicationName: "Adrián Gaona Portfolio",
+  title: {
+    default: title,
+    template: "%s | Adrián Gaona",
+  },
+  description,
+  keywords: [
+    "Jesús Adrián López Gaona",
+    "Software Engineer",
+    "Full-Stack Developer",
+    "AI Systems",
+    "Business Automation",
+    "Next.js",
+    "React",
+    "Python",
+    "Django",
+    "Nuevo León",
+    "Mexico",
+  ],
   authors: [{ name: "Jesús Adrián López Gaona" }],
   creator: "Jesús Adrián López Gaona",
+  publisher: "Jesús Adrián López Gaona",
+  category: "technology",
+  alternates: {
+    canonical: "/",
+  },
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
   openGraph: {
-    title: "Adrián Gaona — Software & AI Systems",
-    description:
-      "Web platforms and AI systems that turn busywork into momentum.",
-    url: "https://adriangaona.dev",
+    title,
+    description,
+    url: siteUrl,
     siteName: "Adrián Gaona",
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Adrián Gaona — Software & AI Systems",
-    description:
-      "Web platforms and AI systems that turn busywork into momentum.",
+    title,
+    description,
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#071015",
+  colorScheme: "dark",
+};
+
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Jesús Adrián López Gaona",
+  alternateName: "Adrián Gaona",
+  url: siteUrl,
+  image: `${siteUrl}/images/pfp.png`,
+  email: "mailto:jesus@adriangaona.dev",
+  jobTitle: "Software Engineer",
+  description,
+  address: {
+    "@type": "PostalAddress",
+    addressRegion: "Nuevo León",
+    addressCountry: "MX",
+  },
+  sameAs: ["https://github.com/jadrianlg16"],
+  knowsAbout: [
+    "Software engineering",
+    "Full-stack web development",
+    "Artificial intelligence systems",
+    "Business process automation",
+    "Next.js",
+    "React",
+    "Python",
+    "Django",
+  ],
 };
 
 export default function RootLayout({
@@ -64,6 +134,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${syne.variable} ${instrument.variable} grain antialiased`}
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(personSchema).replace(/</g, "\\u003c"),
+          }}
+        />
         {children}
       </body>
     </html>

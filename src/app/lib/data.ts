@@ -190,9 +190,7 @@ export const contact = {
   email: "jesus@adriangaona.dev",
   location: "Nuevo León, México",
   socials: [
-    { label: "GitHub", href: "https://github.com/" },
-    { label: "LinkedIn", href: "https://linkedin.com/" },
-    { label: "X / Twitter", href: "https://x.com/" },
+    { label: "GitHub", href: "https://github.com/jadrianlg16" },
   ],
 };
 

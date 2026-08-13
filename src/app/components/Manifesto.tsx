@@ -28,6 +28,7 @@ export function Manifesto() {
 
   return (
     <section ref={rootRef} id="about" className="relative px-6 py-32 md:px-12 md:py-48">
+      <h2 className="sr-only">About Adrián Gaona</h2>
       <p className="mb-10 font-mono text-xs uppercase tracking-[0.25em] text-muted">
         (01) — The point
       </p>

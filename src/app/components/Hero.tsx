@@ -5,8 +5,8 @@ import { useRef } from "react";
 import { gsap, useGSAP } from "../lib/gsap";
 import { useApp } from "./AppProvider";
 
-const ParticleField = dynamic(
-  () => import("./ParticleField").then((module) => module.ParticleField),
+const AlpineScene = dynamic(
+  () => import("./AlpineScene").then((module) => module.AlpineScene),
   { ssr: false }
 );
 
@@ -58,13 +58,13 @@ export function Hero() {
       id="top"
       className="relative flex min-h-[100svh] flex-col justify-end overflow-hidden"
     >
-      <ParticleField />
-      {/* readability scrim over the particle field */}
+      <AlpineScene />
+      {/* readability scrim over the alpine storm */}
       <div className="hero-scrim pointer-events-none absolute inset-0" />
 
       <div className="hero-content hero-copy-shadow relative z-10 px-5 pb-10 pt-28 sm:px-6 sm:pb-14 md:px-12 md:pb-20">
         <p className="hero-fade mb-5 max-w-md translate-y-4 font-mono text-xs uppercase tracking-[0.22em] text-bone/85 opacity-0 md:mb-6 md:text-sm md:tracking-[0.25em]">
-          Adrián Gaona — Software & AI Systems
+          Adrián Gaona — Field Notes / 01
         </p>
 
         <h1 className="hero-title font-display font-extrabold uppercase leading-[0.92] tracking-tight">
@@ -96,7 +96,7 @@ export function Hero() {
       </div>
 
       <div className="hero-fade absolute bottom-6 right-6 z-10 hidden translate-y-4 font-mono text-xs uppercase tracking-widest text-muted opacity-0 md:right-12 md:block">
-        Scroll ↓
+        Descend ↓
       </div>
     </section>
   );
