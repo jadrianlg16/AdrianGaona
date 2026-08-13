@@ -35,13 +35,16 @@ export function Nav() {
 
   useGSAP(
     () => {
-      if (!loaded) return;
-      gsap.from(rootRef.current, {
-        y: -40,
-        opacity: 0,
+      if (!loaded) {
+        gsap.set(rootRef.current, { y: -40, opacity: 0 });
+        return;
+      }
+      gsap.to(rootRef.current, {
+        y: 0,
+        opacity: 1,
         duration: 1,
         ease: "power3.out",
-        delay: 0.6,
+        delay: 0.45,
       });
     },
     { scope: rootRef, dependencies: [loaded] }

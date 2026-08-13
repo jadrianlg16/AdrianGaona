@@ -24,16 +24,16 @@ export function Hero() {
         return;
       }
 
-      const tl = gsap.timeline({ delay: 0.15 });
+      const tl = gsap.timeline({ delay: 0.55 });
       tl.to(".hero-line > span", {
         y: 0,
-        duration: 1.2,
-        stagger: 0.12,
-        ease: "power4.out",
+        duration: 1.7,
+        stagger: 0.16,
+        ease: "power3.out",
       }).to(
         ".hero-fade",
-        { opacity: 1, y: 0, duration: 0.9, stagger: 0.12, ease: "power3.out" },
-        "-=0.7"
+        { opacity: 1, y: 0, duration: 1.2, stagger: 0.14, ease: "power2.out" },
+        "-=1"
       );
 
       // headline drifts up and fades as the story scrolls on

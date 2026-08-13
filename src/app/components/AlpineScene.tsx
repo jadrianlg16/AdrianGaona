@@ -63,16 +63,21 @@ const SNOW_FRAGMENT = /* glsl */ `
 `;
 
 export function AlpineScene() {
-  const { setSceneReady } = useApp();
+  const { loaded, setSceneReady } = useApp();
   const rootRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
+  const loadedRef = useRef(loaded);
   const [imageReady, setImageReady] = useState(false);
   const [rendererReady, setRendererReady] = useState(false);
 
   useEffect(() => {
     setSceneReady(imageReady && rendererReady);
   }, [imageReady, rendererReady, setSceneReady]);
+
+  useEffect(() => {
+    loadedRef.current = loaded;
+  }, [loaded]);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -225,7 +230,13 @@ export function AlpineScene() {
       const frameDuration = constrained ? 1000 / 30 : 1000 / 45;
       const tick = (now: number) => {
         animationFrame = requestAnimationFrame(tick);
-        if (!visible || document.hidden || now - lastRender < frameDuration) return;
+        if (
+          !loadedRef.current ||
+          !visible ||
+          document.hidden ||
+          now - lastRender < frameDuration
+        )
+          return;
         lastRender = now;
         render((now - startedAt) / 1000);
       };

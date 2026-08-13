@@ -157,66 +157,87 @@ body {
   to { transform: translate3d(18%, -8%, 0) scale(1.08); }
 }
 
-/* Alpine loader */
-.alpine-loader__sky {
-  background:
-    radial-gradient(circle at 74% 24%, rgba(79, 209, 181, 0.12), transparent 24%),
-    radial-gradient(circle at 50% 110%, rgba(233, 231, 226, 0.11), transparent 44%),
-    linear-gradient(145deg, #080c0d 0%, #101719 55%, #071015 100%);
+/* Opening whiteout — granular snow and wind over the real hero. */
+.whiteout-intro {
+  isolation: isolate;
+  background: rgba(205, 217, 218, 0.16);
 }
 
-.alpine-loader__sky::before,
-.alpine-loader__sky::after {
-  content: "";
-  position: absolute;
-  inset: -15%;
-  pointer-events: none;
-}
-
-.alpine-loader__sky::before {
-  background-image:
-    radial-gradient(circle, rgba(233, 231, 226, 0.5) 0 1px, transparent 1.5px),
-    radial-gradient(circle, rgba(79, 209, 181, 0.38) 0 1px, transparent 1.7px);
-  background-position: 0 0, 31px 27px;
-  background-size: 52px 52px, 89px 89px;
-  opacity: 0.3;
-  animation: loader-snow 3.8s linear infinite;
-}
-
-.alpine-loader__sky::after {
+.whiteout-intro__wash {
+  z-index: 1;
   background: linear-gradient(
     105deg,
-    transparent 20%,
-    rgba(214, 232, 233, 0.09) 48%,
-    transparent 72%
+    rgba(217, 226, 226, 0.76) 0%,
+    rgba(239, 244, 243, 0.86) 46%,
+    rgba(190, 205, 207, 0.68) 100%
   );
-  filter: blur(18px);
-  animation: loader-gust 3s ease-in-out infinite alternate;
+  opacity: 0.82;
+  backdrop-filter: grayscale(0.7) contrast(0.42) brightness(1.14) blur(2px);
+  -webkit-backdrop-filter: grayscale(0.7) contrast(0.42) brightness(1.14) blur(2px);
 }
 
-.loader-whiteout {
-  z-index: 20;
+.whiteout-intro__canvas {
+  z-index: 8;
+  display: block;
   pointer-events: none;
-  transform: translateX(-10%);
+}
+
+.whiteout-intro__sheet {
+  z-index: 5;
+  left: -28%;
+  width: 156%;
+  pointer-events: none;
+  border-radius: 50%;
+  will-change: transform, opacity;
+}
+
+.whiteout-intro__sheet--high {
+  top: 6%;
+  height: 29%;
   background: linear-gradient(
-    100deg,
+    96deg,
     transparent 0%,
-    rgba(231, 242, 242, 0.4) 18%,
-    rgba(242, 249, 248, 0.98) 48%,
-    rgba(180, 216, 213, 0.54) 76%,
+    rgba(235, 241, 240, 0.16) 20%,
+    rgba(249, 251, 250, 0.7) 52%,
+    rgba(217, 226, 226, 0.18) 80%,
     transparent 100%
   );
-  filter: blur(20px);
+  filter: blur(24px);
+  transform: rotate(-6deg);
+  opacity: 0.56;
+  animation: whiteout-sheet-high 1.3s ease-in-out infinite alternate;
 }
 
-@keyframes loader-snow {
-  from { transform: translate3d(-2%, -7%, 0); }
-  to { transform: translate3d(5%, 8%, 0); }
+.whiteout-intro__sheet--low {
+  bottom: -8%;
+  height: 42%;
+  background:
+    linear-gradient(
+      96deg,
+      transparent 0%,
+      rgba(229, 237, 236, 0.2) 14%,
+      rgba(251, 252, 251, 0.88) 48%,
+      rgba(214, 224, 224, 0.2) 82%,
+      transparent 100%
+    );
+  filter: blur(19px);
+  transform: rotate(-4deg);
+  opacity: 0.72;
+  animation: whiteout-sheet-low 1.05s ease-in-out infinite alternate;
 }
 
-@keyframes loader-gust {
-  from { transform: translate3d(-12%, 0, 0); opacity: 0.35; }
-  to { transform: translate3d(12%, -3%, 0); opacity: 0.7; }
+.whiteout-intro__hud {
+  text-shadow: 0 1px 12px rgba(38, 52, 55, 0.6);
+}
+
+@keyframes whiteout-sheet-high {
+  from { transform: translate3d(-6%, 5%, 0) rotate(-6deg) scaleX(0.95); opacity: 0.4; }
+  to { transform: translate3d(9%, -6%, 0) rotate(-6deg) scaleX(1.06); opacity: 0.66; }
+}
+
+@keyframes whiteout-sheet-low {
+  from { transform: translate3d(-9%, 7%, 0) rotate(-4deg) scaleX(0.96); opacity: 0.54; }
+  to { transform: translate3d(12%, -8%, 0) rotate(-4deg) scaleX(1.08); opacity: 0.84; }
 }
 
 /* Film-grain overlay */
@@ -277,8 +298,7 @@ body {
   .marquee-track,
   .alpine-scene__spindrift::before,
   .alpine-scene__spindrift::after,
-  .alpine-loader__sky::before,
-  .alpine-loader__sky::after {
+  .whiteout-intro__sheet {
     animation: none;
   }
 }
@@ -313,6 +333,19 @@ body {
 
   .alpine-scene__spindrift {
     opacity: 0.2;
+  }
+
+  .whiteout-intro__wash {
+    backdrop-filter: grayscale(0.7) contrast(0.46) brightness(1.1) blur(1px);
+    -webkit-backdrop-filter: grayscale(0.7) contrast(0.46) brightness(1.1) blur(1px);
+  }
+
+  .whiteout-intro__sheet--high {
+    opacity: 0.44;
+  }
+
+  .whiteout-intro__sheet--low {
+    opacity: 0.62;
   }
 }
 
