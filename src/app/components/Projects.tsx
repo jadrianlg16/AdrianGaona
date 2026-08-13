@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap, useGSAP } from "../lib/gsap";
 import { projects, type Project } from "../lib/data";
 import { LivePreview } from "./LivePreview";
@@ -185,6 +185,12 @@ function ProjectCard({
         <div className="project-visual relative hidden overflow-hidden md:block">
           {demo ? (
             <DemoVisual project={project} onLaunch={onLaunch} />
+          ) : project.images?.length ? (
+            <ShotGallery
+              shots={project.images}
+              title={project.title}
+              palette={project.palette}
+            />
           ) : project.image ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -198,6 +204,97 @@ function ProjectCard({
         </div>
       </div>
     </article>
+  );
+}
+
+/**
+ * Screenshot gallery for projects that need a real backend and so can't run as
+ * a `live` demo. Auto-advances, pauses on hover/focus, and stays put entirely
+ * when the visitor prefers reduced motion.
+ */
+function ShotGallery({
+  shots,
+  title,
+  palette,
+}: {
+  shots: NonNullable<Project["images"]>;
+  title: string;
+  palette: Project["palette"];
+}) {
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    if (paused || shots.length < 2) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const id = window.setInterval(
+      () => setActive((i) => (i + 1) % shots.length),
+      4200
+    );
+    return () => window.clearInterval(id);
+    // `active` is a dep so a manual dot click restarts the dwell timer
+  }, [paused, shots.length, active]);
+
+  return (
+    <div
+      className="absolute inset-0"
+      style={{
+        background: `linear-gradient(160deg, ${palette[1]} 0%, #0c0c0a 75%)`,
+      }}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      {shots.map((shot, i) => (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          key={shot.src}
+          src={shot.src}
+          alt={`${title} — ${shot.caption}`}
+          // the whole set is ~300KB; eager-loading avoids a pop-in on advance
+          fetchPriority={i === 0 ? "high" : "low"}
+          aria-hidden={i !== active}
+          className={`absolute inset-0 h-full w-full object-contain px-4 py-14 transition-opacity duration-700 lg:px-6 ${
+            i === active ? "opacity-100" : "opacity-0"
+          }`}
+        />
+      ))}
+
+      {/* badge */}
+      <div className="pointer-events-none absolute left-4 top-4 rounded-full border border-line bg-ink/80 px-3 py-1.5 backdrop-blur-sm">
+        <span className="font-mono text-[10px] uppercase tracking-widest text-muted">
+          Product screenshots
+        </span>
+      </div>
+
+      {/* caption */}
+      <div className="pointer-events-none absolute inset-x-4 bottom-4">
+        <p
+          key={active}
+          className="rounded-lg border border-line bg-ink/80 px-3 py-2 font-mono text-[10px] uppercase tracking-widest text-bone/70 backdrop-blur-sm"
+        >
+          {shots[active]!.caption}
+        </p>
+      </div>
+
+      {/* dots */}
+      {shots.length > 1 && (
+        <div className="absolute right-4 top-4 flex gap-1.5">
+          {shots.map((shot, i) => (
+            <button
+              key={shot.src}
+              type="button"
+              onClick={() => setActive(i)}
+              data-cursor="hover"
+              aria-label={`Show ${shot.caption}`}
+              aria-current={i === active}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                i === active ? "w-5 bg-accent" : "w-1.5 bg-bone/30 hover:bg-bone/60"
+              }`}
+            />
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
 

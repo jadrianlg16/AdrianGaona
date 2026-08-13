@@ -35,6 +35,12 @@ export type Project = {
   /** public repo URL — the card shows a GitHub link when set */
   github?: string;
   image?: string;
+  /**
+   * Real screenshots, shown as an auto-advancing gallery in the card visual.
+   * Use for apps that need a backend and so can't run as a `live` demo.
+   * Takes precedence over `image`.
+   */
+  images?: { src: string; caption: string }[];
   demo?: ProjectDemo;
 };
 
@@ -53,14 +59,28 @@ export const projects: Project[] = [
   {
     slug: "howlx",
     title: "HowlX",
-    tagline: "Award-winning AI web transcript agency",
+    tagline: "Every support call, turned into intelligence",
     description:
-      "An EXP TEC award-winning AI transcript agency project built for Tecnologico de Monterrey, focused on turning web conversations and recordings into useful transcripts.",
+      "Upload a customer service call and get back a transcript, a sentiment read, key topics, and coaching feedback — then watch it roll up into per-company dashboards. An AI assistant sits beside every call to answer questions and draft follow-ups. Built with a six-person team for Tecnológico de Monterrey and awarded at EXP TEC.",
     year: "2025",
-    role: "AI Web Product",
-    stack: ["AI Transcription", "Web Platform", "Automation"],
-    palette: ["#4fd1b5", "#123c34"],
-    image: "/images/howlx-intro.png",
+    role: "AI Product Engineering",
+    stack: [
+      "Next.js 15",
+      "tRPC",
+      "Prisma",
+      "FastAPI",
+      "RAG",
+      "Gemini",
+      "Postgres",
+    ],
+    palette: ["#c084fc", "#2a0f3a"],
+    images: [
+      { src: "/images/howlx/landing.webp", caption: "Landing — silent observers, powerful insights" },
+      { src: "/images/howlx/home.webp", caption: "Call workspace — transcript, AI report, assistant" },
+      { src: "/images/howlx/dashboard.webp", caption: "Dashboard — satisfaction and call volume by company" },
+      { src: "/images/howlx/logs.webp", caption: "Logs — searchable history with role-based access" },
+      { src: "/images/howlx/devices.webp", caption: "AI Tools — client insight, feedback manager, deep analysis" },
+    ],
   },
   {
     slug: "chess-analyzer",
