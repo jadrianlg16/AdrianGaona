@@ -83,6 +83,18 @@ export const projects: Project[] = [
     ],
   },
   {
+    slug: "transcript-archive",
+    title: "Transcript Archive",
+    tagline: "Watch once, search forever",
+    description:
+      "Bulk-ingests entire YouTube channels into a local SQLite archive with full-text search, then serves the whole library to an AI model over MCP so it can answer from what was actually said instead of what it remembers. Reads the channel page grid directly to get past YouTube's 15-video RSS ceiling, skips anything already archived before spending a request, and backs off when YouTube starts throttling.",
+    year: "2026",
+    role: "AI + Systems Engineering",
+    stack: ["Python", "FastAPI", "SQLite FTS5", "MCP", "Ollama", "React", "Docker"],
+    palette: ["#5eead4", "#0c2a2a"],
+    github: "https://github.com/jadrianlg16/yt-transcripts",
+  },
+  {
     slug: "chess-analyzer",
     title: "Chess Analyzer",
     tagline: "A grandmaster engine, running in your tab",
