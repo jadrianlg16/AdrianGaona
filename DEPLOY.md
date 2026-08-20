@@ -17,6 +17,25 @@ Hobby's terms.
 | `adriangaona.dev` HTTP | **HTTP 525 — SSL handshake failed.** Origin behind Cloudflare is dead. |
 | Email on the domain | **live Microsoft 365** — see the warning below |
 
+## Where DNS actually lives: Cloudflare, not GoDaddy
+
+The domain is **registered at GoDaddy**, but its nameservers delegate the zone to
+Cloudflare:
+
+```
+adriangaona.dev  NS  addilyn.ns.cloudflare.com
+adriangaona.dev  NS  peyton.ns.cloudflare.com
+```
+
+So GoDaddy handles renewal, WHOIS and transfer locks, while **every DNS record is
+served by Cloudflare**. Records added in GoDaddy's DNS panel are ignored — they
+are not authoritative for this zone. Make all record changes in the Cloudflare
+dashboard.
+
+(The Microsoft 365 mail below was bought through GoDaddy, which is why the SPF
+record says `include:secureserver.net` — that's GoDaddy's mail infrastructure.
+It does not mean GoDaddy is serving DNS.)
+
 ## ⚠️ Do not move nameservers to Vercel
 
 `adriangaona.dev` runs mail on Microsoft 365:
