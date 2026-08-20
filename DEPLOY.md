@@ -89,13 +89,30 @@ Project → **Settings → Domains** → add `adriangaona.dev`, then
 `www.adriangaona.dev`. Vercel shows the exact records to create. Copy them from
 that screen — the values below are for recognition only, Vercel rotates them.
 
+Vercel issues **project-specific values**, and which record type it asks for
+depends on the project. For this one it asked for a **CNAME at the apex**:
+
 | Host | Type | Value |
 |---|---|---|
-| `@` | A | the IP on the project's domain card — `76.76.21.21` for most projects, newer ones get anycast addresses like `216.198.79.1` |
-| `www` | CNAME | **a value unique to this project**, e.g. `d1d4fc829fe7bc7c.vercel-dns-017.com` — there is no generic `cname.vercel-dns.com` to use |
+| `@` | CNAME | project-specific, e.g. `adf21d3de2c…` — copy it from the domain card |
+| `www` | CNAME | also project-specific, e.g. `d1d4fc829fe7bc7c.vercel-dns-017.com` |
 
-The domain card in Vercel is the authoritative source for both. Do not copy
-values out of blog posts (or out of this table).
+There is no generic `cname.vercel-dns.com` to use, and older guides quoting an
+A record of `76.76.21.21` may not match what the card shows. **The domain card
+in Vercel is the only authoritative source** — copy from it, not from blog
+posts, and not from this table.
+
+A CNAME at a zone apex normally violates the DNS spec. Cloudflare is a valid
+place to do it because of **CNAME flattening**: it resolves the CNAME and hands
+resolvers the final IP instead. Flattening applies at the root by default and
+keeps working with the record set to DNS only (grey cloud).
+
+**Delete the apex `AAAA` records.** The zone currently has two
+(`2606:4700:3035::ac43:cbba`, `2606:4700:3035::6815:2528`). Vercel does not
+support IPv6 for custom domains added through third-party DNS — leaving AAAA
+records in place splits traffic between providers and can stall SSL
+provisioning. The apex `A` records must go too: a name cannot hold both a
+CNAME and an A/AAAA record.
 
 **Delete the apex `AAAA` records.** The zone currently has two
 (`2606:4700:3035::ac43:cbba`, `2606:4700:3035::6815:2528`). Vercel does not
