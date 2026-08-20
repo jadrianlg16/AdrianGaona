@@ -91,8 +91,17 @@ that screen — the values below are for recognition only, Vercel rotates them.
 
 | Host | Type | Value |
 |---|---|---|
-| `@` | A | the IP Vercel shows (historically `76.76.21.21`, newer `216.198.79.1`) |
-| `www` | CNAME | `cname.vercel-dns.com` or a region-specific `*.vercel-dns-0NN.com` |
+| `@` | A | the IP on the project's domain card — `76.76.21.21` for most projects, newer ones get anycast addresses like `216.198.79.1` |
+| `www` | CNAME | **a value unique to this project**, e.g. `d1d4fc829fe7bc7c.vercel-dns-017.com` — there is no generic `cname.vercel-dns.com` to use |
+
+The domain card in Vercel is the authoritative source for both. Do not copy
+values out of blog posts (or out of this table).
+
+**Delete the apex `AAAA` records.** The zone currently has two
+(`2606:4700:3035::ac43:cbba`, `2606:4700:3035::6815:2528`). Vercel does not
+support IPv6 for custom domains added through third-party DNS — leaving AAAA
+records in place splits traffic between providers and can stall SSL
+provisioning.
 
 ## 4. Cloudflare DNS — the part that actually breaks
 
