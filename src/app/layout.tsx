@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Syne, Instrument_Serif } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -102,7 +103,7 @@ const personSchema = {
   name: "Jesús Adrián López Gaona",
   alternateName: "Adrián Gaona",
   url: siteUrl,
-  image: `${siteUrl}/images/pfp.png`,
+  image: `${siteUrl}/images/pfp.webp`,
   email: "mailto:jesus@adriangaona.dev",
   jobTitle: "Software Engineer",
   description,
@@ -141,6 +142,7 @@ export default function RootLayout({
           }}
         />
         {children}
+        <Analytics />
       </body>
     </html>
   );

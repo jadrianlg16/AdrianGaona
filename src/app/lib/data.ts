@@ -104,6 +104,7 @@ export const projects: Project[] = [
     role: "Design + Engineering",
     stack: ["React", "TypeScript", "chess.js", "Stockfish WASM", "Vite"],
     palette: ["#c4b5fd", "#1e1338"],
+    github: "https://github.com/jadrianlg16/chess-analyzer",
     demo: { kind: "live", src: "/demos/chess/", width: 1280, height: 800 },
   },
   {
@@ -116,6 +117,7 @@ export const projects: Project[] = [
     role: "Product + Engineering",
     stack: ["React", "Recharts", "Vite"],
     palette: ["#6ee7b7", "#0c2a1c"],
+    github: "https://github.com/jadrianlg16/financial-sim",
     demo: { kind: "live", src: "/demos/financial-sim/", width: 1280, height: 800 },
   },
   {
@@ -128,6 +130,7 @@ export const projects: Project[] = [
     role: "Design + Engineering",
     stack: ["React 19", "Zustand", "Tailwind 4", "shadcn/ui"],
     palette: ["#fb923c", "#3a1c0c"],
+    github: "https://github.com/jadrianlg16/task-shuffler",
     demo: { kind: "live", src: "/demos/tasklists/", width: 1280, height: 800 },
   },
   {
@@ -140,6 +143,7 @@ export const projects: Project[] = [
     role: "Systems Engineering",
     stack: ["Python", "Flask", "Pandoc", "LibreOffice", "ffmpeg", "Docker"],
     palette: ["#f9a8d4", "#3a0c24"],
+    github: "https://github.com/jadrianlg16/file-converter",
     demo: { kind: "case", id: "file-converter" },
   },
   {

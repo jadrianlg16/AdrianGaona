@@ -1,9 +1,40 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { gsap, useGSAP } from "../lib/gsap";
 import { useApp } from "./AppProvider";
 import { BlizzardCanvas } from "./BlizzardCanvas";
+
+/**
+ * Once the whiteout has played, it stays played for the rest of the tab's
+ * session. The people most likely to reload are the ones furthest along —
+ * someone coming back for a second look, or a live demo — and making them
+ * wait out the 1.9s crossing again is a toll on exactly the wrong visitor.
+ * Session-scoped, so a genuinely new visit still gets the full entrance.
+ */
+const SEEN_KEY = "ag:whiteout-crossed";
+
+const hasCrossedBefore = () => {
+  try {
+    return window.sessionStorage.getItem(SEEN_KEY) === "1";
+  } catch {
+    // Private mode / storage disabled — fall through to the full intro.
+    return false;
+  }
+};
+
+const rememberCrossing = () => {
+  try {
+    window.sessionStorage.setItem(SEEN_KEY, "1");
+  } catch {
+    /* nothing to do; the intro simply plays again next time. */
+  }
+};
+
+// Runs before paint on the client, so a returning visitor never sees a frame
+// of the whiteout. Falls back to useEffect during SSR, where it is a no-op.
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 /**
  * Renders the real alpine hero beneath a short whiteout. The storm is a canvas
@@ -28,14 +59,20 @@ export function Preloader() {
     counterRef.current.setAttribute("aria-valuenow", String(value));
   };
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
+    if (hasCrossedBefore()) {
+      setLoaded(true);
+      setDone(true);
+      return;
+    }
+
     const minimumTimer = window.setTimeout(() => setMinimumElapsed(true), 1_900);
     const fallbackTimer = window.setTimeout(() => setForcedReady(true), 6_000);
     return () => {
       window.clearTimeout(minimumTimer);
       window.clearTimeout(fallbackTimer);
     };
-  }, []);
+  }, [setLoaded]);
 
   useGSAP(
     () => {
@@ -71,6 +108,7 @@ export function Preloader() {
       if (reducedMotion) {
         progressValue.current.value = 100;
         syncProgress();
+        rememberCrossing();
         setLoaded(true);
         setDone(true);
         return;
@@ -79,7 +117,12 @@ export function Preloader() {
       gsap.killTweensOf(progressValue.current);
       gsap.killTweensOf(progressRef.current);
 
-      const timeline = gsap.timeline({ onComplete: () => setDone(true) });
+      const timeline = gsap.timeline({
+        onComplete: () => {
+          rememberCrossing();
+          setDone(true);
+        },
+      });
       timeline
         .to(progressValue.current, {
           value: 100,
