@@ -1,9 +1,8 @@
 "use client";
 
 import { useRef } from "react";
-import { gsap, useGSAP } from "../lib/gsap";
+import { gsap, useGSAP, prefersReducedMotion } from "../lib/gsap";
 import { contact } from "../lib/data";
-// import { marqueeItems } from "../lib/data";
 import { Magnetic } from "./Magnetic";
 
 export function Contact() {
@@ -11,6 +10,10 @@ export function Contact() {
 
   useGSAP(
     () => {
+      // These are gsap.from() reveals over content that is already in place,
+      // so simply not running them leaves the section at its final state.
+      if (prefersReducedMotion()) return;
+
       gsap.from(".contact-heading .clip-line > span", {
         y: "110%",
         duration: 1.1,
@@ -29,34 +32,22 @@ export function Contact() {
     { scope: rootRef }
   );
 
-  // const doubled = [...marqueeItems, ...marqueeItems];
 
   return (
     <section ref={rootRef} id="contact" className="relative overflow-hidden pt-32 md:pt-44">
-      {/* Interests / hobbies ticker intentionally hidden.
-      <div className="border-y border-line py-4">
-        <div className="marquee-track gap-8 font-mono text-sm uppercase tracking-widest text-muted">
-          {doubled.map((item, i) => (
-            <span key={i} className="flex items-center gap-8 whitespace-nowrap">
-              {item} <span className="text-accent">✦</span>
-            </span>
-          ))}
-        </div>
-      </div>
-      */}
 
       <div className="flex flex-col items-center px-6 py-28 text-center md:py-40">
         <p className="mb-8 font-mono text-xs uppercase tracking-[0.25em] text-muted">
           (05) — Next chapter
         </p>
 
-        <h2 className="contact-heading font-display text-[clamp(2rem,9vw,8.5rem)] font-extrabold uppercase leading-[0.95] tracking-tight">
+        <h2 className="contact-heading font-display type-display-2 font-extrabold uppercase leading-[0.95] tracking-tight">
           <span className="clip-line">
             <span>Let&apos;s build the</span>
           </span>
           <span className="clip-line">
             <span>
-              thing that <span className="font-serif normal-case text-accent">moves</span>
+              thing that <span className="font-serif italic font-normal normal-case text-accent">moves</span>
             </span>
           </span>
           <span className="clip-line">

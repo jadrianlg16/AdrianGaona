@@ -41,7 +41,7 @@ with `VITE_STORAGE=local` (localStorage persistence, demo seed).
 
 Next.js 15 (App Router) · Tailwind CSS 4 · GSAP + ScrollTrigger (stacked-deck
 project cards, scroll scrub) · Lenis smooth scrolling · three.js particle
-field · custom cursor. All content lives in `src/app/lib/data.ts` — projects,
+field. All content lives in `src/app/lib/data.ts` — projects,
 capabilities, principles, contact — components render whatever is there.
 
 ## Run it

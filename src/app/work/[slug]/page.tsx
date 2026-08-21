@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { projects } from "../../lib/data";
 import { Footer } from "../../components/Footer";
@@ -128,7 +129,7 @@ export default async function ProjectPage({
             {project.tagline}
           </p>
 
-          <p className="mt-8 max-w-2xl text-base leading-relaxed text-muted md:text-lg">
+          <p className="mt-8 max-w-[62ch] text-base leading-relaxed text-bone/85 md:text-lg">
             {project.description}
           </p>
 
@@ -169,7 +170,7 @@ export default async function ProjectPage({
         {/* --- the app itself, where there is one to run ------------------ */}
         {project.demo?.kind === "live" && (
           <section className="mt-16">
-            <h2 className="font-mono text-xs uppercase tracking-[0.24em] text-muted">
+            <h2 className="font-display text-sm font-semibold uppercase tracking-[0.2em] text-bone">
               Running app — not a screenshot
             </h2>
             <div className="mt-5 overflow-hidden rounded-lg border border-line bg-ink-soft">
@@ -187,19 +188,19 @@ export default async function ProjectPage({
         {/* --- screenshot gallery for the ones that need a backend -------- */}
         {project.images && project.images.length > 0 && (
           <section className="mt-16">
-            <h2 className="font-mono text-xs uppercase tracking-[0.24em] text-muted">
+            <h2 className="font-display text-sm font-semibold uppercase tracking-[0.2em] text-bone">
               From the real product
             </h2>
             <div className="mt-5 grid gap-8">
               {project.images.map((shot) => (
                 <figure key={shot.src}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <Image
                     src={shot.src}
                     alt={`${project.title} — ${shot.caption}`}
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full rounded-lg border border-line"
+                    width={shot.width}
+                    height={shot.height}
+                    sizes="(min-width: 768px) 1024px, 100vw"
+                    className="h-auto w-full rounded-lg border border-line"
                   />
                   <figcaption className="mt-3 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-muted">
                     {shot.caption}
@@ -232,7 +233,7 @@ export default async function ProjectPage({
         {/* --- specs ------------------------------------------------------ */}
         <section className="mt-16 grid gap-10 border-t border-line pt-12 sm:grid-cols-[auto_1fr] sm:gap-16">
           <div>
-            <h2 className="font-mono text-xs uppercase tracking-[0.24em] text-muted">
+            <h2 className="font-display text-sm font-semibold uppercase tracking-[0.2em] text-bone">
               Role
             </h2>
             <p className="mt-3">{project.role}</p>
@@ -242,7 +243,7 @@ export default async function ProjectPage({
             <p className="mt-3 tabular-nums">{project.year}</p>
           </div>
           <div>
-            <h2 className="font-mono text-xs uppercase tracking-[0.24em] text-muted">
+            <h2 className="font-display text-sm font-semibold uppercase tracking-[0.2em] text-bone">
               Built with
             </h2>
             <ul className="mt-4 flex flex-wrap gap-2">

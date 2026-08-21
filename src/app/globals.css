@@ -59,23 +59,58 @@ body {
    Utilities
 --------------------------------------------------------------------------- */
 
-.hero-title {
-  font-size: clamp(1.4rem, 6.8vw, 7rem);
+/* ---------------------------------------------------------------------------
+   Display type scale — one ratio (1.333, a perfect fourth), four steps.
+
+   Previously these were eight hand-tuned clamps with no shared token, and the
+   step ratios ran 1.02, 1.144, 1.157, 1.333 — which is not a scale. The
+   practical consequence was that the page's H1 was only its third-largest
+   element: the contact heading beat it by 32% at 1440px, and because the hero
+   had both the smallest floor (1.4rem vs 2rem) and the smallest vw coefficient
+   (6.8 vs 8 and 9), every section heading beat it on every phone.
+
+   The H1 is now the largest step at every viewport width. Keep it that way:
+   each step is the one above divided by 1.333, in all three clamp positions.
+--------------------------------------------------------------------------- */
+.hero-title,
+.type-display-1 {
+  font-size: clamp(2.6rem, 9vw, 9rem);
 }
 
+.type-display-2 {
+  font-size: clamp(1.95rem, 6.75vw, 6.75rem);
+}
+
+.type-display-3 {
+  font-size: clamp(1.46rem, 5.06vw, 5.06rem);
+}
+
+.type-display-4 {
+  font-size: clamp(1.1rem, 3.8vw, 3.8rem);
+}
+
+/* Two jobs: keep the left-hand copy legible, and hand off to the page below.
+   The horizontal ramp does the legibility work, so the vertical one no longer
+   needs to reach near-opaque — at 0.96 it was painting out the bottom-centre of
+   the frame, which is exactly where the footprint trail runs. The trail is the
+   whole narrative of the photograph.
+
+   Colour is the page's own --ink (12,12,10) rather than a colder (8,12,14), so
+   the bottom edge of the hero meets the body with no visible seam. */
 .hero-scrim {
   background:
     linear-gradient(
       90deg,
-      rgba(8, 12, 14, 0.88) 0%,
-      rgba(8, 12, 14, 0.62) 42%,
-      rgba(8, 12, 14, 0.12) 78%
+      rgba(12, 12, 10, 0.9) 0%,
+      rgba(12, 12, 10, 0.64) 42%,
+      rgba(12, 12, 10, 0.12) 78%
     ),
     linear-gradient(
       to bottom,
-      rgba(8, 12, 14, 0.5) 0%,
-      rgba(8, 12, 14, 0.12) 48%,
-      rgba(8, 12, 14, 0.96) 100%
+      rgba(12, 12, 10, 0.5) 0%,
+      rgba(12, 12, 10, 0.1) 46%,
+      rgba(12, 12, 10, 0.55) 84%,
+      rgba(12, 12, 10, 0.92) 100%
     );
 }
 
@@ -89,9 +124,13 @@ body {
   isolation: isolate;
 }
 
+/* The parallax translates by at most 8px horizontally and 5px vertically, so
+   covering it needs about 1.011. At 1.055 the scale was discarding roughly 40px
+   per side that the motion never reaches — on top of the object-cover crop —
+   and it took that out of the empty left-hand space the copy needs to breathe. */
 .alpine-scene__image {
   object-position: 53% center;
-  transform: scale(1.055);
+  transform: scale(1.016);
   transform-origin: center;
   will-change: transform;
 }
@@ -233,7 +272,9 @@ body {
 }
 
 .whiteout-intro__hud {
-  text-shadow: 0 1px 12px rgba(38, 52, 55, 0.6);
+  /* Was a 12px dark glow propping up bone text on a near-white wash. The HUD is
+     set in ink now, so it needs a light halo for separation, not a dark one. */
+  text-shadow: 0 1px 10px rgba(244, 248, 248, 0.7);
 }
 
 @keyframes whiteout-sheet-high {
@@ -246,12 +287,17 @@ body {
   to { transform: translate3d(12%, -8%, 0) rotate(-4deg) scaleX(1.08); opacity: 0.84; }
 }
 
-/* Film-grain overlay */
+/* Film-grain overlay.
+   z-index sits below DemoOverlay (z-80): the payoff of the whole site is a real
+   app running in that window, and it was doing so under a layer of animated
+   noise. inset is -50% rather than -200% — the animation translates by at most
+   a few percent, so a layer five viewports wide in each direction was paying
+   for coverage it never used. */
 .grain::after {
   content: "";
   position: fixed;
-  inset: -200%;
-  z-index: 90;
+  inset: -50%;
+  z-index: 70;
   pointer-events: none;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   opacity: 0.05;
@@ -272,27 +318,25 @@ body {
 }
 
 /* Outlined display text */
+/* Outlined display word. The stroke has to scale with the type — a fixed 1px on
+   a ~112px word is a 0.9% ratio, a hairline sitting beside 800-weight solids. */
 .text-stroke {
-  -webkit-text-stroke: 1px var(--bone);
+  -webkit-text-stroke: max(2px, 0.022em) var(--bone);
   color: transparent;
-}
-
-/* Infinite marquee */
-.marquee-track {
-  display: flex;
-  width: max-content;
-  animation: marquee 28s linear infinite;
-}
-
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  paint-order: stroke fill;
 }
 
 /* Masked line reveals: children animate translateY inside an overflow clip */
+/* The reveal animation slides each line up from below, so the line box has to
+   clip. `overflow: hidden` also amputates descenders: with leading-[0.92] on a
+   serif, the "g" in "leverage." lost ~9.6px of a 23px descender, permanently,
+   on the most designed word on the page. overflow: clip takes the same
+   animation with a margin that lets ink outside the box survive. */
 .clip-line {
   display: block;
   overflow: hidden;
+  overflow: clip;
+  overflow-clip-margin: 0.28em;
 }
 .clip-line > span {
   display: block;
@@ -301,7 +345,6 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .grain::after,
-  .marquee-track,
   .alpine-scene__spindrift::before,
   .alpine-scene__spindrift::after,
   .whiteout-intro__sheet {

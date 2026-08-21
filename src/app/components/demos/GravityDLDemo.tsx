@@ -72,7 +72,6 @@ export function GravityDLDemo({ variant }: CaseDemoProps) {
         <button
           type="button"
           onClick={full ? enqueue : undefined}
-          data-cursor={full ? "hover" : undefined}
           tabIndex={full ? 0 : -1}
           className={`h-9 rounded-lg border border-accent/50 bg-accent/10 px-3 font-mono text-[10px] uppercase tracking-widest text-accent transition-colors ${
             full ? "hover:bg-accent hover:text-ink" : ""

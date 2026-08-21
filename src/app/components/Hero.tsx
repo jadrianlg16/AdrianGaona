@@ -64,7 +64,7 @@ export function Hero() {
 
       <div className="hero-content hero-copy-shadow relative z-10 px-5 pb-10 pt-28 sm:px-6 sm:pb-14 md:px-12 md:pb-20">
         <p className="hero-fade mb-5 max-w-md translate-y-4 font-mono text-xs uppercase tracking-[0.22em] text-bone/85 opacity-0 md:mb-6 md:text-sm md:tracking-[0.25em]">
-          Adrián Gaona — Field Notes / 01
+          Adrián Gaona — Field Notes
         </p>
 
         <h1 className="hero-title font-display font-extrabold uppercase leading-[0.92] tracking-tight">
@@ -73,7 +73,7 @@ export function Hero() {
           </span>
           <span className="clip-line hero-line">
             <span className="translate-y-full">
-              <span className="font-serif normal-case tracking-normal text-accent">
+              <span className="font-serif italic font-normal normal-case tracking-normal text-accent">
                 leverage
               </span>
               <span className="text-stroke">.</span>
@@ -96,7 +96,7 @@ export function Hero() {
       </div>
 
       <div className="hero-fade absolute bottom-6 right-6 z-10 hidden translate-y-4 font-mono text-xs uppercase tracking-widest text-muted opacity-0 md:right-12 md:block">
-        Descend ↓
+        Onward ↓
       </div>
     </section>
   );

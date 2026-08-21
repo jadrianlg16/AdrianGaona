@@ -98,7 +98,6 @@ export function FileConverterDemo({ variant }: CaseDemoProps) {
             key={family}
             type="button"
             onClick={full ? () => jumpToFamily(family) : undefined}
-            data-cursor={full ? "hover" : undefined}
             tabIndex={full ? 0 : -1}
             className={`rounded-full border px-3 py-1 font-mono text-[10px] uppercase tracking-wider transition-colors duration-300
               ${family === job.family ? "border-accent/60 bg-accent/10 text-accent" : "border-line text-muted"}

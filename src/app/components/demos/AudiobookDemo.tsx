@@ -95,7 +95,6 @@ export function AudiobookDemo({ variant }: CaseDemoProps) {
           <button
             type="button"
             onClick={() => setPlaying((p) => !p)}
-            data-cursor="hover"
             aria-label={playing ? "Pause walkthrough" : "Play walkthrough"}
             className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-accent/50 bg-accent/10 text-accent transition-colors hover:bg-accent hover:text-ink"
           >

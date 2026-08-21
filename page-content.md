@@ -1,3 +1,10 @@
+> **Historical snapshot — not the current site.**
+>
+> This file documents an earlier version of the portfolio (components such as
+> `HeroSection.tsx` and `Header.tsx` no longer exist, and the copy below has been
+> superseded). It is kept for reference only. The live content lives in
+> `src/app/lib/data.ts`; the architecture is described in `README.md`.
+
 # Page Content — Jesús Adrián López Gaona Portfolio
 
 ---
@@ -34,8 +41,8 @@
 - **Body paragraph:**
   > Computer Science student and multidisciplinary engineer with 5+ years building full-stack applications, AI-powered automation, and secure enterprise systems. Passionate about merging business intelligence with cutting-edge technology.
 - **Social icon links:**
-  - GitHub → `https://github.com/yourusername` *(placeholder)*
-  - LinkedIn → `#` *(placeholder)*
+  - GitHub → `https://github.com/jadrianlg16`
+  - LinkedIn → `#`
   - Email → `mailto:jesus@adriangaona.dev`
 - **Scroll-down button:** animated chevron → scrolls to `#about`
 
@@ -125,7 +132,7 @@
 
 ### CTA Button
 - **Text:** `View All Projects on GitHub`
-- **URL:** `https://github.com/yourusername` *(placeholder)*
+- **URL:** `https://github.com/jadrianlg16`
 
 ---
 
@@ -195,8 +202,8 @@
 - **Location:** Nuevo León, Mexico · *Remote & relocation friendly*
 
 ### Social Links
-- GitHub → `#` *(placeholder)*
-- LinkedIn → `#` *(placeholder)*
+- GitHub → `#`
+- LinkedIn → `#`
 - Email Me → `mailto:jesus@adriangaona.dev`
 
 ### Status blurbs
@@ -219,8 +226,8 @@
 
 ## Notes / Placeholders to Fix
 
-- GitHub link in Hero & Projects CTA → `https://github.com/yourusername` *(needs real URL)*
-- LinkedIn link in Hero & Contact → `#` *(needs real URL)*
-- GitHub link in Contact → `#` *(needs real URL)*
+- GitHub link in Hero & Projects CTA → `https://github.com/jadrianlg16`
+- LinkedIn link in Hero & Contact → `#`
+- GitHub link in Contact → `#`
 - All project demo/github links → `#` *(all placeholders)*
 - All project images except HowlX use the same `howlx-intro.png` image *(need individual screenshots)*

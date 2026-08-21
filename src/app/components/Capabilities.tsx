@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { gsap, useGSAP } from "../lib/gsap";
+import { gsap, useGSAP, prefersReducedMotion } from "../lib/gsap";
 import { capabilities } from "../lib/data";
 
 export function Capabilities() {
@@ -9,6 +9,10 @@ export function Capabilities() {
 
   useGSAP(
     () => {
+      // These are gsap.from() reveals over content that is already in place,
+      // so simply not running them leaves the section at its final state.
+      if (prefersReducedMotion()) return;
+
       gsap.utils.toArray<HTMLElement>(".capability-row").forEach((row) => {
         gsap.from(row.querySelectorAll(".cap-reveal"), {
           y: 48,
@@ -48,7 +52,7 @@ export function Capabilities() {
             <span className="cap-reveal font-mono text-sm text-accent md:col-span-1">
               {cap.index}
             </span>
-            <h3 className="cap-reveal font-display text-[clamp(2rem,5vw,4rem)] font-bold uppercase leading-none tracking-tight transition-colors duration-300 group-hover:text-accent md:col-span-5">
+            <h3 className="cap-reveal font-display type-display-3 font-bold uppercase leading-none tracking-tight transition-colors duration-300 group-hover:text-accent md:col-span-5">
               {cap.title}
             </h3>
             <p className="cap-reveal max-w-md leading-relaxed text-bone/70 md:col-span-4">

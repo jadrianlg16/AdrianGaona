@@ -64,7 +64,6 @@ export function ProjectDemoFrame({
       <button
         type="button"
         onClick={() => setRunning(true)}
-        data-cursor="hover"
         className="inline-flex min-h-11 items-center gap-2 rounded-full border border-accent/50 bg-accent/10 px-6 py-3 font-mono text-xs uppercase tracking-widest text-accent transition-colors hover:bg-accent hover:text-ink"
       >
         {decided ? "Run the app here" : "Loading…"}

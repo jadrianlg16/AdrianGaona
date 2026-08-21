@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { gsap, useGSAP } from "../lib/gsap";
+import { gsap, useGSAP, prefersReducedMotion } from "../lib/gsap";
 import { useApp } from "./AppProvider";
 import { BlizzardCanvas } from "./BlizzardCanvas";
 
@@ -52,6 +52,13 @@ export function Preloader() {
   const [done, setDone] = useState(false);
   const ready = (sceneReady && minimumElapsed) || forcedReady;
 
+  /** Explicit opt-out. A jump cut is what someone pressing "skip" is asking for. */
+  const skip = () => {
+    rememberCrossing();
+    setLoaded(true);
+    setDone(true);
+  };
+
   const syncProgress = () => {
     const value = Math.round(progressValue.current.value);
     if (!counterRef.current) return;
@@ -66,8 +73,13 @@ export function Preloader() {
       return;
     }
 
-    const minimumTimer = window.setTimeout(() => setMinimumElapsed(true), 1_900);
-    const fallbackTimer = window.setTimeout(() => setForcedReady(true), 6_000);
+    // The scene almost never wins its race — three.js is dynamically imported,
+    // so `sceneReady` lands late and the old 6s fallback became the normal path,
+    // not the exception. Measured cold: the whiteout cleared at ~6.4s against a
+    // 191ms DOMContentLoaded. These caps put the worst case at 2.6s, and the
+    // skip control below makes even that opt-out.
+    const minimumTimer = window.setTimeout(() => setMinimumElapsed(true), 1_200);
+    const fallbackTimer = window.setTimeout(() => setForcedReady(true), 2_600);
     return () => {
       window.clearTimeout(minimumTimer);
       window.clearTimeout(fallbackTimer);
@@ -100,12 +112,10 @@ export function Preloader() {
 
   useGSAP(
     () => {
-      if (!ready) return;
-
-      const reducedMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
-      ).matches;
-      if (reducedMotion) {
+      // Checked before the ready gate, not after. Someone who asked for less
+      // motion was previously still held for the full 1.9–6s wait and only
+      // spared the fade — they were charged for the animation they opted out of.
+      if (prefersReducedMotion()) {
         progressValue.current.value = 100;
         syncProgress();
         rememberCrossing();
@@ -113,6 +123,8 @@ export function Preloader() {
         setDone(true);
         return;
       }
+
+      if (!ready) return;
 
       gsap.killTweensOf(progressValue.current);
       gsap.killTweensOf(progressRef.current);
@@ -188,19 +200,32 @@ export function Preloader() {
       <div className="whiteout-intro__sheet whiteout-intro__sheet--low absolute" />
 
       <div className="whiteout-intro__hud relative z-20 flex h-full flex-col justify-between p-6 md:p-12">
-        <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.28em] text-bone/75 md:text-xs">
+        {/* The HUD sits on a near-white whiteout, so it is set in ink rather
+            than bone. Bone at 55–75% on that field measured around 1.3:1 —
+            the first thing a visitor saw was text they may not have been able
+            to read, and a mint progress bar at roughly 1.03:1. */}
+        <div className="flex items-center justify-between gap-4 font-mono text-[10px] uppercase tracking-[0.28em] text-ink/70 md:text-xs">
           <span>AG / Alpine approach</span>
-          <span>Whiteout crossing</span>
+          <span className="flex items-center gap-5">
+            <span className="hidden sm:inline">Whiteout crossing</span>
+            <button
+              type="button"
+              onClick={skip}
+              className="pointer-events-auto -m-2 inline-flex min-h-11 items-center p-2 tracking-[0.28em] text-ink underline-offset-4 transition-opacity hover:underline focus-visible:underline focus-visible:outline-none"
+            >
+              Skip ↴
+            </button>
+          </span>
         </div>
 
         <div className="flex items-end justify-between gap-6 font-mono uppercase">
-          <p className="text-[10px] tracking-[0.28em] text-bone/65 md:text-xs">
+          <p className="text-[10px] tracking-[0.28em] text-ink/70 md:text-xs">
             Visibility / near zero
           </p>
 
           <div className="w-40 sm:w-56">
             <div className="mb-3 flex items-end justify-between">
-              <span className="text-[9px] tracking-[0.24em] text-bone/55">
+              <span className="text-[9px] tracking-[0.24em] text-ink/60">
                 Conditions
               </span>
               <span
@@ -210,15 +235,15 @@ export function Preloader() {
                 aria-valuemin={0}
                 aria-valuemax={100}
                 aria-valuenow={0}
-                className="text-xl tabular-nums text-bone"
+                className="text-xl tabular-nums text-ink"
               >
                 000
               </span>
             </div>
-            <div className="h-px overflow-hidden bg-bone/25">
+            <div className="h-px overflow-hidden bg-ink/20">
               <span
                 ref={progressRef}
-                className="block h-full origin-left bg-accent"
+                className="block h-full origin-left bg-ink"
               />
             </div>
           </div>

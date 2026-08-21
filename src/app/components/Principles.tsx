@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { gsap, useGSAP } from "../lib/gsap";
+import { gsap, useGSAP, prefersReducedMotion } from "../lib/gsap";
 import { principles } from "../lib/data";
 
 /** The operating system: how the work gets done. */
@@ -10,6 +10,10 @@ export function Principles() {
 
   useGSAP(
     () => {
+      // These are gsap.from() reveals over content that is already in place,
+      // so simply not running them leaves the section at its final state.
+      if (prefersReducedMotion()) return;
+
       gsap.from(".principles-heading .clip-line > span", {
         y: "110%",
         duration: 1,
@@ -41,13 +45,13 @@ export function Principles() {
         (04) — How I work
       </p>
 
-      <h2 className="principles-heading mb-20 font-display text-[clamp(2rem,7vw,6rem)] font-extrabold uppercase leading-[0.95] tracking-tight md:mb-28">
+      <h2 className="principles-heading mb-20 font-display type-display-2 font-extrabold uppercase leading-[0.95] tracking-tight md:mb-28">
         <span className="clip-line">
           <span>Extraordinary</span>
         </span>
         <span className="clip-line">
           <span>
-            is a <span className="font-serif normal-case text-accent">habit</span>
+            is a <span className="font-serif italic font-normal normal-case text-accent">habit</span>
           </span>
         </span>
       </h2>

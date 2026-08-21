@@ -44,7 +44,7 @@ export function Magnetic({
   );
 
   return (
-    <div ref={ref} className={className} data-cursor="hover">
+    <div ref={ref} className={className}>
       {children}
     </div>
   );

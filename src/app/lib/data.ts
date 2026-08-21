@@ -40,7 +40,7 @@ export type Project = {
    * Use for apps that need a backend and so can't run as a `live` demo.
    * Takes precedence over `image`.
    */
-  images?: { src: string; caption: string }[];
+  images?: { src: string; caption: string; width: number; height: number }[];
   demo?: ProjectDemo;
 };
 
@@ -54,14 +54,14 @@ export const projects: Project[] = [
     year: "2026",
     role: "Product Engineering",
     stack: ["Document Management", "Workflow Automation", "Web Platform"],
-    palette: ["#7dd3fc", "#0c2a3a"],
+    palette: ["#8dd1e7", "#11252c"],
   },
   {
     slug: "howlx",
     title: "HowlX",
     tagline: "Every support call, turned into intelligence",
     description:
-      "Upload a customer service call and get back a transcript, a sentiment read, key topics, and coaching feedback — then watch it roll up into per-company dashboards. An AI assistant sits beside every call to answer questions and draft follow-ups. Built with a six-person team for Tecnológico de Monterrey and awarded at EXP TEC.",
+      "Upload a customer service call and get back a transcript, a sentiment read, key topics, and coaching feedback — then watch it roll up into per-company dashboards. An AI assistant sits beside every call to answer questions and draft follow-ups. Built with a six-person team at Tecnológico de Monterrey, where it took first place at Expo Ingenierías 2025 in the Technology for Business Entrepreneurship category.",
     year: "2025",
     role: "AI Product Engineering",
     stack: [
@@ -73,13 +73,13 @@ export const projects: Project[] = [
       "Gemini",
       "Postgres",
     ],
-    palette: ["#c084fc", "#2a0f3a"],
+    palette: ["#b48de7", "#1d112c"],
     images: [
-      { src: "/images/howlx/landing.webp", caption: "Landing — silent observers, powerful insights" },
-      { src: "/images/howlx/home.webp", caption: "Call workspace — transcript, AI report, assistant" },
-      { src: "/images/howlx/dashboard.webp", caption: "Dashboard — satisfaction and call volume by company" },
-      { src: "/images/howlx/logs.webp", caption: "Logs — searchable history with role-based access" },
-      { src: "/images/howlx/devices.webp", caption: "AI Tools — client insight, feedback manager, deep analysis" },
+      { src: "/images/howlx/landing.webp", caption: "Landing — silent observers, powerful insights", width: 1220, height: 880 },
+      { src: "/images/howlx/home.webp", caption: "Call workspace — transcript, AI report, assistant", width: 1600, height: 680 },
+      { src: "/images/howlx/dashboard.webp", caption: "Dashboard — satisfaction and call volume by company", width: 700, height: 540 },
+      { src: "/images/howlx/logs.webp", caption: "Logs — searchable history with role-based access", width: 870, height: 860 },
+      { src: "/images/howlx/devices.webp", caption: "AI Tools — client insight, feedback manager, deep analysis", width: 1600, height: 691 },
     ],
   },
   {
@@ -91,7 +91,7 @@ export const projects: Project[] = [
     year: "2026",
     role: "AI + Systems Engineering",
     stack: ["Python", "FastAPI", "SQLite FTS5", "MCP", "Ollama", "React", "Docker"],
-    palette: ["#5eead4", "#0c2a2a"],
+    palette: ["#8d9be7", "#11152c"],
     github: "https://github.com/jadrianlg16/yt-transcripts",
   },
   {
@@ -99,11 +99,11 @@ export const projects: Project[] = [
     title: "Chess Analyzer",
     tagline: "A grandmaster engine, running in your tab",
     description:
-      "Analysis board powered by Stockfish 18 compiled to WebAssembly — evaluation bar, principal variations, and move-by-move review with zero servers. The demo below is the real app; the engine is thinking in your browser right now.",
+      "Analysis board running Stockfish 18 as WebAssembly in a Web Worker — evaluation bar, principal variations, and move-by-move review with zero servers. The demo below is the real app; the engine is thinking in your browser right now.",
     year: "2026",
     role: "Design + Engineering",
     stack: ["React", "TypeScript", "chess.js", "Stockfish WASM", "Vite"],
-    palette: ["#c4b5fd", "#1e1338"],
+    palette: ["#e78de4", "#2c112b"],
     github: "https://github.com/jadrianlg16/chess-analyzer",
     demo: { kind: "live", src: "/demos/chess/", width: 1280, height: 800 },
   },
@@ -116,7 +116,7 @@ export const projects: Project[] = [
     year: "2025",
     role: "Product + Engineering",
     stack: ["React", "Recharts", "Vite"],
-    palette: ["#6ee7b7", "#0c2a1c"],
+    palette: ["#8de78d", "#112c11"],
     github: "https://github.com/jadrianlg16/financial-sim",
     demo: { kind: "live", src: "/demos/financial-sim/", width: 1280, height: 800 },
   },
@@ -129,7 +129,7 @@ export const projects: Project[] = [
     year: "2026",
     role: "Design + Engineering",
     stack: ["React 19", "Zustand", "Tailwind 4", "shadcn/ui"],
-    palette: ["#fb923c", "#3a1c0c"],
+    palette: ["#e7a18d", "#2c1711"],
     github: "https://github.com/jadrianlg16/task-shuffler",
     demo: { kind: "live", src: "/demos/tasklists/", width: 1280, height: 800 },
   },
@@ -142,7 +142,7 @@ export const projects: Project[] = [
     year: "2026",
     role: "Systems Engineering",
     stack: ["Python", "Flask", "Pandoc", "LibreOffice", "ffmpeg", "Docker"],
-    palette: ["#f9a8d4", "#3a0c24"],
+    palette: ["#e78db0", "#2c111b"],
     github: "https://github.com/jadrianlg16/file-converter",
     demo: { kind: "case", id: "file-converter" },
   },
@@ -155,7 +155,7 @@ export const projects: Project[] = [
     year: "2026",
     role: "Full-stack Engineering",
     stack: ["Node.js", "Express", "yt-dlp", "SQLite", "SSE"],
-    palette: ["#f87171", "#3a0c0c"],
+    palette: ["#e7d58d", "#2c2711"],
     demo: { kind: "case", id: "gravitydl" },
   },
   {
@@ -167,7 +167,7 @@ export const projects: Project[] = [
     year: "2025",
     role: "AI + Audio Engineering",
     stack: ["Python", "Kokoro TTS", "FastAPI", "Docker Compose", "React"],
-    palette: ["#d6a35c", "#2a1d0e"],
+    palette: ["#c3e78d", "#212c11"],
     demo: { kind: "case", id: "audiobook" },
   },
 ];
@@ -230,12 +230,3 @@ export const contact = {
   ],
 };
 
-export const marqueeItems = [
-  "Web Engineering",
-  "AI Systems",
-  "Business Automation",
-  "Reading",
-  "Writing",
-  "Snowboarding",
-  "Woodworking",
-];

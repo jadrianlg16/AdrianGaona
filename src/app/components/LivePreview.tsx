@@ -47,8 +47,11 @@ export function LivePreview({
 
     const measure = () => {
       const rect = el.getBoundingClientRect();
-      // "cover" scaling: fill the card visual, cropping the overflow
-      setScale(Math.max(rect.width / width, rect.height / height));
+      // "contain", not "cover". Cover filled the card but cropped a 1280px app
+      // into a ~674px window, so roughly half its width was outside the frame —
+      // a fragment, when the whole point of the card is "this is a real app".
+      // Letterboxing against the card ground is the cheaper price.
+      setScale(Math.min(rect.width / width, rect.height / height));
     };
     measure();
     const observer = new ResizeObserver(measure);

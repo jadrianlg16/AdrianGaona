@@ -16,6 +16,7 @@ export function Nav() {
   const { loaded } = useApp();
   const rootRef = useRef<HTMLElement>(null);
   const [time, setTime] = useState("");
+  const [menuOpen, setMenuOpen] = useState(false);
 
   // local time, Monterrey
   useEffect(() => {
@@ -87,15 +88,54 @@ export function Nav() {
 
         <div className="flex items-center gap-4 font-mono text-xs uppercase tracking-widest">
           <span className="hidden text-bone/60 md:inline">MTY {time}</span>
-          <a
-            href="#contact"
-            onClick={(e) => scrollTo(e, "#contact")}
-            className="inline-flex min-h-11 items-center md:hidden"
+          {/* The page is roughly sixteen screens tall. On a phone the only
+              control used to be "Contact ↓", so every other section could only
+              be reached by scrolling the whole way. */}
+          <button
+            type="button"
+            onClick={() => setMenuOpen((open) => !open)}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-nav"
+            className="inline-flex min-h-11 items-center gap-2 tracking-widest md:hidden"
           >
-            Contact ↓
-          </a>
+            {menuOpen ? "Close ✕" : "Menu ≡"}
+          </button>
         </div>
       </nav>
+
+      {/* Toggled by class, not the `hidden` attribute: a `display: flex` utility
+          wins over the UA stylesheet's [hidden] rule, so the menu would never
+          have closed. */}
+      <ul
+        id="mobile-nav"
+        className={`${
+          menuOpen ? "flex" : "hidden"
+        } flex-col gap-1 border-t border-line bg-ink/95 px-6 pb-5 pt-2 font-mono text-xs uppercase tracking-widest backdrop-blur md:!hidden`}
+      >
+        {links.map((link) => (
+          <li key={link.href}>
+            <a
+              href={link.href}
+              onClick={(e) => {
+                setMenuOpen(false);
+                scrollTo(e, link.href);
+              }}
+              className="flex min-h-11 items-center border-b border-line/60 transition-colors hover:text-accent"
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+        <li>
+          <a
+            href="/downloads/adrian-gaona-resume.pdf"
+            download="Jesus-Adrian-Lopez-Gaona-Resume.pdf"
+            className="flex min-h-11 items-center text-accent"
+          >
+            Résumé ↓
+          </a>
+        </li>
+      </ul>
     </header>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { gsap, useGSAP } from "../lib/gsap";
+import { gsap, useGSAP, prefersReducedMotion } from "../lib/gsap";
 import { manifesto } from "../lib/data";
 
 /** The "why" — each word brightens as you scroll through it, like a read-along. */
@@ -11,6 +11,13 @@ export function Manifesto() {
 
   useGSAP(
     () => {
+      // The words ship readable and are dimmed here, at runtime, so the
+      // read-along is an enhancement rather than a prerequisite. Shipping them
+      // at opacity .15 meant the statement of who he is never appeared if GSAP
+      // failed to load, and stayed at 1.5:1 for anyone who asked for less motion.
+      if (prefersReducedMotion()) return;
+
+      gsap.set(".manifesto-word", { opacity: 0.15 });
       gsap.to(".manifesto-word", {
         opacity: 1,
         ease: "none",
@@ -32,9 +39,9 @@ export function Manifesto() {
       <p className="mb-10 font-mono text-xs uppercase tracking-[0.25em] text-muted">
         (01) — The point
       </p>
-      <p className="max-w-5xl font-display text-[clamp(1.6rem,4vw,3.4rem)] font-bold leading-[1.25] tracking-tight">
+      <p className="max-w-5xl font-display type-display-4 font-bold leading-[1.25] tracking-tight">
         {words.map((word, i) => (
-          <span key={i} className="manifesto-word opacity-15">
+          <span key={i} className="manifesto-word">
             {word}{" "}
           </span>
         ))}

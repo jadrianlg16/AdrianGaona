@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { gsap, useGSAP } from "../lib/gsap";
 import { projects, type Project } from "../lib/data";
 import { LivePreview } from "./LivePreview";
@@ -56,13 +57,17 @@ export function Projects() {
         <p className="mb-6 font-mono text-xs uppercase tracking-[0.25em] text-muted">
           (03) — Selected work
         </p>
-        <h2 className="font-display text-[clamp(2rem,8vw,7rem)] font-extrabold uppercase leading-none tracking-tight">
-          Built to <span className="font-serif normal-case text-accent">move</span>{" "}
+        <h2 className="font-display type-display-2 font-extrabold uppercase leading-none tracking-tight">
+          Built to <span className="font-serif italic font-normal normal-case text-accent">move</span>{" "}
           <span className="text-stroke">numbers</span>
         </h2>
+        {/* Was "real apps running on this page", which is only true on a wide
+            screen — the card previews are hidden below md, so on a phone the
+            copy promised something the visitor could not see. Launching still
+            runs the real app on every device, so that is what it claims now. */}
         <p className="mt-6 max-w-md font-mono text-xs uppercase tracking-[0.2em] text-muted">
-          Cards marked <span className="text-accent">live</span> are real apps
-          running on this page — launch one and use it.
+          Cards marked <span className="text-accent">live</span> run the real
+          app — launch one and use it.
         </p>
       </div>
 
@@ -115,10 +120,10 @@ function ProjectCard({
           </div>
 
           <div>
-            <h3 className="font-display text-[clamp(1.8rem,9vw,4.5rem)] font-bold uppercase leading-none tracking-tight md:text-[clamp(2.2rem,5vw,4.5rem)]">
+            <h3 className="font-display type-display-3 font-bold uppercase leading-none tracking-tight">
               {project.title}
             </h3>
-            <p className="mt-3 font-serif text-xl text-bone/80 md:text-2xl">
+            <p className="mt-3 font-serif italic text-xl text-bone/80 md:text-2xl">
               {project.tagline}
             </p>
             <p className="mt-4 max-w-md text-sm leading-relaxed text-bone/70 sm:mt-6 sm:text-base sm:text-bone/60">
@@ -146,7 +151,6 @@ function ProjectCard({
                 and gives the route an internal link so it gets crawled. */}
             <Link
               href={`/work/${project.slug}`}
-              data-cursor="hover"
               className="inline-flex min-h-11 items-center font-mono text-xs uppercase tracking-widest text-muted transition-colors hover:text-accent"
             >
               Details →
@@ -156,7 +160,6 @@ function ProjectCard({
                 href={project.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                data-cursor="hover"
                 className="inline-flex min-h-11 items-center font-mono text-xs uppercase tracking-widest text-muted transition-colors hover:text-accent"
               >
                 GitHub ↗
@@ -166,7 +169,6 @@ function ProjectCard({
               <button
                 type="button"
                 onClick={() => onLaunch(project)}
-                data-cursor="hover"
                 className="group inline-flex min-h-11 items-center gap-2 rounded-full border border-accent/50 bg-accent/10 px-4 py-2.5 font-mono text-xs uppercase tracking-widest text-accent transition-colors hover:bg-accent hover:text-ink sm:px-5 sm:text-sm"
               >
                 {demo.kind === "live" ? "Launch app" : "Play demo"}
@@ -202,11 +204,12 @@ function ProjectCard({
               palette={project.palette}
             />
           ) : project.image ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
+            <Image
               src={project.image}
               alt={`${project.title} — ${project.tagline}`}
-              className="h-full w-full object-cover"
+              fill
+              sizes="(min-width: 768px) 50vw, 100vw"
+              className="object-cover"
             />
           ) : (
             <GeneratedVisual project={project} index={index} />
@@ -255,15 +258,16 @@ function ShotGallery({
       onMouseLeave={() => setPaused(false)}
     >
       {shots.map((shot, i) => (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
+        <Image
           key={shot.src}
           src={shot.src}
           alt={`${title} — ${shot.caption}`}
-          // the whole set is ~300KB; eager-loading avoids a pop-in on advance
-          fetchPriority={i === 0 ? "high" : "low"}
+          fill
+          sizes="(min-width: 768px) 50vw, 100vw"
+          // the whole set is small; eager-loading avoids a pop-in on advance
+          priority={i === 0}
           aria-hidden={i !== active}
-          className={`absolute inset-0 h-full w-full object-contain px-4 py-14 transition-opacity duration-700 lg:px-6 ${
+          className={`object-contain px-4 py-14 transition-opacity duration-700 lg:px-6 ${
             i === active ? "opacity-100" : "opacity-0"
           }`}
         />
@@ -294,7 +298,6 @@ function ShotGallery({
               key={shot.src}
               type="button"
               onClick={() => setActive(i)}
-              data-cursor="hover"
               aria-label={`Show ${shot.caption}`}
               aria-current={i === active}
               className={`h-1.5 rounded-full transition-all duration-300 ${
@@ -362,7 +365,6 @@ function DemoVisual({
       <button
         type="button"
         onClick={() => onLaunch(project)}
-        data-cursor="hover"
         aria-label={`Launch ${project.title} demo`}
         className="absolute inset-0 flex items-end justify-end bg-transparent p-5 transition-colors duration-300 hover:bg-ink/20"
       >

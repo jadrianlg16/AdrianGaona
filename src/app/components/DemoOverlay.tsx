@@ -109,7 +109,6 @@ export function DemoOverlay({
                 href={demo.src}
                 target="_blank"
                 rel="noopener noreferrer"
-                data-cursor="hover"
                 className="hidden rounded-full border border-line px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-muted transition-colors hover:border-accent/50 hover:text-accent sm:inline-block"
               >
                 Open full ↗
@@ -118,7 +117,6 @@ export function DemoOverlay({
             <button
               type="button"
               onClick={close}
-              data-cursor="hover"
               aria-label="Close demo"
               className="flex h-11 w-11 items-center justify-center rounded-full border border-line font-mono text-xs text-muted transition-colors hover:border-accent/50 hover:text-accent sm:h-9 sm:w-9"
             >
