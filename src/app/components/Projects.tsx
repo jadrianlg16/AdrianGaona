@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { gsap, useGSAP } from "../lib/gsap";
 import { projects, type Project } from "../lib/data";
 import { LivePreview } from "./LivePreview";
@@ -141,6 +142,15 @@ function ProjectCard({
               {project.role}
             </span>
             <span className="flex items-center gap-4">
+            {/* Deep link: lets a single project be sent to a single person,
+                and gives the route an internal link so it gets crawled. */}
+            <Link
+              href={`/work/${project.slug}`}
+              data-cursor="hover"
+              className="inline-flex min-h-11 items-center font-mono text-xs uppercase tracking-widest text-muted transition-colors hover:text-accent"
+            >
+              Details →
+            </Link>
             {project.github && (
               <a
                 href={project.github}
