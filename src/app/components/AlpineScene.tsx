@@ -227,7 +227,43 @@ export function AlpineScene() {
 
       let lastRender = 0;
       const startedAt = performance.now();
-      const frameDuration = constrained ? 1000 / 30 : 1000 / 45;
+      const targetFps = constrained ? 30 : 45;
+      let frameDuration = 1000 / targetFps;
+
+      /**
+       * The tier check above reads pointer type, viewport, core count and RAM —
+       * none of which describe the GPU. A budget laptop reporting eight threads
+       * and 8 GB still renders like a phone, and on Firefox and Safari both
+       * deviceMemory and connection are undefined, so two of those five signals
+       * never fire at all.
+       *
+       * So after the scene is actually running, sample the frame rate we manage
+       * to hit and compare it against an absolute smoothness floor.
+       *
+       * The floor is absolute on purpose. Comparing against targetFps would
+       * misfire on healthy hardware: rAF is quantised to the display, so a
+       * 60Hz screen asked for 45fps renders every second callback and lands on
+       * exactly 30 — perfectly smooth, and 33% "under target". Below ~24fps is
+       * where motion actually starts reading as broken, on any display rate.
+       */
+      const SMOOTHNESS_FLOOR_FPS = 24;
+      let probeStartedAt = 0;
+      let probeFrames = 0;
+      let probeDone = constrained;
+
+      const dropTier = () => {
+        if (!renderer || !geometry || !material) return;
+        frameDuration = 1000 / 30;
+        // Buffers stay as they are; drawing fewer of them costs nothing to
+        // change and avoids rebuilding geometry mid-flight.
+        geometry.setDrawRange(0, Math.round(particleCount * 0.4));
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.15));
+        renderer.setSize(mount.clientWidth, mount.clientHeight, false);
+        material.uniforms.uPixelRatio.value = renderer.getPixelRatio();
+        renderer.domElement.dataset.snowTier = "degraded";
+        renderer.domElement.dataset.snowFps = "30";
+      };
+
       const tick = (now: number) => {
         animationFrame = requestAnimationFrame(tick);
         if (
@@ -237,8 +273,25 @@ export function AlpineScene() {
           now - lastRender < frameDuration
         )
           return;
+        const gap = now - lastRender;
         lastRender = now;
         render((now - startedAt) / 1000);
+
+        if (probeDone) return;
+        // Restart the window on the first frame (which carries shader
+        // compilation and would condemn a healthy GPU) and after any long gap,
+        // since a backgrounded tab or a main thread blocked by something else
+        // says nothing about how fast this machine can draw.
+        if (probeStartedAt === 0 || gap > frameDuration * 4) {
+          probeStartedAt = now;
+          probeFrames = 0;
+          return;
+        }
+        probeFrames += 1;
+        const sampled = now - probeStartedAt;
+        if (sampled < 2000) return;
+        probeDone = true;
+        if ((probeFrames / sampled) * 1000 < SMOOTHNESS_FLOOR_FPS) dropTier();
       };
 
       const onResize = () => {
@@ -248,6 +301,39 @@ export function AlpineScene() {
         if (reducedMotion) render(8);
       };
       window.addEventListener("resize", onResize);
+
+      /**
+       * Safari reclaims WebGL contexts from backgrounded tabs when the device
+       * is under memory pressure — most likely on an older iPhone with a lot of
+       * tabs open. The try/catch around initialisation only covers a context
+       * that never existed; one lost *after* a successful start would leave the
+       * canvas frozen on its last frame with no route back.
+       *
+       * preventDefault() is what makes the context eligible for restoration.
+       * Until that happens the static hero underneath is a complete image on
+       * its own, so falling back to it costs the visitor nothing.
+       */
+      const onContextLost = (event: Event) => {
+        event.preventDefault();
+        cancelAnimationFrame(animationFrame);
+        animationFrame = 0;
+        root.dataset.snowFallback = "true";
+      };
+
+      const onContextRestored = () => {
+        if (!renderer || !material) return;
+        delete root.dataset.snowFallback;
+        renderer.setSize(mount.clientWidth, mount.clientHeight, false);
+        material.uniforms.uAspect.value = mount.clientWidth / mount.clientHeight;
+        if (reducedMotion) render(8);
+        else animationFrame = requestAnimationFrame(tick);
+      };
+
+      renderer.domElement.addEventListener("webglcontextlost", onContextLost);
+      renderer.domElement.addEventListener(
+        "webglcontextrestored",
+        onContextRestored
+      );
 
       observer = new IntersectionObserver(
         ([entry]) => {
@@ -265,6 +351,14 @@ export function AlpineScene() {
         cancelAnimationFrame(animationFrame);
         observer?.disconnect();
         window.removeEventListener("resize", onResize);
+        renderer?.domElement.removeEventListener(
+          "webglcontextlost",
+          onContextLost
+        );
+        renderer?.domElement.removeEventListener(
+          "webglcontextrestored",
+          onContextRestored
+        );
         if (!coarsePointer) window.removeEventListener("pointermove", onPointerMove);
         geometry?.dispose();
         material?.dispose();

@@ -116,6 +116,12 @@ body {
   height: 100%;
 }
 
+/* No WebGL, or a context the browser took back: hide the dead canvas so the
+   static hero underneath stands on its own. */
+.alpine-scene[data-snow-fallback="true"] .alpine-scene__snow {
+  display: none;
+}
+
 .alpine-scene__spindrift {
   z-index: 3;
   pointer-events: none;
