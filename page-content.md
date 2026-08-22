@@ -1,233 +1,220 @@
-> **Historical snapshot — not the current site.**
->
-> This file documents an earlier version of the portfolio (components such as
-> `HeroSection.tsx` and `Header.tsx` no longer exist, and the copy below has been
-> superseded). It is kept for reference only. The live content lives in
-> `src/app/lib/data.ts`; the architecture is described in `README.md`.
+# Page Content — adriangaona.dev
 
-# Page Content — Jesús Adrián López Gaona Portfolio
+Every word on the site, in the order a visitor meets it, with where each one
+lives. Two kinds of copy:
 
----
+- **Data** — lives in [`src/app/lib/data.ts`](src/app/lib/data.ts). Change it
+  there and the components render whatever is there. No JSX involved.
+- **Hardcoded** — lives inside a component's JSX. Line numbers are given, but
+  they drift as the file changes; search the string itself if it has moved.
 
-## Metadata (layout.tsx)
-
-- **Page Title:** Jesús Adrián López Gaona - Full-Stack Engineer & AI Developer
-- **Description:** Computer Science student and multidisciplinary engineer with 5+ years building full-stack applications, AI-powered automation, and secure enterprise systems.
-- **Keywords:** Full-Stack Developer, AI Engineer, Python, React, Django, Machine Learning, Nuevo León, Mexico
-- **Author:** Jesús Adrián López Gaona
-- **Site URL:** https://adriangaona.dev
+Anything not listed here isn't copy — it's structure.
 
 ---
 
-## Header (Header.tsx)
+## Metadata — `src/app/layout.tsx`
 
-- **Logo / Brand text:** `Jesús Adrián`
-- **Nav buttons (desktop & mobile menu):**
-  - `home`
-  - `about`
-  - `projects`
-  - `skills`
-  - `contact`
-- **Mobile:** Hamburger icon (☰) toggles a dropdown with the same nav buttons
+| Field | Value |
+|---|---|
+| Title | Jesús Adrián López Gaona \| Software Engineer & AI Systems |
+| Title template | `%s \| Adrián Gaona` |
+| Description | Software engineer in Nuevo León, Mexico, building full-stack web platforms, AI systems, and business automation with Next.js, React, Python, and Django. |
+| Site URL | `https://adriangaona.dev` |
+| Locale | `en_US` |
+| Theme colour | `#071015` |
 
----
+Also carries the `Person` JSON-LD: name, `alternateName` "Adrián Gaona", job title
+"Software Engineer", Nuevo León / MX, the `/images/pfp.webp` avatar, and `sameAs`.
 
-## Section 1 — Hero (HeroSection.tsx)
+> `sameAs` currently lists **only GitHub**. A LinkedIn URL belongs here — it is how
+> a search engine merges scattered profiles into one entity.
 
-- **Section id:** `home`
-- **Eyebrow text:** `Hello, I'm`
-- **H1:** `Jesús Adrián`
-- **H2 / tagline:** `Full-Stack Engineer & AI Developer`
-- **Body paragraph:**
-  > Computer Science student and multidisciplinary engineer with 5+ years building full-stack applications, AI-powered automation, and secure enterprise systems. Passionate about merging business intelligence with cutting-edge technology.
-- **Social icon links:**
-  - GitHub → `https://github.com/jadrianlg16`
-  - LinkedIn → `#`
-  - Email → `mailto:jesus@adriangaona.dev`
-- **Scroll-down button:** animated chevron → scrolls to `#about`
+Social share cards are generated, not written: `src/app/opengraph-image.tsx` for
+the site, `src/app/work/[slug]/opengraph-image.tsx` per project.
 
 ---
 
-## Section 2 — About (AboutSection.tsx)
+## Preloader — `components/Preloader.tsx`
 
-- **Section id:** `about`
-- **H2:** `About Me`
-- **Photo alt text:** `Jesús Adrián López García`
-- **H3:** `Who am I?`
-- **Paragraph 1:**
-  > I'm a multidisciplinary engineer, accountant, and entrepreneur from Nuevo León, Mexico, with five years of hands-on experience crafting full-stack web applications, AI-powered automation pipelines, and secure back-office systems. Currently pursuing Computer Science at Tecnológico de Monterrey with a 93 average.
-- **Paragraph 2:**
-  > I thrive in fast-moving, ambiguity-heavy environments and enjoy leading projects end-to-end: from ideation to architecture to deployment. When I'm not coding, you'll find me training for my next half marathon, planning my artisanal panadería, or exploring new cities through immersive cultural experiences.
+The whiteout crossing. Plays once per browser session, capped at 2.6s, skippable.
 
-### Highlight Cards
-
-| Card | Title | Body text |
-|------|-------|-----------|
-| 💻 | Full-Stack Development | React, Django, FastAPI, and modern cloud architectures |
-| 🧠 | AI & Automation | LangChain, RAG pipelines, and on-premises LLM deployments |
-| 👥 | Business Leadership | Project management, stakeholder comms, and team coordination |
+| Copy | Line |
+|---|---|
+| `AG / Alpine approach` | 208 |
+| `Whiteout crossing` *(hidden below `sm`)* | 210 |
+| `Skip ↴` | 216 |
+| `Visibility / near zero` | 223 |
+| `Conditions` | 229 |
+| `000` → `100` counter | progressbar, labelled "Loading portfolio" |
 
 ---
 
-## Section 3 — Projects (ProjectsSection.tsx)
+## Navigation — `components/Nav.tsx`
 
-- **Section id:** `projects`
-- **H2:** `Featured Projects`
-- **Intro paragraph:**
-  > A selection of projects spanning enterprise software, AI applications, and innovative solutions. From academic collaborations to individual ventures, each represents unique technical challenges and real-world problem solving.
-
-### Filter Buttons (category tabs)
-
-- `All Projects`
-- `Enterprise Software`
-- `AI Application`
-- `Desktop Application`
-- `Mobile Application`
-- `IoT Project`
-- `Gamification`
-
-### Project Cards
-
-#### 1. HowlX: AI-Powered Customer Service Platform
-- **Category:** AI Application
-- **Description:** Comprehensive AI-powered platform transforming customer service call recordings into actionable business intelligence. Features automated transcription with OpenAI Whisper, sentiment analysis, risk detection, RAG-based intelligent chat system, and comprehensive analytics dashboard with role-based access control for administrators, supervisors, and consultants.
-- **Technologies:** `React` · `Python` · `OpenAI Whisper` · `GPT-4` · `RAG` · `Redis` · `PostgreSQL`
-- **Links:** Demo `#` · GitHub `#` *(both placeholders)*
-
-#### 2. Palladium Document Management System
-- **Category:** Enterprise Software
-- **Description:** Secure, scalable local DMS with ACL permissions, OCR pipeline, and vector search capabilities. Features Docker deployment and industry-grade document handling.
-- **Technologies:** `Django` · `React` · `PostgreSQL` · `Apache Solr` · `Docker`
-- **Links:** Demo `#` · GitHub `#` *(placeholders)*
-
-#### 3. AI Web Agency Platform
-- **Category:** AI Application
-- **Description:** Automated platform that crawls SMB websites, analyzes performance metrics, and generates modernized mockups with AI-powered sales outreach.
-- **Technologies:** `Next.js` · `Django` · `PostgreSQL` · `OpenAI GPT-4` · `Playwright`
-- **Links:** Demo `#` · GitHub `#` *(placeholders)*
-
-#### 4. AI Transcription & Processing Tool
-- **Category:** Desktop Application
-- **Description:** Python desktop app with Whisper AI for audio transcription, meeting summaries, and interactive Q&A using both cloud and on-premises LLMs.
-- **Technologies:** `Python` · `Tkinter` · `OpenAI API` · `Whisper AI` · `LM Studio`
-- **Links:** Demo `#` · GitHub `#` *(placeholders)*
-
-#### 5. YConecta iOS App
-- **Category:** Mobile Application
-- **Description:** iOS prototype connecting individuals with NGOs, facilitating communication and support with companion web platform for updates and feedback.
-- **Technologies:** `Swift` · `Flask` · `MongoDB` · `iOS Development`
-- **Links:** Demo `#` · GitHub `#` *(placeholders)*
-
-#### 6. Smart Stop IoT System
-- **Category:** IoT Project
-- **Description:** Intelligent bus stop prototype with automated weather-responsive features to enhance passenger experience and optimize transportation efficiency.
-- **Technologies:** `NodeMCU` · `MySQL` · `JavaScript` · `PHP` · `Fusion 360`
-- **Links:** Demo `#` · GitHub `#` *(placeholders)*
-
-#### 7. Industrial Safety Training Platform
-- **Category:** Gamification
-- **Description:** Gamified 2D simulation and web application for Regal Rexnord to improve employee safety training with analytics and user management.
-- **Technologies:** `Unity` · `Django` · `React` · `MySQL` · `Game Development`
-- **Links:** Demo `#` · GitHub `#` *(placeholders)*
-
-### CTA Button
-- **Text:** `View All Projects on GitHub`
-- **URL:** `https://github.com/jadrianlg16`
+Logo `AG©`. Links: **About**, **Work**, **Principles**, **Contact** — defined in
+the `links` array at the top of the file, not in `data.ts`. Desktop also shows a
+live Monterrey clock (`MTY 00:00`). Below `md` the links collapse behind
+**Menu ≡** / **Close ✕**, and the mobile panel adds **Résumé ↓**.
 
 ---
 
-## Section 4 — Skills (SkillsSection.tsx)
+## Hero — `components/Hero.tsx`
 
-- **Section id:** `skills`
-- **H2:** `Technical Skills`
-- **Intro paragraph:**
-  > Five years of hands-on experience across full-stack development, AI/ML systems, and enterprise automation. Continuously learning and adapting to new technologies.
+| Copy | Line |
+|---|---|
+| `Adrián Gaona — Field Notes` | 67 |
+| `Engineering` / `leverage.` — the H1, split across two animated lines | 72, 77 |
+| `Web platforms and AI systems that turn busywork into momentum.` | 86 |
+| `Available for work — Nuevo León, MX` | 93 |
+| `Onward ↓` | 99 |
 
-### Skill Bars (by category)
-
-| Category | Skill | Level |
-|----------|-------|-------|
-| Programming | Python | 95% |
-| Programming | TypeScript/JavaScript | 90% |
-| Frontend | React/Next.js | 88% |
-| Backend | Django/FastAPI | 85% |
-| Database | PostgreSQL/MongoDB | 82% |
-| DevOps | Docker/Kubernetes | 80% |
-| AI/ML | LangChain/OpenAI | 85% |
-| Search | Apache Solr/Elasticsearch | 78% |
-| DevOps | Git/GitHub Actions | 88% |
-| Mobile | Swift/iOS Development | 75% |
-| Specialized | Unity/Game Development | 70% |
-| Domain | Financial Systems | 85% |
-
-### Core Technologies (tag cloud)
-`Python` `TypeScript` `JavaScript` `Swift` `C++` `HTML/CSS` `React` `Next.js` `Django` `FastAPI` `Flask` `Unity` `PostgreSQL` `MongoDB` `MySQL` `Apache Solr` `Elasticsearch` `Docker` `GitHub Actions` `OCI` `AWS`
-
-### AI & Automation Stack (tag cloud)
-`LangChain` `LangGraph` `OpenAI API` `Whisper AI` `LM Studio` `PyTorch` `Transformers` `FAISS` `Pinecone` `RAG Pipelines` `Vector Databases` `Prompt Engineering` `Fine-tuning` `OCR` `Computer Vision` `NLP`
-
-### Professional Expertise Cards
-
-| Card | Title | Body |
-|------|-------|------|
-| 🖥️ | Full-Stack Development | End-to-end application development from conception to deployment |
-| 🤖 | AI/ML Integration | LLM deployment, RAG systems, and intelligent automation |
-| 🏢 | Enterprise Systems | Secure, scalable solutions for business-critical applications |
+"leverage" is the serif accent word. The hero image is
+`/images/alpine-penguin-hero-v2.webp`, with a three.js snowfield over it.
 
 ---
 
-## Section 5 — Contact (ContactSection.tsx)
+## (01) The point — `components/Manifesto.tsx`
 
-- **Section id:** `contact`
-- **H2:** `Get In Touch`
-- **Intro paragraph:**
-  > Interested in collaborating on a project or discussing opportunities? I'm always excited to work on innovative solutions that make a real impact.
+Eyebrow `(01) — The point` at line 40. Screen-reader heading: "About Adrián Gaona".
 
-### Contact Form — "Send Me a Message"
+The paragraph itself is **data** — `manifesto` in `data.ts`:
 
-| Field | Label | Placeholder |
-|-------|-------|-------------|
-| Text input | Name | `Your Name` |
-| Email input | Email | `your.email@example.com` |
-| Text input | Subject | `Project Inquiry / Collaboration` |
-| Textarea (5 rows) | Message | `Tell me about your project or opportunity...` |
-| Submit button | — | `Send Message` (+ send icon) |
+> I'm Adrián — a computer science engineer who treats software as a lever. I build
+> web platforms and AI systems that erase repetitive work, sharpen decisions, and
+> give businesses their time back. Most software adds features. The work I care
+> about adds momentum.
 
-### Contact Information Panel
-
-- **H3:** `Contact Information`
-- **Intro text:** Currently based in Nuevo León, Mexico, with native-level English and Spanish fluency. Open to remote work and relocation opportunities worldwide.
-- **Email:** `jesus@adriangaona.dev` / `jadrianlg16@gmail.com`
-- **Phone:** `+1 (210) 636-1040`
-- **Location:** Nuevo León, Mexico · *Remote & relocation friendly*
-
-### Social Links
-- GitHub → `#`
-- LinkedIn → `#`
-- Email Me → `mailto:jesus@adriangaona.dev`
-
-### Status blurbs
-- Available for remote work
-- Currently training for SF Half Marathon
-- Computer Science @ Tecnológico de Monterrey
+Each word brightens as you scroll through it.
 
 ---
 
-## Footer (Footer.tsx)
+## (02) What I do — `components/Capabilities.tsx`
 
-- **Brand text:** `Jesús Adrián López Gaona`
-- **Tagline:** `Building innovative solutions with AI and full-stack expertise.`
-- **Footer nav links:** `home` · `about` · `projects` · `skills` · `contact`
-- **Copyright:** `© 2025 Jesús Adrián López Gaona. All rights reserved.`
-- **Sub-line:** `Computer Science Student @ Tecnológico de Monterrey • Nuevo León, Mexico`
-- **Scroll-to-top button:** ↑ arrow icon
+Eyebrow `(02) — What I do` at line 40. Screen-reader heading: "Software
+engineering capabilities". The three entries are **data** — `capabilities`:
+
+**01 · Web Engineering** — Full-stack products that feel fast and never get in the
+way. From design system to database, built to be maintained — not just launched.
+`Next.js / React` · `TypeScript` · `Django / FastAPI` · `PostgreSQL` · `Design Systems`
+
+**02 · AI Systems** — LLM agents, retrieval pipelines, and automation that actually
+ships. AI applied where it compounds: removing repetitive work and sharpening
+decisions.
+`LLM Agents` · `RAG Pipelines` · `Claude / OpenAI APIs` · `Evals & Guardrails` · `Python`
+
+**03 · Business Solutions** — Software in service of the P&L. Internal tools,
+process automation, and analytics that give teams their hours back and make the
+numbers visible.
+`Process Automation` · `Internal Tools` · `Analytics & Dashboards` · `Systems Design`
+
+> The `Evals & Guardrails` chip is the only claim on the site with nothing behind
+> it anywhere — no project names an eval, a metric, a test set or an injection.
+> Either back it or drop it.
 
 ---
 
-## Notes / Placeholders to Fix
+## (03) Selected work — `components/Projects.tsx`
 
-- GitHub link in Hero & Projects CTA → `https://github.com/jadrianlg16`
-- LinkedIn link in Hero & Contact → `#`
-- GitHub link in Contact → `#`
-- All project demo/github links → `#` *(all placeholders)*
-- All project images except HowlX use the same `howlx-intro.png` image *(need individual screenshots)*
+| Copy | Line |
+|---|---|
+| `(03) — Selected work` | 58 |
+| `Built to move numbers` — "move" is the serif accent, "numbers" is outlined | 61–62 |
+| `Cards marked live run the real app — launch one and use it.` | 69 |
+
+> The section is called "Built to move numbers" and contains no numbers. No user
+> counts, hours saved, latency, cost or throughput on any of the nine projects.
+
+Nine cards, all **data** — the `projects` array. Each has `title`, `tagline`,
+`description`, `year`, `role`, `stack`, `palette`, and optionally `github`,
+`link`, `images`, `demo`. Card order is array order.
+
+| # | Project | Tagline | Card shows | Source |
+|---|---|---|---|---|
+| 01 | Palladium | Notarial document management system | **gradient** | private |
+| 02 | HowlX | Every support call, turned into intelligence | screenshot gallery | private |
+| 03 | Transcript Archive | Watch once, search forever | **gradient** | [yt-transcripts](https://github.com/jadrianlg16/yt-transcripts) |
+| 04 | Chess Analyzer | A grandmaster engine, running in your tab | **live app** | [chess-analyzer](https://github.com/jadrianlg16/chess-analyzer) |
+| 05 | Financial Sim | Uber vs. new car, simulated to the peso | **live app** | [financial-sim](https://github.com/jadrianlg16/financial-sim) |
+| 06 | Task Shuffler | Decision fatigue, deleted | **live app** | [task-shuffler](https://github.com/jadrianlg16/task-shuffler) |
+| 07 | File Converter | 38 formats, one drop zone | walkthrough | [file-converter](https://github.com/jadrianlg16/file-converter) |
+| 08 | GravityDL | A download manager with gravity | walkthrough | deliberately unpublished |
+| 09 | Audiobook Studio | Paste a book, press play | walkthrough | private |
+
+So: **three live apps, three scripted walkthroughs, one gallery, two gradients.**
+`live` runs the real app in a same-origin iframe. `case` renders a scripted
+walkthrough from `components/demos/`, labelled as such on the page.
+
+> **Two cards render a bare gradient, not one.** Palladium is the known gap. The
+> other is Transcript Archive — which has a public repo *and* the most technically
+> convincing description on the site, and still shows nothing. It is a local
+> FastAPI/SQLite tool so it cannot embed, but a screenshot gallery like HowlX's
+> would cost an afternoon and it sits at card 03, high in the deck.
+
+---
+
+## (04) How I work — `components/Principles.tsx`
+
+Eyebrow `(04) — How I work` at line 45. Heading `Extraordinary is a habit`
+(lines 50–54; "habit" is the serif accent). The four entries are **data** —
+`principles`:
+
+**01 · Discipline** — Extraordinary is not a moment — it's a practice. Show up
+daily, keep the streak, do the boring reps that make the impressive things possible.
+
+**02 · Clarity** — Order beats chaos. Clear systems, clear code, clear
+communication. If it can't be explained simply, it isn't finished.
+
+**03 · Ownership** — The whole problem, not just the ticket. Understand the
+business, question the spec, and take responsibility for the outcome — not the output.
+
+**04 · Craft** — Measure twice, ship once. From woodworking to software: the
+details nobody notices are the reason everything feels right.
+
+---
+
+## (05) Next chapter — `components/Contact.tsx`
+
+| Copy | Line |
+|---|---|
+| `(05) — Next chapter` | 41 |
+| `Let's build the thing that moves the needle` — "moves" is the serif accent | 46–54 |
+| Email button — renders `contact.email` | data |
+| `Download résumé` → `/downloads/adrian-gaona-resume.pdf` | 78 |
+| `Currently open to internships, freelance & ambitious ideas` | 87 |
+
+> This line is the only statement of seniority on the site, and it is the last
+> thing before the footer. Everything above it reads as a working professional,
+> and the hero says "Available for work". A reader who gets to the bottom has
+> already formed the wrong impression.
+
+---
+
+## Footer — `components/Footer.tsx`
+
+`Adrián Gaona.` · `{contact.location}` — currently "Nuevo León, México" · the
+`contact.socials` list · `© {year} — adriangaona.dev`. The year is computed.
+
+---
+
+## Project pages — `src/app/work/[slug]/page.tsx`
+
+One page per project at `/work/<slug>`. All content comes from the same
+`projects` entry; the page adds only these fixed strings:
+
+`← All work` · `Source on GitHub ↗` · `Visit the live site ↗` ·
+`Open the app full screen ↗` · `Running app — not a screenshot` ·
+`Interactive · runs entirely in your browser · nothing leaves the page` ·
+`From the real product` · `This one needs a server` · `Open the walkthrough →` ·
+`Role` · `Year` · `Built with`
+
+> These pages currently add nothing a reader didn't already get from the card.
+> The routing, metadata, structured data and share cards are in place; the
+> writing is not.
+
+---
+
+## Résumé
+
+Served at `/downloads/adrian-gaona-resume.pdf`. The editable master is
+`cv/Jesus_Adrian_Lopez_CV.docx` — see [`cv/README.md`](cv/README.md) for the
+export-and-publish loop. Keep the filename stable; `Contact.tsx` links to it.
