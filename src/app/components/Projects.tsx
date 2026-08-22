@@ -57,9 +57,16 @@ export function Projects() {
         <p className="mb-6 font-mono text-xs uppercase tracking-[0.25em] text-muted">
           (03) — Selected work
         </p>
+        {/* Was "Built to move numbers", under which there was not a single
+            number — no users, hours, latency or cost on any of the nine. A
+            heading should promise what the section can actually show, and what
+            this one shows is working software you can open right here. */}
         <h2 className="font-display type-display-2 font-extrabold uppercase leading-none tracking-tight">
-          Built to <span className="font-serif italic font-normal normal-case text-accent">move</span>{" "}
-          <span className="text-stroke">numbers</span>
+          Built to{" "}
+          <span className="font-serif italic font-normal normal-case text-accent">
+            actually
+          </span>{" "}
+          <span className="text-stroke">run</span>
         </h2>
         {/* Was "real apps running on this page", which is only true on a wide
             screen — the card previews are hidden below md, so on a phone the

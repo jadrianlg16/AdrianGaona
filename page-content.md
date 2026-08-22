@@ -65,8 +65,8 @@ live Monterrey clock (`MTY 00:00`). Below `md` the links collapse behind
 | `Adrián Gaona — Field Notes` | 67 |
 | `Engineering` / `leverage.` — the H1, split across two animated lines | 72, 77 |
 | `Web platforms and AI systems that turn busywork into momentum.` | 86 |
-| `Available for work — Nuevo León, MX` | 93 |
-| `Onward ↓` | 99 |
+| `Open to internships & freelance` + `Final-year B.Eng. · Dec 2026 · Nuevo León, MX` | 99, 101 |
+| `Onward ↓` | 109 |
 
 "leverage" is the serif accent word. The hero image is
 `/images/alpine-penguin-hero-v2.webp`, with a three.js snowfield over it.
@@ -118,11 +118,8 @@ numbers visible.
 | Copy | Line |
 |---|---|
 | `(03) — Selected work` | 58 |
-| `Built to move numbers` — "move" is the serif accent, "numbers" is outlined | 61–62 |
-| `Cards marked live run the real app — launch one and use it.` | 69 |
-
-> The section is called "Built to move numbers" and contains no numbers. No user
-> counts, hours saved, latency, cost or throughput on any of the nine projects.
+| `Built to actually run` — "actually" is the serif accent, "run" is outlined | 65–69 |
+| `Cards marked live run the real app — launch one and use it.` | 76 |
 
 Nine cards, all **data** — the `projects` array. Each has `title`, `tagline`,
 `description`, `year`, `role`, `stack`, `palette`, and optionally `github`,
@@ -182,10 +179,8 @@ details nobody notices are the reason everything feels right.
 | `Download résumé` → `/downloads/adrian-gaona-resume.pdf` | 78 |
 | `Currently open to internships, freelance & ambitious ideas` | 87 |
 
-> This line is the only statement of seniority on the site, and it is the last
-> thing before the footer. Everything above it reads as a working professional,
-> and the hero says "Available for work". A reader who gets to the bottom has
-> already formed the wrong impression.
+> The hero now carries the same status, so this reads as a closing restatement
+> rather than a correction arriving too late.
 
 ---
 
