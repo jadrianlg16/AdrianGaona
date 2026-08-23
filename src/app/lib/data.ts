@@ -100,6 +100,7 @@ export const projects: Project[] = [
       "Docker",
     ],
     palette: ["#b48de7", "#1d112c"],
+    github: "https://github.com/jadrianlg16/howlx",
     demo: { kind: "guided", src: "/demos/howlx/", width: 1280, height: 800 },
     demoNote:
       "This is built from the application's own components — the same navigation bar, call list, report panel and assistant the product renders — with tRPC, authentication and the analysis API swapped for fixtures. Every click works and the tour drives it for real; what it cannot do is think. No model runs, no call is transcribed, and the call it shows was written for this page.",

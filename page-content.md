@@ -128,7 +128,7 @@ Nine cards, all **data** — the `projects` array. Each has `title`, `tagline`,
 | # | Project | Tagline | Card shows | Source |
 |---|---|---|---|---|
 | 01 | Palladium | Notarial document management system | **gradient** | private |
-| 02 | HowlX | Every support call, turned into intelligence | **guided demo** + gallery | private |
+| 02 | HowlX | Every support call, turned into intelligence | **guided demo** + gallery | [howlx](https://github.com/jadrianlg16/howlx) |
 | 03 | Transcript Archive | Watch once, search forever | **guided demo** | [yt-transcripts](https://github.com/jadrianlg16/yt-transcripts) |
 | 04 | Chess Analyzer | A grandmaster engine, running in your tab | **live app** | [chess-analyzer](https://github.com/jadrianlg16/chess-analyzer) |
 | 05 | Financial Sim | Uber vs. new car, simulated to the peso | **live app** | [financial-sim](https://github.com/jadrianlg16/financial-sim) |
