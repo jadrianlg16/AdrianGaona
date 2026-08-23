@@ -6,6 +6,22 @@ third-party code that is redistributed here, most of it under permissive
 licenses recorded in the individual bundles. The items below need explicit
 attribution.
 
+## Transcript excerpts — Nate B Jones
+
+`public/demos/transcript-archive/` ships a snapshot of a personal research
+archive. Among the video titles and channel names are short caption excerpts
+from videos published by **Nate B Jones** (*AI News & Strategy Daily*), used to
+show what the archive's interface does with a transcript.
+
+- About two minutes of one video, and six lines each of fourteen others.
+- Credited on screen inside the demo, with a link to the source video.
+- The project page quotes four sentences with timestamped links back.
+
+These are quotations for illustration and commentary, not a republication of the
+work. Every one links to the original video. If the rights holder would rather
+they were not here, remove `src/fixtures/archive.json` from the demo project and
+rebuild — the interface runs the same on any archive.
+
 ## Stockfish 18 — GPL-3.0-or-later
 
 `public/demos/chess/vendor/stockfish/` contains:

@@ -30,9 +30,14 @@ const shouldAutoRun = () => {
 export function ProjectDemoFrame({
   src,
   title,
+  blurb = "This is the real app, not a video. It's a sizeable download and built for a bigger screen, so it only starts when you ask it to.",
+  runLabel = "Run the app here",
 }: {
   src: string;
   title: string;
+  /** Why it isn't already running — differs for a demo that has no server. */
+  blurb?: string;
+  runLabel?: string;
 }) {
   // Starts false so the server-rendered markup and the first client render
   // agree; the decision lands in an effect, before anything heavy is fetched.
@@ -57,16 +62,13 @@ export function ProjectDemoFrame({
 
   return (
     <div className="flex min-h-[260px] flex-col items-center justify-center gap-5 px-6 py-14 text-center">
-      <p className="max-w-sm text-sm text-muted">
-        This is the real app, not a video. It&apos;s a sizeable download and
-        built for a bigger screen, so it only starts when you ask it to.
-      </p>
+      <p className="max-w-sm text-sm text-muted">{blurb}</p>
       <button
         type="button"
         onClick={() => setRunning(true)}
         className="inline-flex min-h-11 items-center gap-2 rounded-full border border-accent/50 bg-accent/10 px-6 py-3 font-mono text-xs uppercase tracking-widest text-accent transition-colors hover:bg-accent hover:text-ink"
       >
-        {decided ? "Run the app here" : "Loading…"}
+        {decided ? runLabel : "Loading…"}
         <span aria-hidden="true">↗</span>
       </button>
       <a

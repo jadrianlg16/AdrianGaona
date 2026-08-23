@@ -15,11 +15,17 @@
  *  - "live": the real app, built statically and served same-origin from
  *    public/demos/<id>/ (see scripts/build-demos.mjs). Renders as a live
  *    mini-preview on the card and a fully interactive app window on launch.
- *  - "case": a scripted interactive walkthrough component (for apps that
- *    need a real backend and can't run on a static host).
+ *  - "guided": the real interface of an app that needs a server, built from
+ *    that app's own components with its network replaced by fixtures. It runs
+ *    for real — every click works — but the data is sample data and nothing
+ *    is being computed, so it is labelled differently from "live" everywhere
+ *    it appears. A scripted tour plays through it until the visitor takes over.
+ *  - "case": a scripted interactive walkthrough component (for apps whose
+ *    interface can't be lifted out of their backend at all).
  */
 export type ProjectDemo =
   | { kind: "live"; src: string; /** natural render size of the embedded app */ width?: number; height?: number }
+  | { kind: "guided"; src: string; width?: number; height?: number }
   | { kind: "case"; id: "file-converter" | "gravitydl" | "audiobook" };
 
 export type Project = {
@@ -42,6 +48,25 @@ export type Project = {
    */
   images?: { src: string; caption: string; width: number; height: number }[];
   demo?: ProjectDemo;
+  /**
+   * What a `guided` demo really is, in this project's own terms — which parts are
+   * the product's code and which are fixtures. Shown under the frame, because the
+   * frame is convincing enough that not saying it would be a claim.
+   */
+  demoNote?: string;
+  /**
+   * Why the project exists, in someone else's words. Quoted from a primary source
+   * with a deep link back to it — short, attributed, and never the whole argument.
+   */
+  quotes?: {
+    text: string;
+    speaker: string;
+    source: string;
+    /** Deep link, timestamped where the source is a video. */
+    url: string;
+    /** What this project does about it. */
+    point: string;
+  }[];
 };
 
 export const projects: Project[] = [
@@ -61,19 +86,23 @@ export const projects: Project[] = [
     title: "HowlX",
     tagline: "Every support call, turned into intelligence",
     description:
-      "Upload a customer service call and get back a transcript, a sentiment read, key topics, and coaching feedback — then watch it roll up into per-company dashboards. An AI assistant sits beside every call to answer questions and draft follow-ups. Built with a six-person team at Tecnológico de Monterrey, where it took first place at Expo Ingenierías 2025 in the Technology for Business Entrepreneurship category.",
-    year: "2025",
+      "Upload a support call — audio, or a Zoom or Teams recording — and get back a diarized transcript and a structured report: summary, coaching feedback, key topics, emotions, risk words, a 0–5 agent rating and a 0–10 satisfaction score, each one a validated field rather than free text. Those scores roll up into per-company dashboards, and an assistant answers questions grounded in that call's report and full transcript. Built with a six-person team at Tecnológico de Monterrey, where it took first place at Expo Ingenierías 2025; I then rebuilt it to run from a single docker compose on any of six LLM providers — or entirely offline, with local Whisper, when the audio can't leave the building.",
+    year: "2025 — 2026",
     role: "AI Product Engineering",
     stack: [
       "Next.js 15",
       "tRPC",
       "Prisma",
       "FastAPI",
-      "RAG",
-      "Gemini",
       "Postgres",
+      "RAG",
+      "MCP",
+      "Docker",
     ],
     palette: ["#b48de7", "#1d112c"],
+    demo: { kind: "guided", src: "/demos/howlx/", width: 1280, height: 800 },
+    demoNote:
+      "This is built from the application's own components — the same navigation bar, call list, report panel and assistant the product renders — with tRPC, authentication and the analysis API swapped for fixtures. Every click works and the tour drives it for real; what it cannot do is think. No model runs, no call is transcribed, and the call it shows was written for this page.",
     images: [
       { src: "/images/howlx/landing.webp", caption: "Landing — silent observers, powerful insights", width: 1220, height: 880 },
       { src: "/images/howlx/home.webp", caption: "Call workspace — transcript, AI report, assistant", width: 1600, height: 680 },
@@ -87,12 +116,59 @@ export const projects: Project[] = [
     title: "Transcript Archive",
     tagline: "Watch once, search forever",
     description:
-      "Bulk-ingests entire YouTube channels into a local SQLite archive with full-text search, then serves the whole library to an AI model over MCP so it can answer from what was actually said instead of what it remembers. Reads the channel page grid directly to get past YouTube's 15-video RSS ceiling, skips anything already archived before spending a request, and backs off when YouTube starts throttling.",
+      "Bulk-ingests entire YouTube channels into a local SQLite archive, then answers questions from it — by keyword, by meaning, or through an AI model connected over MCP that reads what was actually said instead of recalling what it once saw. It follows channels and checks them twice a day at an unpredictable hour, keeps the video files so the record outlives the upload, and can transcribe with Whisper when YouTube publishes no captions — keeping both versions rather than overwriting one with the other. A hundred and thirty videos, half a million words, all on one machine.",
     year: "2026",
     role: "AI + Systems Engineering",
-    stack: ["Python", "FastAPI", "SQLite FTS5", "MCP", "Ollama", "React", "Docker"],
+    stack: [
+      "Python",
+      "FastAPI",
+      "SQLite FTS5",
+      "sqlite-vec",
+      "MCP",
+      "Ollama",
+      "Whisper",
+      "React",
+      "Docker",
+    ],
     palette: ["#8d9be7", "#11152c"],
     github: "https://github.com/jadrianlg16/yt-transcripts",
+    demo: { kind: "guided", src: "/demos/transcript-archive/", width: 1280, height: 800 },
+    demoNote:
+      "This is the archive's own screen — the same library list, search, topic model, digest and transcript pane the running product renders — with one module swapped: the HTTP client answers from a captured snapshot instead of the backend. Every click works. What it cannot do is reach YouTube, so pressing Fetch fails on purpose and says why. The titles, topics, weekly counts and failures are all real, taken from the running archive; the transcript excerpts are quoted from Nate B Jones with a link back to the video.",
+    quotes: [
+      {
+        text: "The problem is not a shortage of information. The problem is a shortage of signal.",
+        speaker: "Nate B Jones",
+        source: "I Watched 3 Companies Lay Off Their Managers",
+        url: "https://youtu.be/zhXgkQ3nYeE?t=234",
+        point:
+          "Full-text search across every transcript at once, then the passage — not the video.",
+      },
+      {
+        text: "Memory isn't there to save the conversation. Memory is an act of active curation.",
+        speaker: "Nate B Jones",
+        source: "The Missing Orchestration Layer Destroying Teams Right Now",
+        url: "https://youtu.be/7HP1jFJ9W1c?t=525",
+        point:
+          "An archive you shape — follow a channel, keep what matters, drop what doesn't — not a chat history that grows until it's useless.",
+      },
+      {
+        text: "You need to write to infrastructure you manage.",
+        speaker: "Nate B Jones",
+        source: "Anthropic And OpenAI Are Fighting Over Your Memory",
+        url: "https://youtu.be/4KAF72BTyCE?t=1276",
+        point:
+          "One SQLite file and a Docker compose on your own machine. No account, no API key, nothing leaves the box.",
+      },
+      {
+        text: "Without domain memory, every agent session ends up reinventing a definition of done.",
+        speaker: "Nate B Jones",
+        source: "Karpathy's Agent Ran 700 Experiments While He Slept",
+        url: "https://youtu.be/xnG8h3UnNFI?t=822",
+        point:
+          "Twelve read-only MCP tools, so the model you already use can answer from the archive instead of guessing.",
+      },
+    ],
   },
   {
     slug: "chess-analyzer",

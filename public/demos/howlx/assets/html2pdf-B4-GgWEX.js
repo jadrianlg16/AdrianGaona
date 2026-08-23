@@ -1,0 +1,1 @@
+import{z as r}from"./index-DmQl4S-L.js";const e={set:()=>e,from:()=>e,save:()=>(r("El PDF se genera en la aplicación real; esta demo exporta Markdown.",{icon:"📄"}),Promise.resolve())};function t(){return e}export{t as default};

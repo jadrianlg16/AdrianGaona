@@ -21,6 +21,14 @@ const DEMOS = [
   { id: "financial-sim", project: "../../tools/financial-sim" },
   // VITE_STORAGE=local swaps json-server for the localStorage adapter.
   { id: "tasklists", project: "../../tools/tasklists", env: { VITE_STORAGE: "local" } },
+  // Not the app — the app's own components, imported from ../howlx/web/src
+  // with tRPC, next-auth and the FastAPI service aliased to fixtures. See
+  // howlx/demo/README.md for what is real in it and what is not.
+  { id: "howlx", project: "../howlx/demo" },
+  // Not the app — the app's own screen, imported from
+  // ../../../backlog/yt-transcripts/frontend/src with axios aliased to a
+  // captured snapshot. See that project's demo/README.md.
+  { id: "transcript-archive", project: "../../../backlog/yt-transcripts/demo" },
 ];
 
 const only = process.argv[2];

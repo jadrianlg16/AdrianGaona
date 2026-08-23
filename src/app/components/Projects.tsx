@@ -178,7 +178,11 @@ function ProjectCard({
                 onClick={() => onLaunch(project)}
                 className="group inline-flex min-h-11 items-center gap-2 rounded-full border border-accent/50 bg-accent/10 px-4 py-2.5 font-mono text-xs uppercase tracking-widest text-accent transition-colors hover:bg-accent hover:text-ink sm:px-5 sm:text-sm"
               >
-                {demo.kind === "live" ? "Launch app" : "Play demo"}
+                {demo.kind === "live"
+                  ? "Launch app"
+                  : demo.kind === "guided"
+                    ? "Play the demo"
+                    : "Play demo"}
                 <span className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1">
                   ↗
                 </span>
@@ -328,10 +332,13 @@ function DemoVisual({
 }) {
   const demo = project.demo!;
   const CasePreview = demo.kind === "case" ? caseDemos[demo.id] : null;
+  // "live" and "guided" both embed a real build; what differs is whether
+  // anything is running behind it, which the badge below has to say.
+  const embedded = demo.kind === "live" || demo.kind === "guided";
 
   return (
     <div className="group absolute inset-0">
-      {demo.kind === "live" ? (
+      {embedded ? (
         <LivePreview
           src={demo.src}
           width={demo.width}
@@ -361,6 +368,13 @@ function DemoVisual({
               Live — real app
             </span>
           </>
+        ) : demo.kind === "guided" ? (
+          // The interface really is the product's, and it really is running —
+          // but the server behind it is a fixture, and saying "live" here
+          // would be claiming a model is working when none is.
+          <span className="font-mono text-[10px] uppercase tracking-widest text-muted">
+            Guided demo — real UI, sample data
+          </span>
         ) : (
           <span className="font-mono text-[10px] uppercase tracking-widest text-muted">
             Interactive walkthrough
@@ -376,7 +390,11 @@ function DemoVisual({
         className="absolute inset-0 flex items-end justify-end bg-transparent p-5 transition-colors duration-300 hover:bg-ink/20"
       >
         <span className="translate-y-2 rounded-full border border-accent/60 bg-ink/85 px-4 py-2 font-mono text-[11px] uppercase tracking-widest text-accent opacity-0 backdrop-blur-sm transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-          {demo.kind === "live" ? "Click to use it ↗" : "Play walkthrough ↗"}
+          {demo.kind === "live"
+            ? "Click to use it ↗"
+            : demo.kind === "guided"
+              ? "Click to take over ↗"
+              : "Play walkthrough ↗"}
         </span>
       </button>
     </div>

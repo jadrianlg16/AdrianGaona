@@ -64,7 +64,15 @@ export function DemoOverlay({
     { scope: rootRef }
   );
 
-  const isLive = demo.kind === "live";
+  // Both embedded kinds load a real build in the frame; only "live" has
+  // anything running behind it, so the chrome bar labels them apart.
+  const embedded = demo.kind === "live" || demo.kind === "guided";
+  const chromeLabel =
+    demo.kind === "live"
+      ? "live · running in your browser"
+      : demo.kind === "guided"
+        ? "guided demo · real interface, sample data"
+        : "interactive walkthrough";
   const CaseDemo = demo.kind === "case" ? caseDemos[demo.id] : null;
 
   return createPortal(
@@ -98,13 +106,13 @@ export function DemoOverlay({
               {project.title}
               <span className="hidden text-muted/50 sm:inline">
                 {" — "}
-                {isLive ? "live · running in your browser" : "interactive walkthrough"}
+                {chromeLabel}
               </span>
             </span>
           </div>
 
           <div className="flex items-center gap-2">
-            {isLive && (
+            {embedded && (
               <a
                 href={demo.src}
                 target="_blank"
@@ -127,10 +135,10 @@ export function DemoOverlay({
 
         {/* content */}
         <div className="relative flex-1 overflow-hidden">
-          {isLive ? (
+          {embedded ? (
             <iframe
               src={demo.src}
-              title={`${project.title} — live demo`}
+              title={`${project.title} — ${demo.kind === "live" ? "live demo" : "guided demo"}`}
               sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
               className="h-full w-full border-0 bg-ink"
             />

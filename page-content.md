@@ -128,8 +128,8 @@ Nine cards, all **data** — the `projects` array. Each has `title`, `tagline`,
 | # | Project | Tagline | Card shows | Source |
 |---|---|---|---|---|
 | 01 | Palladium | Notarial document management system | **gradient** | private |
-| 02 | HowlX | Every support call, turned into intelligence | screenshot gallery | private |
-| 03 | Transcript Archive | Watch once, search forever | **gradient** | [yt-transcripts](https://github.com/jadrianlg16/yt-transcripts) |
+| 02 | HowlX | Every support call, turned into intelligence | **guided demo** + gallery | private |
+| 03 | Transcript Archive | Watch once, search forever | **guided demo** | [yt-transcripts](https://github.com/jadrianlg16/yt-transcripts) |
 | 04 | Chess Analyzer | A grandmaster engine, running in your tab | **live app** | [chess-analyzer](https://github.com/jadrianlg16/chess-analyzer) |
 | 05 | Financial Sim | Uber vs. new car, simulated to the peso | **live app** | [financial-sim](https://github.com/jadrianlg16/financial-sim) |
 | 06 | Task Shuffler | Decision fatigue, deleted | **live app** | [task-shuffler](https://github.com/jadrianlg16/task-shuffler) |
@@ -137,15 +137,19 @@ Nine cards, all **data** — the `projects` array. Each has `title`, `tagline`,
 | 08 | GravityDL | A download manager with gravity | walkthrough | deliberately unpublished |
 | 09 | Audiobook Studio | Paste a book, press play | walkthrough | private |
 
-So: **three live apps, three scripted walkthroughs, one gallery, two gradients.**
-`live` runs the real app in a same-origin iframe. `case` renders a scripted
-walkthrough from `components/demos/`, labelled as such on the page.
+So: **three live apps, two guided demos, three scripted walkthroughs, one
+gradient.** `live` runs the real app in a same-origin iframe. `guided` runs the
+product's own interface with its network replaced by fixtures — real UI, sample
+data, labelled as such everywhere it appears. `case` renders a scripted
+walkthrough from `components/demos/`, also labelled.
 
-> **Two cards render a bare gradient, not one.** Palladium is the known gap. The
-> other is Transcript Archive — which has a public repo *and* the most technically
-> convincing description on the site, and still shows nothing. It is a local
-> FastAPI/SQLite tool so it cannot embed, but a screenshot gallery like HowlX's
-> would cost an afternoon and it sits at card 03, high in the deck.
+> **One card still renders a bare gradient: Palladium.** Transcript Archive used
+> to be the other one — a public repo with the most technically convincing
+> description on the site, showing nothing. It is a local FastAPI/SQLite tool so
+> it cannot embed as `live`, but its React screen can: `demo/` in that repo
+> imports the app's own components with axios pointed at a captured snapshot of
+> the real archive. Palladium is private, so the same trick needs a decision
+> about what may be shown before it can be applied.
 
 ---
 

@@ -62,6 +62,9 @@ export default async function ProjectPage({
   const previous = projects[index - 1];
   const next = projects[index + 1];
   const [glow] = project.palette;
+  const demo = project.demo;
+  /** Both of these load a real build in a frame; only one has a server. */
+  const embedded = demo && (demo.kind === "live" || demo.kind === "guided") ? demo : null;
 
   const schema = {
     "@context": "https://schema.org",
@@ -154,34 +157,60 @@ export default async function ProjectPage({
                 Visit the live site ↗
               </a>
             )}
-            {project.demo?.kind === "live" && (
+            {embedded && (
               <a
-                href={project.demo.src}
+                href={embedded.src}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full border border-bone/35 px-7 py-3.5 font-mono text-xs font-bold uppercase tracking-[0.18em] transition-colors duration-300 hover:border-accent hover:text-accent"
               >
-                Open the app full screen ↗
+                {embedded.kind === "live"
+                  ? "Open the app full screen ↗"
+                  : "Open the demo full screen ↗"}
               </a>
             )}
           </div>
         </header>
 
         {/* --- the app itself, where there is one to run ------------------ */}
-        {project.demo?.kind === "live" && (
+        {demo?.kind === "live" && (
           <section className="mt-16">
             <h2 className="font-display text-sm font-semibold uppercase tracking-[0.2em] text-bone">
               Running app — not a screenshot
             </h2>
             <div className="mt-5 overflow-hidden rounded-lg border border-line bg-ink-soft">
               <ProjectDemoFrame
-                src={project.demo.src}
+                src={demo.src}
                 title={`${project.title} — live demo`}
               />
             </div>
             <p className="mt-3 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-muted">
               Interactive · runs entirely in your browser · nothing leaves the page
             </p>
+          </section>
+        )}
+
+        {/* --- the real interface, minus the server it needs -------------- */}
+        {demo?.kind === "guided" && (
+          <section className="mt-16">
+            <h2 className="font-display text-sm font-semibold uppercase tracking-[0.2em] text-bone">
+              The real interface, without the server behind it
+            </h2>
+            <div className="mt-5 overflow-hidden rounded-lg border border-line bg-ink-soft">
+              <ProjectDemoFrame
+                src={demo.src}
+                title={`${project.title} — guided demo`}
+                blurb="The product's own interface, running on sample data. It's a sizeable download and built for a bigger screen, so it only starts when you ask it to."
+                runLabel="Play the demo here"
+              />
+            </div>
+            {/* Said plainly, because the frame is convincing enough that not
+                saying it would be a claim. */}
+            {project.demoNote && (
+              <p className="mt-3 max-w-[62ch] text-sm leading-relaxed text-bone/70">
+                {project.demoNote}
+              </p>
+            )}
           </section>
         )}
 
@@ -227,6 +256,44 @@ export default async function ProjectPage({
             >
               Open the walkthrough →
             </Link>
+          </section>
+        )}
+
+        {/* --- the case for it, in somebody else's words ------------------ */}
+        {project.quotes && project.quotes.length > 0 && (
+          <section className="mt-16">
+            <h2 className="font-display text-sm font-semibold uppercase tracking-[0.2em] text-bone">
+              Why it exists
+            </h2>
+            <div className="mt-6 grid gap-px overflow-hidden rounded-lg border border-line bg-line sm:grid-cols-2">
+              {project.quotes.map((quote) => (
+                <figure key={quote.url} className="bg-ink-soft p-6">
+                  <blockquote
+                    className="font-serif text-lg italic leading-snug"
+                    style={{ color: glow }}
+                  >
+                    &ldquo;{quote.text}&rdquo;
+                  </blockquote>
+                  <figcaption className="mt-3 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-muted">
+                    {quote.speaker} ·{" "}
+                    <a
+                      href={quote.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline decoration-line underline-offset-4 transition-colors hover:text-accent"
+                    >
+                      {quote.source} ↗
+                    </a>
+                  </figcaption>
+                  <p className="mt-4 border-t border-line pt-4 text-sm leading-relaxed text-bone/80">
+                    {quote.point}
+                  </p>
+                </figure>
+              ))}
+            </div>
+            <p className="mt-3 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-muted">
+              Quoted from the archive itself · every link is timestamped
+            </p>
           </section>
         )}
 
