@@ -145,7 +145,7 @@ export const projects: Project[] = [
           "Full-text search across every transcript at once, then the passage — not the video.",
       },
       {
-        text: "Memory isn't there to save the conversation. Memory is an act of active curation.",
+        text: "Memory isn't there to save the conversation … memory is an act of active curation.",
         speaker: "Nate B Jones",
         source: "The Missing Orchestration Layer Destroying Teams Right Now",
         url: "https://youtu.be/7HP1jFJ9W1c?t=525",
