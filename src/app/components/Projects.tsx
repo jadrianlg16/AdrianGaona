@@ -120,14 +120,21 @@ function ProjectCard({
         />
 
         {/* copy */}
-        <div className="project-copy relative z-10 flex flex-col justify-between p-5 sm:p-7 md:p-12">
+        <div className="project-copy fit-container relative z-10 flex flex-col justify-between p-5 sm:p-7 md:p-12">
           <div className="flex items-baseline justify-between font-mono text-sm text-muted">
             <span className="text-accent">{String(index + 1).padStart(2, "0")}</span>
             <span>{project.year}</span>
           </div>
 
           <div>
-            <h3 className="font-display type-display-3 font-bold uppercase leading-none tracking-tight">
+            {/* Titles wrap between words, but "TRANSCRIPT", "CONVERTER" and
+                "AUDIOBOOK" are each ~8.2em at this weight, wider than the copy
+                column at tablet widths (27px over at 820px). One --fit-em for
+                all nine cards keeps the deck's titles the same size. */}
+            <h3
+              style={{ "--fit-em": "8.3" } as React.CSSProperties}
+              className="fit-line font-display type-display-3 font-bold uppercase leading-none tracking-tight"
+            >
               {project.title}
             </h3>
             <p className="mt-3 font-serif italic text-xl text-bone/80 md:text-2xl">

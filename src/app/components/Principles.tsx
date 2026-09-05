@@ -39,13 +39,18 @@ export function Principles() {
     <section
       ref={rootRef}
       id="principles"
-      className="bg-ink-soft px-6 py-32 md:px-12 md:py-44"
+      className="fit-container bg-ink-soft px-6 py-32 md:px-12 md:py-44"
     >
       <p className="mb-10 font-mono text-xs uppercase tracking-[0.25em] text-muted">
         (04) — How I work
       </p>
 
-      <h2 className="principles-heading mb-20 font-display type-display-2 font-extrabold uppercase leading-[0.95] tracking-tight md:mb-28">
+      {/* "Extraordinary" measures 14.4em at this weight; below ~1450px it was
+          wider than the page and the reveal mask cut it. Capped, not wrapped. */}
+      <h2
+        style={{ "--fit-em": "14.5" } as React.CSSProperties}
+        className="principles-heading fit-line mb-20 font-display type-display-2 font-extrabold uppercase leading-[0.95] tracking-tight md:mb-28"
+      >
         <span className="clip-line">
           <span>Extraordinary</span>
         </span>

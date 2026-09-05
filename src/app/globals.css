@@ -71,22 +71,57 @@ body {
 
    The H1 is now the largest step at every viewport width. Keep it that way:
    each step is the one above divided by 1.333, in all three clamp positions.
+
+   Each step also publishes itself as --step so that .fit-line below can cap
+   it. Syne ExtraBold is an extended face: one word can be wider than the
+   viewport long before the clamp's vw term stops growing, and a line inside
+   .clip-line has nowhere to go but out of frame. Measured 2026-09-05, that
+   cut "ENGINEERING" at every width below ~1600px (185px lost at 1440, 40% of
+   the word on a 390px phone) and "EXTRAORDINARY" on every phone. Where the
+   cap bites, the H1 can end up below display-2 — on phones only, and only
+   because the word physically cannot be larger there.
 --------------------------------------------------------------------------- */
 .hero-title,
 .type-display-1 {
-  font-size: clamp(2.6rem, 9vw, 9rem);
+  --step: clamp(2.6rem, 9vw, 9rem);
+  font-size: var(--step);
 }
 
 .type-display-2 {
-  font-size: clamp(1.95rem, 6.75vw, 6.75rem);
+  --step: clamp(1.95rem, 6.75vw, 6.75rem);
+  font-size: var(--step);
 }
 
 .type-display-3 {
-  font-size: clamp(1.46rem, 5.06vw, 5.06rem);
+  --step: clamp(1.46rem, 5.06vw, 5.06rem);
+  font-size: var(--step);
 }
 
 .type-display-4 {
-  font-size: clamp(1.1rem, 3.8vw, 3.8rem);
+  --step: clamp(1.1rem, 3.8vw, 3.8rem);
+  font-size: var(--step);
+}
+
+/* Width guard for a display line that cannot wrap.
+
+   Give the nearest block that owns the line's available width "fit-container",
+   and the line (or its heading) "fit-line" with --fit-em set to the line's
+   width in em at its actual weight and tracking. The cap only bites when the
+   step's own size would not fit; above that it is a no-op, so the type scale
+   stays in charge wherever the word has room. Container units resolve against
+   the container's content box, so padding and the scrollbar are already taken
+   out — no vw arithmetic, no per-breakpoint clamp.
+
+   --fit-em is a measurement, not a guess. To re-measure after changing the
+   copy, weight or tracking: select the line's text with a Range and divide
+   getBoundingClientRect().width by the computed font-size; round up to the
+   next tenth. Browsers without container units keep the plain step size. */
+.fit-container {
+  container-type: inline-size;
+}
+
+.fit-line {
+  font-size: min(var(--step), calc(100cqi / var(--fit-em)));
 }
 
 /* Two jobs: keep the left-hand copy legible, and hand off to the page below.
@@ -400,7 +435,7 @@ body {
 
 @media (max-height: 500px) and (orientation: landscape) {
   .hero-title {
-    font-size: clamp(2.1rem, 7vw, 4rem);
+    --step: clamp(2.1rem, 7vw, 4rem);
   }
 
   .hero-content {

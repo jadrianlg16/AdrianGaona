@@ -52,9 +52,19 @@ export function Capabilities() {
             <span className="cap-reveal font-mono text-sm text-accent md:col-span-1">
               {cap.index}
             </span>
-            <h3 className="cap-reveal font-display type-display-3 font-bold uppercase leading-none tracking-tight transition-colors duration-300 group-hover:text-accent md:col-span-5">
-              {cap.title}
-            </h3>
+            {/* The title owns five columns, and "ENGINEERING" (8.0em at this
+                weight) is wider than five columns at every desktop width — it
+                ran ~45px into the description. The cell is the container so
+                the cap follows the grid; the same --fit-em on all three rows
+                keeps the three titles the same size. */}
+            <div className="fit-container md:col-span-5">
+              <h3
+                style={{ "--fit-em": "8.1" } as React.CSSProperties}
+                className="cap-reveal fit-line font-display type-display-3 font-bold uppercase leading-none tracking-tight transition-colors duration-300 group-hover:text-accent"
+              >
+                {cap.title}
+              </h3>
+            </div>
             <p className="cap-reveal max-w-md leading-relaxed text-bone/70 md:col-span-4">
               {cap.description}
             </p>

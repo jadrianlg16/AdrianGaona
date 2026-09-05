@@ -17,6 +17,27 @@ export function Nav() {
   const rootRef = useRef<HTMLElement>(null);
   const [time, setTime] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [pastHero, setPastHero] = useState(false);
+
+  // The header used to be a top-down gradient that is transparent by the time
+  // it reaches the logo's baseline, so anything scrolling under it — a card's
+  // index and year on a phone, a heading on desktop — printed straight through
+  // "AG©" and "Menu ≡". Over the hero the gradient is right (the photograph
+  // should run under the bar); past it, the bar needs a ground of its own.
+  // The root is inset by the bar's own height, so the switch happens the
+  // moment the hero's bottom edge slides under the bar — before the next
+  // section's first line can reach it — rather than a bar-height later.
+  useEffect(() => {
+    const hero = document.getElementById("top");
+    const bar = rootRef.current;
+    if (!hero || !bar) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setPastHero(!entry.isIntersecting),
+      { threshold: 0, rootMargin: "-" + bar.offsetHeight + "px 0px 0px 0px" }
+    );
+    observer.observe(hero);
+    return () => observer.disconnect();
+  }, []);
 
   // local time, Monterrey
   useEffect(() => {
@@ -61,7 +82,10 @@ export function Nav() {
   return (
     <header
       ref={rootRef}
-      className="fixed inset-x-0 top-0 z-50 bg-gradient-to-b from-ink/90 to-transparent"
+      data-past-hero={pastHero}
+      className={`fixed inset-x-0 top-0 z-50 border-b bg-gradient-to-b from-ink/90 to-transparent transition-[background-color,border-color] duration-300 ${
+        pastHero ? "border-line bg-ink/85 backdrop-blur-md" : "border-transparent"
+      }`}
     >
       <nav className="flex items-center justify-between px-6 py-5 md:px-12">
         <a

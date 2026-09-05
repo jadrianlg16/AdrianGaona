@@ -62,12 +62,18 @@ export function Hero() {
       {/* readability scrim over the alpine storm */}
       <div className="hero-scrim pointer-events-none absolute inset-0" />
 
-      <div className="hero-content hero-copy-shadow relative z-10 px-5 pb-10 pt-28 sm:px-6 sm:pb-14 md:px-12 md:pb-20">
+      <div className="hero-content hero-copy-shadow fit-container relative z-10 px-5 pb-10 pt-28 sm:px-6 sm:pb-14 md:px-12 md:pb-20">
         <p className="hero-fade mb-5 max-w-md translate-y-4 font-mono text-xs uppercase tracking-[0.22em] text-bone/85 opacity-0 md:mb-6 md:text-sm md:tracking-[0.25em]">
           Adrián Gaona — Field Notes
         </p>
 
-        <h1 className="hero-title font-display font-extrabold uppercase leading-[0.92] tracking-tight">
+        {/* "Engineering" is one unbreakable word in an extended face: 11.8em
+            wide at this weight and tracking. Capped to the container so the
+            word is never clipped by its own reveal mask (see .fit-line). */}
+        <h1
+          style={{ "--fit-em": "11.9" } as React.CSSProperties}
+          className="hero-title fit-line font-display font-extrabold uppercase leading-[0.92] tracking-tight"
+        >
           <span className="clip-line hero-line">
             <span className="translate-y-full">Engineering</span>
           </span>
