@@ -16,7 +16,7 @@ site says which is which.
 |---|---|
 | ![Chess Analyzer open in the demo overlay, showing the board and three engine lines](docs/demo-live.jpg) | ![HowlX open in the demo overlay, mid-tour, showing the upload dialog and the tour controls](docs/demo-guided.jpg) |
 
-**Contents:** [What's on the site](#whats-on-the-site) · [How the demos work](#how-the-demos-work) · [Engineering highlights](#engineering-highlights) · [Tech stack and design decisions](#tech-stack-and-design-decisions) · [Project structure](#project-structure) · [Getting started](#getting-started) · [Rebuilding the demos](#rebuilding-the-demos) · [Checks](#checks) · [Configuration](#configuration) · [Limitations](#limitations) · [License](#license) · [Author](#author)
+**Contents:** [What's on the site](#whats-on-the-site) · [How the demos work](#how-the-demos-work) · [Engineering highlights](#engineering-highlights) · [Tech stack and design decisions](#tech-stack-and-design-decisions) · [Project structure](#project-structure) · [Getting started](#getting-started) · [Tests, lint and CI](#tests-lint-and-ci) · [Rebuilding the demos](#rebuilding-the-demos) · [Configuration](#configuration) · [Limitations](#limitations) · [License](#license) · [Author](#author)
 
 ## What's on the site
 
@@ -36,12 +36,14 @@ site says which is which.
 - **A page per project** at `/work/<slug>` (for example
   [/work/howlx](https://www.adriangaona.dev/work/howlx)) with its own share image
   and structured data, so one project can be sent to one person.
-- **A downloadable résumé** at `/downloads/adrian-gaona-resume.pdf`.
+- **A downloadable résumé** at `/downloads/adrian-gaona-resume.pdf`, plus email,
+  GitHub and LinkedIn links. The same profiles are listed as `sameAs` in the
+  site's `Person` structured data.
 
 ## How the demos work
 
 ```text
-source repos, checked out beside this one
+source repos, checked out anywhere (default: beside this one)
   │   node scripts/build-demos.mjs
   │   (runs `npm run build -- --base=/demos/<id>/` in each, copies dist/)
   ▼
@@ -91,7 +93,12 @@ label each demo from its kind, so a guided demo is never presented as a live one
   cores, 4 GB or less memory, or Save-Data). Elsewhere it measures the real frame
   rate for two seconds and, under 24 fps, drops to 30 fps and fewer particles.
   [`scripts/check-frame-probe.mjs`](scripts/check-frame-probe.mjs) replays
-  synthetic frame timings against that rule.
+  synthetic frame timings against that rule as part of `npm test`.
+- **One source for the site's own URL.** Canonical URLs, Open Graph, the
+  sitemap, robots.txt and JSON-LD all come from
+  [`src/app/lib/site.ts`](src/app/lib/site.ts), which validates
+  `NEXT_PUBLIC_SITE_URL` at build time, so a typo fails the build instead of
+  publishing wrong canonical URLs.
 
 ## Tech stack and design decisions
 
@@ -105,14 +112,17 @@ label each demo from its kind, so a guided demo is never presented as a live one
 ## Project structure
 
 ```text
+.github/workflows/ci.yml   lint, type-check, test and build on every push
 scripts/
   build-demos.mjs          builds the source repos into public/demos/<id>/
-  check-frame-probe.mjs    replays frame timings against the hero's quality rule
+  check-frame-probe.mjs    tests the hero's quality rule against frame timings
 public/
   demos/                   committed bundles, one folder per demo
   images/, downloads/      hero art, photos, screenshots; résumé PDF
+cv/                        résumé source (.docx) and archived PDFs, not served
 src/app/
   lib/data.ts              projects and their demo kinds, capabilities, contact
+  lib/site.ts              the site's public URL (+ site.test.ts)
   components/
     DemoOverlay.tsx        the full-screen app window every demo opens in
     ProjectDemoFrame.tsx   the on-page demo frame on /work/<slug>
@@ -123,12 +133,13 @@ src/app/
   sitemap.ts, robots.ts, manifest.ts, opengraph-image.tsx
 next.config.ts             /demos/<id>/ → index.html rewrite
 THIRD-PARTY.md             third-party code and content inside public/demos/
+DEPLOY.md                  how the site is deployed on Vercel, and its DNS
 Dockerfile
 ```
 
 ## Getting started
 
-**Prerequisites:** Node.js 20.9 or newer and npm 10. Docker is optional.
+**Prerequisites:** Node.js 20.9 or newer (CI runs 20 and 22) and npm 10. Docker is optional.
 
 ```bash
 git clone https://github.com/jadrianlg16/AdrianGaona.git && cd AdrianGaona
@@ -155,34 +166,65 @@ docker build -t portfolio .
 docker run --rm -p 3000:3000 portfolio
 ```
 
+## Tests, lint and CI
+
+```bash
+npm test             # node:test, via tsx for the TypeScript module under test
+npm run lint         # ESLint (Next.js core-web-vitals + TypeScript rules), 0 warnings allowed
+npm run typecheck    # tsc --noEmit
+npm run build        # production build
+```
+
+`npm test` covers the two pieces of logic that can run outside a browser: the
+hero's frame-rate rule against synthetic timings (a 60 Hz screen at 30 fps must
+not count as slow; a backgrounded tab must not count at all), and the site URL
+rules (default, normalization, and the values that must fail the build). The
+rest of the site is layout and animation, checked by building it and using it.
+
+[`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs `npm ci`, then the
+four commands above, on Node 20 and 22 for every push.
+
 ## Rebuilding the demos
 
 Only needed after changing one of the source projects:
 
 ```bash
-node scripts/build-demos.mjs          # all five
-node scripts/build-demos.mjs chess    # one, by id
+node scripts/build-demos.mjs --list            # where each source will be read from
+node scripts/build-demos.mjs                   # all five
+node scripts/build-demos.mjs chess             # one, by id
+node scripts/build-demos.mjs chess --src path/to/chess-analyzer   # from any checkout
 ```
 
-Each source repo must be checked out, with `npm ci` run in it, at the relative
-path listed in `DEMOS` at the top of
-[`scripts/build-demos.mjs`](scripts/build-demos.mjs). An embeddable app builds
-to static files, uses base-relative asset URLs (`import.meta.env.BASE_URL`) and
-needs no backend at runtime.
+| Demo id | Source repo | Built from |
+|---|---|---|
+| `chess` | [chess-analyzer](https://github.com/jadrianlg16/chess-analyzer) | repo root |
+| `financial-sim` | [financial-sim](https://github.com/jadrianlg16/financial-sim) | repo root |
+| `tasklists` | [task-shuffler](https://github.com/jadrianlg16/task-shuffler) | repo root, with `VITE_STORAGE=local` |
+| `howlx` | [howlx](https://github.com/jadrianlg16/howlx) | `demo/`, which also needs `web/`'s dependencies |
+| `transcript-archive` | [yt-transcripts](https://github.com/jadrianlg16/yt-transcripts) | `demo/` |
 
-## Checks
+The script looks for each repo in this order: `--src <path>` (one demo at a
+time); an entry in `demos.local.json`, a git-ignored file mapping demo ids to
+checkout paths, relative to this repo or absolute; then a sibling folder named
+after the repo, such as `../chess-analyzer`.
 
-There is no unit-test suite. These are the checks:
-
-```bash
-npm run lint                        # ESLint, Next.js core-web-vitals + TypeScript rules
-npm run build                       # production build, includes the type check
-node scripts/check-frame-probe.mjs  # hero quality rule against synthetic frame timings
+```json
+{ "chess": "../chess", "howlx": "/code/howlx" }
 ```
+
+Each source needs its dependencies installed; `--install` runs `npm ci` in
+every folder that needs it first. `--out <dir>` writes to `<dir>/<id>/`
+instead of `public/demos/`. An embeddable app builds to static files, uses
+base-relative asset URLs (`import.meta.env.BASE_URL`) and needs no backend at
+runtime. The script fails if a bundle's `index.html` comes out without its
+`/demos/<id>/` base path.
 
 ## Configuration
 
-No app-specific environment variables; `PORT` (default 3000) is read by Next.js.
+| Variable | Default | Purpose |
+|---|---|---|
+| `NEXT_PUBLIC_SITE_URL` | `https://www.adriangaona.dev` | The site's public origin, used for canonical URLs, Open Graph, the sitemap, robots.txt and JSON-LD. Read at build time; must be an `http(s)` origin with no path. In Docker, pass it with `--build-arg NEXT_PUBLIC_SITE_URL=…`. |
+| `PORT` | `3000` | Port for `npm start` (read by Next.js). |
 
 ## Limitations
 
@@ -196,9 +238,6 @@ No app-specific environment variables; `PORT` (default 3000) is read by Next.js.
   still match; rebuild after changing a source project. The Transcript Archive
   demo's source (`demo/` in yt-transcripts) is not on that repo's public default
   branch yet, so its bundle can't be rebuilt from public code today.
-- **The site URL is hard-coded.** `https://adriangaona.dev` is written into
-  `layout.tsx`, `sitemap.ts`, `robots.ts` and `work/[slug]/page.tsx`. Change all
-  four to host the site under another domain.
 - **Analytics only work on Vercel.** Elsewhere, including the Docker image, the
   Vercel Analytics script request returns 404. The site still works.
 
