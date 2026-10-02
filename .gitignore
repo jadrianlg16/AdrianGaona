@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# where this machine keeps the demo source repos (scripts/build-demos.mjs)
+demos.local.json
