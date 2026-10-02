@@ -95,8 +95,9 @@ label each demo from its kind, so a guided demo is never presented as a live one
   tier on constrained devices (touch screens, viewports under 768 px, 4 or fewer
   cores, 4 GB or less memory, or Save-Data). Elsewhere it measures the real frame
   rate for two seconds and, under 24 fps, drops to 30 fps and fewer particles.
-  [`scripts/check-frame-probe.mjs`](scripts/check-frame-probe.mjs) replays
-  synthetic frame timings against that rule as part of `npm test`.
+  The rule lives in [`src/app/lib/frameProbe.ts`](src/app/lib/frameProbe.ts),
+  the module the component calls, and its tests replay synthetic frame timings
+  against it.
 - **One source for the site's own URL.** Canonical URLs, Open Graph, the
   sitemap, robots.txt and JSON-LD all come from
   [`src/app/lib/site.ts`](src/app/lib/site.ts), which validates
@@ -124,7 +125,6 @@ label each demo from its kind, so a guided demo is never presented as a live one
 .github/workflows/ci.yml   lint, type-check, test and build on every push
 scripts/
   build-demos.mjs          builds the source repos into public/demos/<id>/
-  check-frame-probe.mjs    tests the hero's quality rule against frame timings
 public/
   demos/                   committed bundles, one folder per demo
   images/, downloads/      hero art, photos, screenshots; résumé PDF
@@ -134,6 +134,8 @@ src/
 src/app/
   lib/data.ts              projects and their demo kinds, capabilities, contact
   lib/site.ts              the site's public URL (+ site.test.ts)
+  lib/frameProbe.ts        the hero's frame-rate check (+ frameProbe.test.ts)
+  lib/device.ts            the device signals that pick an animation's tier
   lib/sandbox.ts           each demo frame's sandbox (+ sandbox.test.ts)
   components/
     DemoOverlay.tsx        the full-screen app window every demo opens in

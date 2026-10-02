@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint --max-warnings 0 .",
     "typecheck": "tsc --noEmit",
-    "test": "node --import tsx --test --test-reporter=spec scripts/check-frame-probe.mjs src/app/lib/site.test.ts src/app/lib/sandbox.test.ts src/middleware.test.ts"
+    "test": "node --import tsx --test --test-reporter=spec src/app/lib/frameProbe.test.ts src/app/lib/site.test.ts src/app/lib/sandbox.test.ts src/middleware.test.ts"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

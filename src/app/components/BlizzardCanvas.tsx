@@ -1,11 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-
-type NavigatorWithHints = Navigator & {
-  connection?: { saveData?: boolean };
-  deviceMemory?: number;
-};
+import { isConstrainedDevice } from "../lib/device";
 
 type SnowParticle = {
   x: number;
@@ -24,17 +20,10 @@ export function BlizzardCanvas() {
     const context = canvas?.getContext("2d", { alpha: true });
     if (!canvas || !context) return;
 
-    const navigatorWithHints = navigator as NavigatorWithHints;
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
-    const constrained =
-      window.matchMedia("(pointer: coarse)").matches ||
-      window.innerWidth < 768 ||
-      navigator.hardwareConcurrency <= 4 ||
-      (navigatorWithHints.deviceMemory !== undefined &&
-        navigatorWithHints.deviceMemory <= 4) ||
-      navigatorWithHints.connection?.saveData === true;
+    const constrained = isConstrainedDevice();
 
     const targetFps = constrained ? 30 : 45;
     const particleCount = constrained ? 850 : 1900;

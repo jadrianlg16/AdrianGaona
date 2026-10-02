@@ -4,11 +4,8 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { useApp } from "./AppProvider";
-
-type NavigatorWithHints = Navigator & {
-  connection?: { saveData?: boolean };
-  deviceMemory?: number;
-};
+import { isConstrainedDevice } from "../lib/device";
+import { createFrameProbe } from "../lib/frameProbe";
 
 const SNOW_VERTEX = /* glsl */ `
   uniform float uTime;
@@ -84,18 +81,11 @@ export function AlpineScene() {
     const mount = canvasRef.current;
     if (!root || !mount) return;
 
-    const navigatorWithHints = navigator as NavigatorWithHints;
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
     const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
-    const constrained =
-      coarsePointer ||
-      window.innerWidth < 768 ||
-      navigator.hardwareConcurrency <= 4 ||
-      (navigatorWithHints.deviceMemory !== undefined &&
-        navigatorWithHints.deviceMemory <= 4) ||
-      navigatorWithHints.connection?.saveData === true;
+    const constrained = isConstrainedDevice();
 
     let renderer: THREE.WebGLRenderer | null = null;
     let geometry: THREE.BufferGeometry | null = null;
@@ -230,26 +220,8 @@ export function AlpineScene() {
       const targetFps = constrained ? 30 : 45;
       let frameDuration = 1000 / targetFps;
 
-      /**
-       * The tier check above reads pointer type, viewport, core count and RAM —
-       * none of which describe the GPU. A budget laptop reporting eight threads
-       * and 8 GB still renders like a phone, and on Firefox and Safari both
-       * deviceMemory and connection are undefined, so two of those five signals
-       * never fire at all.
-       *
-       * So after the scene is actually running, sample the frame rate we manage
-       * to hit and compare it against an absolute smoothness floor.
-       *
-       * The floor is absolute on purpose. Comparing against targetFps would
-       * misfire on healthy hardware: rAF is quantised to the display, so a
-       * 60Hz screen asked for 45fps renders every second callback and lands on
-       * exactly 30 — perfectly smooth, and 33% "under target". Below ~24fps is
-       * where motion actually starts reading as broken, on any display rate.
-       */
-      const SMOOTHNESS_FLOOR_FPS = 24;
-      let probeStartedAt = 0;
-      let probeFrames = 0;
-      let probeDone = constrained;
+      // A constrained device already starts on the lighter tier.
+      const probe = createFrameProbe({ skip: constrained });
 
       const dropTier = () => {
         if (!renderer || !geometry || !material) return;
@@ -276,22 +248,7 @@ export function AlpineScene() {
         const gap = now - lastRender;
         lastRender = now;
         render((now - startedAt) / 1000);
-
-        if (probeDone) return;
-        // Restart the window on the first frame (which carries shader
-        // compilation and would condemn a healthy GPU) and after any long gap,
-        // since a backgrounded tab or a main thread blocked by something else
-        // says nothing about how fast this machine can draw.
-        if (probeStartedAt === 0 || gap > frameDuration * 4) {
-          probeStartedAt = now;
-          probeFrames = 0;
-          return;
-        }
-        probeFrames += 1;
-        const sampled = now - probeStartedAt;
-        if (sampled < 2000) return;
-        probeDone = true;
-        if ((probeFrames / sampled) * 1000 < SMOOTHNESS_FLOOR_FPS) dropTier();
+        if (probe.sample(now, gap, frameDuration)) dropTier();
       };
 
       const onResize = () => {
