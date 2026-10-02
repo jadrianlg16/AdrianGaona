@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { NextRequest } from "next/server";
+import { unstable_doesMiddlewareMatch } from "next/experimental/testing/server";
 import { config, middleware } from "./middleware";
 
 test("adds the trailing slash to a demo URL, keeping the query", () => {
@@ -15,6 +16,12 @@ test("lets a demo URL that already has the slash through", () => {
   assert.equal(response.headers.get("x-middleware-next"), "1");
 });
 
-test("only runs on demo entry URLs, not their assets", () => {
-  assert.equal(config.matcher, "/demos/:id");
+test("runs on demo entry URLs only, never on their assets or other pages", () => {
+  const matches = (url: string) => unstable_doesMiddlewareMatch({ config, url });
+  assert.equal(matches("/demos/tasklists"), true);
+  assert.equal(matches("/demos/tasklists/"), true);
+  assert.equal(matches("/demos/tasklists/sw.js"), false);
+  assert.equal(matches("/demos/chess/assets/index.js"), false);
+  assert.equal(matches("/work/howlx"), false);
+  assert.equal(matches("/"), false);
 });
