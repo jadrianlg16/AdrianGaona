@@ -147,7 +147,7 @@ export const projects: Project[] = [
     github: "https://github.com/jadrianlg16/yt-transcripts",
     demo: { kind: "guided", src: "/demos/transcript-archive/", width: 1280, height: 800 },
     demoNote:
-      "This is the archive's own screen — the same library list, search, topic model, digest and transcript pane the running product renders — with one module swapped: the HTTP client answers from a captured snapshot instead of the backend. Every click works. What it cannot do is reach YouTube, so pressing Fetch fails on purpose and says why. The titles, topics, weekly counts and failures are all real, taken from the running archive; the transcript excerpts are quoted from Nate B Jones with a link back to the video.",
+      "This is the archive's own screen — the same library list, search, topic model, digest and transcript pane the running product renders — with one module swapped: the HTTP client answers from a captured snapshot instead of the backend. Every click works. What it cannot do is reach YouTube, so pressing Fetch fails on purpose and says why. The titles, topics, weekly counts and failures are all real, taken from the running archive; the transcript excerpts are quoted from videos by Nate B Jones and Nate Herk, each linked to its source.",
     quotes: [
       {
         text: "The problem is not a shortage of information. The problem is a shortage of signal.",
