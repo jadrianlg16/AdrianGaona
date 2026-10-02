@@ -1,13 +1,12 @@
 /**
- * ---------------------------------------------------------------------------
- * SITE CONTENT — edit everything here, no need to touch components.
+ * Site content: projects, capabilities, principles, the manifesto and contact
+ * details. Components render whatever is here. Copy that lives inside a
+ * component instead (the hero, section headings) is mapped in page-content.md.
  *
- * PROJECTS: replace the placeholder entries below with your real work.
- *  - `image` is optional. Drop a file in /public/projects/ and set
- *    image: "/projects/my-shot.png" — the card will show it instead of the
- *    generated gradient visual.
- *  - `palette` drives the gradient visual + card glow when no image is set.
- * ---------------------------------------------------------------------------
+ * A project card shows, in order of precedence (see Projects.tsx): its `demo`,
+ * an `images` gallery, a single `image` from public/images/, or a gradient
+ * generated from `palette`. The palette also tints the card's glow, the
+ * project page and its share card.
  */
 
 /**
