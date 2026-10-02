@@ -99,6 +99,12 @@ label each demo from its kind, so a guided demo is never presented as a live one
   [`src/app/lib/site.ts`](src/app/lib/site.ts), which validates
   `NEXT_PUBLIC_SITE_URL` at build time, so a typo fails the build instead of
   publishing wrong canonical URLs.
+- **Security headers on every response.** [`next.config.ts`](next.config.ts)
+  sends a Content Security Policy (`frame-ancestors 'self'`, so no other site
+  can frame these pages; `'wasm-unsafe-eval'` so Stockfish can compile), plus
+  `nosniff`, a referrer policy and a permissions policy that turns off camera,
+  microphone and geolocation. Every page and all five demos run under it with
+  no violations.
 
 ## Tech stack and design decisions
 
@@ -106,7 +112,7 @@ label each demo from its kind, so a guided demo is never presented as a live one
 |---|---|
 | Next.js 15 (App Router), React 19, TypeScript, Tailwind CSS 4 | Every route is prerendered at build time, including one page and one share image per project. Metadata, sitemap, robots and manifest are file-based. |
 | GSAP + ScrollTrigger, Lenis, three.js | Scroll-driven motion, smooth scrolling and the hero snowfall. Lenis is stopped while a demo overlay is open, so the page underneath doesn't scroll. |
-| Same-origin iframes for demos | Each app keeps its own build, dependencies and CSS, so no app can break another or the site. The same URL also opens full-screen in a new tab. |
+| Same-origin iframes for demos | Each app keeps its own build, dependencies and CSS, so no app can break another or the site's styles. The same URL also opens full-screen in a new tab. Each frame's `sandbox` comes from [`src/app/lib/sandbox.ts`](src/app/lib/sandbox.ts); see the limitation on isolation below. |
 | One content file | Projects (with their demo kinds), capabilities, principles and contact details live in `src/app/lib/data.ts`. Adding a project is an entry there, plus its demo bundle or walkthrough component if it has one. |
 
 ## Project structure
@@ -123,6 +129,7 @@ cv/                        résumé source (.docx) and archived PDFs, not served
 src/app/
   lib/data.ts              projects and their demo kinds, capabilities, contact
   lib/site.ts              the site's public URL (+ site.test.ts)
+  lib/sandbox.ts           each demo frame's sandbox (+ sandbox.test.ts)
   components/
     DemoOverlay.tsx        the full-screen app window every demo opens in
     ProjectDemoFrame.tsx   the on-page demo frame on /work/<slug>
@@ -131,7 +138,7 @@ src/app/
   work/[slug]/             per-project page and share image
   layout.tsx, page.tsx     site shell and homepage
   sitemap.ts, robots.ts, manifest.ts, opengraph-image.tsx
-next.config.ts             /demos/<id>/ → index.html rewrite
+next.config.ts             security headers; /demos/<id>/ → index.html rewrite
 THIRD-PARTY.md             third-party code and content inside public/demos/
 DEPLOY.md                  how the site is deployed on Vercel, and its DNS
 Dockerfile
@@ -175,11 +182,12 @@ npm run typecheck    # tsc --noEmit
 npm run build        # production build
 ```
 
-`npm test` covers the two pieces of logic that can run outside a browser: the
-hero's frame-rate rule against synthetic timings (a 60 Hz screen at 30 fps must
-not count as slow; a backgrounded tab must not count at all), and the site URL
-rules (default, normalization, and the values that must fail the build). The
-rest of the site is layout and animation, checked by building it and using it.
+`npm test` covers the logic that can run outside a browser: the hero's
+frame-rate rule against synthetic timings (a 60 Hz screen at 30 fps must not
+count as slow; a backgrounded tab must not count at all), the site URL rules
+(default, normalization, and the values that must fail the build), and the demo
+sandbox (an isolated demo never gets `allow-same-origin`). The rest of the site
+is layout and animation, checked by building it and using it.
 
 [`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs `npm ci`, then the
 four commands above, on Node 20 and 22 for every push.
@@ -238,6 +246,15 @@ runtime. The script fails if a bundle's `index.html` comes out without its
   still match; rebuild after changing a source project. The Transcript Archive
   demo's source (`demo/` in yt-transcripts) is not on that repo's public default
   branch yet, so its bundle can't be rebuilt from public code today.
+- **Only one demo is isolated from the site.** Financial Sim runs in a sandbox
+  with an opaque origin, so it cannot touch this site's pages or storage. The
+  other four use `localStorage` or `sessionStorage` as they start and break
+  without `allow-same-origin`, so their frames keep it. Combined with
+  `allow-scripts`, that flag is not a security boundary: their code could reach
+  the page around them. All five are built from the projects linked above and
+  committed here. The real fix is serving `/demos/` from a separate origin,
+  such as a `demos.` subdomain. Opening any demo full screen runs it on the
+  site's origin either way.
 - **Analytics only work on Vercel.** Elsewhere, including the Docker image, the
   Vercel Analytics script request returns 404. The site still works.
 
