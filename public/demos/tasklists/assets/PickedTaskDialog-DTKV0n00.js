@@ -1,0 +1,1 @@
+import{j as i}from"./index-9p8__wxG.js";import{P as t,S as n}from"./PickDialog-BCBW1rKg.js";import"./dialog-C0cCCozv.js";function m({task:r,onClose:e}){return i.jsx(t,{title:`Your next task: ${r.name}`,onClose:e,children:i.jsx(n,{winner:r,onClose:e})})}export{m as PickedTaskDialog};
