@@ -79,11 +79,14 @@ export function Nav() {
     else document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
   };
 
+  // bg-origin-border sizes the gradient to the border box. Sized to the padding
+  // box (the default), it repeats into the 1px transparent border and draws a
+  // dark line across the photograph.
   return (
     <header
       ref={rootRef}
       data-past-hero={pastHero}
-      className={`fixed inset-x-0 top-0 z-50 border-b bg-gradient-to-b from-ink/90 to-transparent transition-[background-color,border-color] duration-300 ${
+      className={`fixed inset-x-0 top-0 z-50 border-b bg-gradient-to-b bg-origin-border from-ink/90 to-transparent transition-[background-color,border-color] duration-300 ${
         pastHero ? "border-line bg-ink/85 backdrop-blur-md" : "border-transparent"
       }`}
     >
