@@ -30,11 +30,14 @@ const shouldAutoRun = () => {
 export function ProjectDemoFrame({
   src,
   title,
+  sandbox,
   blurb = "This is the real app, not a video. It's a sizeable download and built for a bigger screen, so it only starts when you ask it to.",
   runLabel = "Run the app here",
 }: {
   src: string;
   title: string;
+  /** From demoSandbox() in lib/sandbox.ts. */
+  sandbox: string;
   /** Why it isn't already running — differs for a demo that has no server. */
   blurb?: string;
   runLabel?: string;
@@ -54,6 +57,7 @@ export function ProjectDemoFrame({
       <iframe
         src={src}
         title={title}
+        sandbox={sandbox}
         loading="lazy"
         className="h-[70vh] max-h-[760px] min-h-[420px] w-full border-0"
       />

@@ -14,8 +14,11 @@ export function LivePreview({
   width = 1280,
   height = 800,
   title,
+  sandbox,
 }: {
   src: string;
+  /** From demoSandbox() in lib/sandbox.ts. */
+  sandbox: string;
   width?: number;
   height?: number;
   title: string;
@@ -68,7 +71,7 @@ export function LivePreview({
           aria-hidden
           tabIndex={-1}
           loading="lazy"
-          sandbox="allow-scripts allow-same-origin"
+          sandbox={sandbox}
           className="pointer-events-none absolute left-1/2 top-1/2 select-none border-0"
           style={{
             width,

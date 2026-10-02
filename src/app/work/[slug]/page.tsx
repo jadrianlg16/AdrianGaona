@@ -4,6 +4,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { projects } from "../../lib/data";
 import { SITE_URL } from "../../lib/site";
+import { demoSandbox } from "../../lib/sandbox";
 import { Footer } from "../../components/Footer";
 import { ProjectDemoFrame } from "../../components/ProjectDemoFrame";
 
@@ -181,6 +182,7 @@ export default async function ProjectPage({
               <ProjectDemoFrame
                 src={demo.src}
                 title={`${project.title} — live demo`}
+                sandbox={demoSandbox(demo)}
               />
             </div>
             <p className="mt-3 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-muted">
@@ -199,6 +201,7 @@ export default async function ProjectPage({
               <ProjectDemoFrame
                 src={demo.src}
                 title={`${project.title} — guided demo`}
+                sandbox={demoSandbox(demo)}
                 blurb="The product's own interface, running on sample data. It's a sizeable download and built for a bigger screen, so it only starts when you ask it to."
                 runLabel="Play the demo here"
               />

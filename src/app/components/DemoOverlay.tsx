@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { gsap, useGSAP } from "../lib/gsap";
 import { getLenis } from "./SmoothScroll";
 import type { Project } from "../lib/data";
+import { demoSandbox } from "../lib/sandbox";
 import { caseDemos } from "./demos";
 
 /**
@@ -139,7 +140,7 @@ export function DemoOverlay({
             <iframe
               src={demo.src}
               title={`${project.title} — ${demo.kind === "live" ? "live demo" : "guided demo"}`}
-              sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+              sandbox={demoSandbox(demo)}
               className="h-full w-full border-0 bg-ink"
             />
           ) : (

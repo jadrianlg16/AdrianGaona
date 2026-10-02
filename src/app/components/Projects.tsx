@@ -6,6 +6,7 @@ import Image from "next/image";
 import { gsap, useGSAP } from "../lib/gsap";
 import { projects, type Project } from "../lib/data";
 import { LivePreview } from "./LivePreview";
+import { demoSandbox } from "../lib/sandbox";
 import { DemoOverlay } from "./DemoOverlay";
 import { caseDemos } from "./demos";
 
@@ -88,7 +89,13 @@ export function Projects() {
       ))}
 
       {openProject && (
-        <DemoOverlay project={openProject} onClose={() => setOpenProject(null)} />
+        // Keyed per project so each demo gets a fresh iframe. Reusing one
+        // would load the next demo under the previous demo's sandbox flags.
+        <DemoOverlay
+          key={openProject.slug}
+          project={openProject}
+          onClose={() => setOpenProject(null)}
+        />
       )}
     </section>
   );
@@ -351,6 +358,7 @@ function DemoVisual({
           width={demo.width}
           height={demo.height}
           title={project.title}
+          sandbox={demoSandbox(demo)}
         />
       ) : (
         <div

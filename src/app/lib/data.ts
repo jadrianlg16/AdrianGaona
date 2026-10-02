@@ -22,9 +22,22 @@
  *  - "case": a scripted interactive walkthrough component (for apps whose
  *    interface can't be lifted out of their backend at all).
  */
+type EmbeddedDemo = {
+  src: string;
+  /** natural render size of the embedded app */
+  width?: number;
+  height?: number;
+  /**
+   * Frame it with an opaque origin, so it cannot reach this site's DOM or
+   * storage. Only for apps that run without storage and same-origin workers;
+   * see lib/sandbox.ts.
+   */
+  isolated?: boolean;
+};
+
 export type ProjectDemo =
-  | { kind: "live"; src: string; /** natural render size of the embedded app */ width?: number; height?: number }
-  | { kind: "guided"; src: string; width?: number; height?: number }
+  | ({ kind: "live" } & EmbeddedDemo)
+  | ({ kind: "guided" } & EmbeddedDemo)
   | { kind: "case"; id: "file-converter" | "gravitydl" | "audiobook" };
 
 export type Project = {
@@ -194,7 +207,7 @@ export const projects: Project[] = [
     stack: ["React", "Recharts", "Vite"],
     palette: ["#8de78d", "#112c11"],
     github: "https://github.com/jadrianlg16/financial-sim",
-    demo: { kind: "live", src: "/demos/financial-sim/", width: 1280, height: 800 },
+    demo: { kind: "live", src: "/demos/financial-sim/", width: 1280, height: 800, isolated: true },
   },
   {
     slug: "task-shuffler",

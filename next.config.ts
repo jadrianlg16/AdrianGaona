@@ -45,6 +45,14 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       { source: "/:path*", headers: securityHeaders },
+      // A demo framed with an opaque-origin sandbox (see src/app/lib/sandbox.ts)
+      // fetches its own module script and stylesheet in CORS mode, so its
+      // files must allow any origin. They are public static assets; this
+      // exposes nothing.
+      {
+        source: "/demos/:path*",
+        headers: [{ key: "Access-Control-Allow-Origin", value: "*" }],
+      },
     ];
   },
 
