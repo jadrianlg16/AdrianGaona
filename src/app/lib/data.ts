@@ -302,8 +302,10 @@ export const manifesto =
 export const contact = {
   email: "jesus@adriangaona.dev",
   location: "Nuevo León, México",
+  /** Rendered in the footer, and listed as `sameAs` in the Person JSON-LD. */
   socials: [
     { label: "GitHub", href: "https://github.com/jadrianlg16" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/jesus-lopez-95762b2b6" },
   ],
 };
 

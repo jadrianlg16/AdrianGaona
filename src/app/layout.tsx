@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Syne, Instrument_Serif } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { contact } from "./lib/data";
 import { SITE_URL } from "./lib/site";
 import "./globals.css";
 
@@ -104,7 +105,7 @@ const personSchema = {
   alternateName: "Adrián Gaona",
   url: SITE_URL,
   image: `${SITE_URL}/images/pfp.webp`,
-  email: "mailto:jesus@adriangaona.dev",
+  email: `mailto:${contact.email}`,
   jobTitle: "Software Engineer",
   description,
   address: {
@@ -112,7 +113,8 @@ const personSchema = {
     addressRegion: "Nuevo León",
     addressCountry: "MX",
   },
-  sameAs: ["https://github.com/jadrianlg16"],
+  // Lets search engines tie the profiles to this site as one person.
+  sameAs: contact.socials.map((social) => social.href),
   knowsAbout: [
     "Software engineering",
     "Full-stack web development",
