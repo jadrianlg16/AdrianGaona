@@ -1,20 +1,19 @@
 import type { MetadataRoute } from "next";
 import { projects } from "./lib/data";
-
-const siteUrl = "https://adriangaona.dev";
+import { SITE_URL } from "./lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
 
   return [
     {
-      url: siteUrl,
+      url: SITE_URL,
       lastModified,
       changeFrequency: "monthly",
       priority: 1,
     },
     ...projects.map((project) => ({
-      url: `${siteUrl}/work/${project.slug}`,
+      url: `${SITE_URL}/work/${project.slug}`,
       lastModified,
       changeFrequency: "monthly" as const,
       // Deliberately below the home page: these are entry points for shared

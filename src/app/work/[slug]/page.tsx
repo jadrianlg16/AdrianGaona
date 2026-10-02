@@ -3,10 +3,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { projects } from "../../lib/data";
+import { SITE_URL } from "../../lib/site";
 import { Footer } from "../../components/Footer";
 import { ProjectDemoFrame } from "../../components/ProjectDemoFrame";
-
-const siteUrl = "https://adriangaona.dev";
 
 export function generateStaticParams() {
   return projects.map((project) => ({ slug: project.slug }));
@@ -35,7 +34,7 @@ export async function generateMetadata({
     openGraph: {
       title: `${project.title} — ${project.tagline}`,
       description,
-      url: `${siteUrl}/work/${project.slug}`,
+      url: `${SITE_URL}/work/${project.slug}`,
       siteName: "Adrián Gaona",
       locale: "en_US",
       type: "article",
@@ -75,11 +74,11 @@ export default async function ProjectPage({
     applicationCategory: "DeveloperApplication",
     operatingSystem: "Web",
     dateCreated: project.year,
-    url: `${siteUrl}/work/${project.slug}`,
+    url: `${SITE_URL}/work/${project.slug}`,
     author: {
       "@type": "Person",
       name: "Jesús Adrián López Gaona",
-      url: siteUrl,
+      url: SITE_URL,
     },
     keywords: project.stack.join(", "),
     ...(project.github ? { codeRepository: project.github } : {}),
@@ -89,12 +88,12 @@ export default async function ProjectPage({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Work", item: `${siteUrl}/#work` },
+      { "@type": "ListItem", position: 1, name: "Work", item: `${SITE_URL}/#work` },
       {
         "@type": "ListItem",
         position: 2,
         name: project.title,
-        item: `${siteUrl}/work/${project.slug}`,
+        item: `${SITE_URL}/work/${project.slug}`,
       },
     ],
   };

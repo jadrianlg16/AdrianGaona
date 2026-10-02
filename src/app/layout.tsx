@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Syne, Instrument_Serif } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { SITE_URL } from "./lib/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -26,13 +27,12 @@ const instrument = Instrument_Serif({
   style: "italic",
 });
 
-const siteUrl = "https://adriangaona.dev";
 const title = "Jesús Adrián López Gaona | Software Engineer & AI Systems";
 const description =
   "Software engineer in Nuevo León, Mexico, building full-stack web platforms, AI systems, and business automation with Next.js, React, Python, and Django.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(SITE_URL),
   applicationName: "Adrián Gaona Portfolio",
   title: {
     default: title,
@@ -67,7 +67,7 @@ export const metadata: Metadata = {
   openGraph: {
     title,
     description,
-    url: siteUrl,
+    url: SITE_URL,
     siteName: "Adrián Gaona",
     locale: "en_US",
     type: "website",
@@ -102,8 +102,8 @@ const personSchema = {
   "@type": "Person",
   name: "Jesús Adrián López Gaona",
   alternateName: "Adrián Gaona",
-  url: siteUrl,
-  image: `${siteUrl}/images/pfp.webp`,
+  url: SITE_URL,
+  image: `${SITE_URL}/images/pfp.webp`,
   email: "mailto:jesus@adriangaona.dev",
   jobTitle: "Software Engineer",
   description,
