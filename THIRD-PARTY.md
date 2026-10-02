@@ -23,9 +23,9 @@ How the sources are credited:
 - In the demo's library list, every video shows its title and channel name.
   Opening a video shows its channel and a link to the source video on YouTube,
   and each transcript line links to that moment in the video.
-- The demo's footer bar names Nate B Jones and links the featured video. It
-  does not name Nate Herk, whose videos are credited only through the channel
-  name and source link above.
+- The demo's footer bar reads: "Transcript excerpts from videos by Nate B
+  Jones (AI News & Strategy Daily) and Nate Herk (AI Automation), each linked
+  to its source."
 - The Transcript Archive project page on the site quotes four short passages
   from Nate B Jones, each with a timestamped link back.
 
@@ -66,9 +66,13 @@ the rest of this repository's code.
 The remaining demo bundles (`financial-sim`, `tasklists`, `howlx`,
 `transcript-archive`) are built from npm packages under permissive licenses
 such as MIT and ISC (React, lucide-react), with license text retained in the
-built output where the upstream package included it. The `howlx` bundle also
-ships the Alexandria typeface, which is licensed under the SIL Open Font
-License 1.1.
+built output where the upstream package included it. Two bundles also ship
+typefaces under the SIL Open Font License 1.1: `howlx` carries Alexandria, and
+`financial-sim` carries Instrument Serif, Manrope and JetBrains Mono, with
+their license text in
+[`public/demos/financial-sim/fonts-LICENSE.txt`](public/demos/financial-sim/fonts-LICENSE.txt).
+The `tasklists` demo loads its fonts from Google Fonts at runtime instead of
+shipping them.
 
 The site itself installs its dependencies from npm at build time; they are not
 committed here. Most are MIT-licensed. GSAP and `@gsap/react` are distributed

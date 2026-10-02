@@ -48,7 +48,7 @@ source repos, checked out anywhere (default: beside this one)
   │   (runs `npm run build -- --base=/demos/<id>/` in each, copies dist/)
   ▼
 public/demos/<id>/          committed static bundles, one folder per app
-  │   next.config.ts rewrites /demos/<id> and /demos/<id>/ to index.html
+  │   /demos/<id> redirects to /demos/<id>/, which rewrites to index.html
   ▼
 same-origin <iframe>
   ├─ DemoOverlay        full-screen app window launched from the homepage
@@ -57,7 +57,10 @@ same-origin <iframe>
 
 The bundles are committed, so Vercel and Docker build this repo on its own,
 with no source repos present. [`next.config.ts`](next.config.ts) adds the
-directory-index rewrite that `public/` lacks.
+directory-index rewrite that `public/` lacks, and
+[`src/middleware.ts`](src/middleware.ts) keeps the trailing slash on a demo's
+URL, because the apps resolve relative URLs (Task Shuffler's service worker,
+for one) against it.
 
 Each demo has one of three kinds, a union type (`ProjectDemo`) in
 [`src/app/lib/data.ts`](src/app/lib/data.ts). The overlay and the project page
@@ -126,6 +129,8 @@ public/
   demos/                   committed bundles, one folder per demo
   images/, downloads/      hero art, photos, screenshots; résumé PDF
 cv/                        résumé source (.docx) and archived PDFs, not served
+src/
+  middleware.ts            /demos/<id> → /demos/<id>/ (+ middleware.test.ts)
 src/app/
   lib/data.ts              projects and their demo kinds, capabilities, contact
   lib/site.ts              the site's public URL (+ site.test.ts)
@@ -182,12 +187,17 @@ npm run typecheck    # tsc --noEmit
 npm run build        # production build
 ```
 
-`npm test` covers the logic that can run outside a browser: the hero's
-frame-rate rule against synthetic timings (a 60 Hz screen at 30 fps must not
-count as slow; a backgrounded tab must not count at all), the site URL rules
-(default, normalization, and the values that must fail the build), and the demo
-sandbox (an isolated demo never gets `allow-same-origin`). The rest of the site
-is layout and animation, checked by building it and using it.
+`npm test` covers the logic that can run outside a browser:
+
+- the hero's frame-rate rule against synthetic timings (a 60 Hz screen at
+  30 fps must not count as slow; a backgrounded tab must not count at all);
+- the site URL rules (default, normalization, and the values that must fail the
+  build);
+- the demo sandbox (an isolated demo never gets `allow-same-origin`);
+- the demo URL redirect (adds the slash, keeps the query, skips assets).
+
+The rest of the site is layout and animation, checked by building it and using
+it.
 
 [`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs `npm ci`, then the
 four commands above, on Node 20 and 22 for every push.
