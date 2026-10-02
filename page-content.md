@@ -19,15 +19,13 @@ Anything not listed here isn't copy — it's structure.
 | Title | Jesús Adrián López Gaona \| Software Engineer & AI Systems |
 | Title template | `%s \| Adrián Gaona` |
 | Description | Software engineer in Nuevo León, Mexico, building full-stack web platforms, AI systems, and business automation with Next.js, React, Python, and Django. |
-| Site URL | `https://adriangaona.dev` |
+| Site URL | `https://www.adriangaona.dev`, from `src/app/lib/site.ts` (override with `NEXT_PUBLIC_SITE_URL`) |
 | Locale | `en_US` |
 | Theme colour | `#071015` |
 
 Also carries the `Person` JSON-LD: name, `alternateName` "Adrián Gaona", job title
-"Software Engineer", Nuevo León / MX, the `/images/pfp.webp` avatar, and `sameAs`.
-
-> `sameAs` currently lists **only GitHub**. A LinkedIn URL belongs here — it is how
-> a search engine merges scattered profiles into one entity.
+"Software Engineer", Nuevo León / MX, the `/images/pfp.webp` avatar, and `sameAs`,
+which lists the GitHub and LinkedIn profiles from `contact.socials` in `data.ts`.
 
 Social share cards are generated, not written: `src/app/opengraph-image.tsx` for
 the site, `src/app/work/[slug]/opengraph-image.tsx` per project.
@@ -63,10 +61,10 @@ live Monterrey clock (`MTY 00:00`). Below `md` the links collapse behind
 | Copy | Line |
 |---|---|
 | `Adrián Gaona — Field Notes` | 67 |
-| `Engineering` / `leverage.` — the H1, split across two animated lines | 72, 77 |
-| `Web platforms and AI systems that turn busywork into momentum.` | 86 |
-| `Open to internships & freelance` + `Final-year B.Eng. · Dec 2026 · Nuevo León, MX` | 99, 101 |
-| `Onward ↓` | 109 |
+| `Engineering` / `leverage.` — the H1, split across two animated lines | 78, 83 |
+| `Web platforms and AI systems that turn busywork into momentum.` | 92 |
+| `Open to internships & freelance` + `Final-year B.Eng. · Dec 2026 · Nuevo León, MX` | 105, 107 |
+| `Onward ↓` | 115 |
 
 "leverage" is the serif accent word. The hero image is
 `/images/alpine-penguin-hero-v2.webp`, with a three.js snowfield over it.
@@ -156,7 +154,7 @@ walkthrough from `components/demos/`, also labelled.
 ## (04) How I work — `components/Principles.tsx`
 
 Eyebrow `(04) — How I work` at line 45. Heading `Extraordinary is a habit`
-(lines 50–54; "habit" is the serif accent). The four entries are **data** —
+(lines 55–59; "habit" is the serif accent). The four entries are **data** —
 `principles`:
 
 **01 · Discipline** — Extraordinary is not a moment — it's a practice. Show up
@@ -191,24 +189,33 @@ details nobody notices are the reason everything feels right.
 ## Footer — `components/Footer.tsx`
 
 `Adrián Gaona.` · `{contact.location}` — currently "Nuevo León, México" · the
-`contact.socials` list · `© {year} — adriangaona.dev`. The year is computed.
+`contact.socials` links, **GitHub** and **LinkedIn** · `© {year} — adriangaona.dev`.
+The year is computed.
 
 ---
 
 ## Project pages — `src/app/work/[slug]/page.tsx`
 
 One page per project at `/work/<slug>`. All content comes from the same
-`projects` entry; the page adds only these fixed strings:
+`projects` entry. Two fields appear only here, not on the card: `demoNote`
+(under a guided demo, saying what is product code and what is a fixture) and
+`quotes` (the "Why it exists" section, used by Transcript Archive). The page
+adds these fixed strings:
 
 `← All work` · `Source on GitHub ↗` · `Visit the live site ↗` ·
-`Open the app full screen ↗` · `Running app — not a screenshot` ·
+`Open the app full screen ↗` / `Open the demo full screen ↗` ·
+`Running app — not a screenshot` ·
 `Interactive · runs entirely in your browser · nothing leaves the page` ·
+`The real interface, without the server behind it` · `Play the demo here` ·
 `From the real product` · `This one needs a server` · `Open the walkthrough →` ·
+`Why it exists` · `Quoted from the archive itself · every link is timestamped` ·
 `Role` · `Year` · `Built with`
 
-> These pages currently add nothing a reader didn't already get from the card.
-> The routing, metadata, structured data and share cards are in place; the
-> writing is not.
+The on-page demo frame (`components/ProjectDemoFrame.tsx`) adds `Run the app
+here` and its explanation when it waits for a tap.
+
+> Apart from those two fields, these pages repeat the card's text. The routing,
+> metadata, structured data and share cards are in place; the writing is not.
 
 ---
 
