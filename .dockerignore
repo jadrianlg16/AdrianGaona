@@ -1,6 +1,5 @@
 node_modules
-.next
-.git
-.claude
 npm-debug.log*
-.env*.local
+# Dot-entries at the root: .git, .next, .env files, editor and tool folders.
+# None of them belong in the image, and secrets in .env* must never reach it.
+.*
