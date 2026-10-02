@@ -1,5 +1,6 @@
 node_modules
 npm-debug.log*
-# Dot-entries at the root: .git, .next, .env files, editor and tool folders.
-# None of them belong in the image, and secrets in .env* must never reach it.
-.*
+demos.local.json
+# Every dot-entry at the root (.git, .next, .env files, editor and tool
+# folders). Written as .?* because a bare .* also matches the context root.
+.?*
