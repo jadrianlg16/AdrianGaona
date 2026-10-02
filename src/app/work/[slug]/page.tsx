@@ -147,16 +147,6 @@ export default async function ProjectPage({
                 Source on GitHub ↗
               </a>
             )}
-            {project.link && (
-              <a
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-bone/35 px-7 py-3.5 font-mono text-xs font-bold uppercase tracking-[0.18em] transition-colors duration-300 hover:border-accent hover:text-accent"
-              >
-                Visit the live site ↗
-              </a>
-            )}
             {embedded && (
               <a
                 href={embedded.src}

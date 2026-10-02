@@ -4,8 +4,7 @@
  * component instead (the hero, section headings) is mapped in page-content.md.
  *
  * A project card shows, in order of precedence (see Projects.tsx): its `demo`,
- * an `images` gallery, a single `image` from public/images/, or a gradient
- * generated from `palette`. The palette also tints the card's glow, the
+ * an `images` gallery, or a gradient generated from `palette`. The palette also tints the card's glow, the
  * project page and its share card.
  */
 
@@ -49,14 +48,11 @@ export type Project = {
   role: string;
   stack: string[];
   palette: [string, string];
-  link?: string;
   /** public repo URL — the card shows a GitHub link when set */
   github?: string;
-  image?: string;
   /**
    * Real screenshots, shown as an auto-advancing gallery in the card visual.
    * Use for apps that need a backend and so can't run as a `live` demo.
-   * Takes precedence over `image`.
    */
   images?: { src: string; caption: string; width: number; height: number }[];
   demo?: ProjectDemo;
@@ -179,7 +175,7 @@ export const projects: Project[] = [
         source: "Karpathy's Agent Ran 700 Experiments While He Slept",
         url: "https://youtu.be/xnG8h3UnNFI?t=822",
         point:
-          "Twelve read-only MCP tools, so the model you already use can answer from the archive instead of guessing.",
+          "Read-only MCP tools, so the model you already use can answer from the archive instead of guessing.",
       },
     ],
   },

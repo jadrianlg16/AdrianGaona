@@ -63,8 +63,8 @@ live Monterrey clock (`MTY 00:00`). Below `md` the links collapse behind
 | `Adrián Gaona — Field Notes` | 67 |
 | `Engineering` / `leverage.` — the H1, split across two animated lines | 78, 83 |
 | `Web platforms and AI systems that turn busywork into momentum.` | 92 |
-| `Open to internships & freelance` + `Final-year B.Eng. · Dec 2026 · Nuevo León, MX` | 105, 107 |
-| `Onward ↓` | 115 |
+| `Open to internships & freelance` + `Final-year B.Eng. · Dec 2026 · Nuevo León, MX` | 103, 105 |
+| `Onward ↓` | 113 |
 
 "leverage" is the serif accent word. The hero image is
 `/images/alpine-penguin-hero-v2.webp`, with a three.js snowfield over it.
@@ -111,13 +111,13 @@ numbers visible.
 
 | Copy | Line |
 |---|---|
-| `(03) — Selected work` | 58 |
-| `Built to actually run` — "actually" is the serif accent, "run" is outlined | 65–69 |
-| `Cards marked live run the real app — launch one and use it.` | 76 |
+| `(03) — Selected work` | 59 |
+| `Built to actually run` — "actually" is the serif accent, "run" is outlined | 64–68 |
+| `Cards marked live run the real app — launch one and use it.` | 73 |
 
 Nine cards, all **data** — the `projects` array. Each has `title`, `tagline`,
 `description`, `year`, `role`, `stack`, `palette`, and optionally `github`,
-`link`, `images`, `demo`. Card order is array order.
+`images`, `demo`. Card order is array order.
 
 | # | Project | Tagline | Card shows | Source |
 |---|---|---|---|---|
@@ -187,7 +187,7 @@ One page per project at `/work/<slug>`. All content comes from the same
 `quotes` (the "Why it exists" section, used by Transcript Archive). The page
 adds these fixed strings:
 
-`← All work` · `Source on GitHub ↗` · `Visit the live site ↗` ·
+`← All work` · `Source on GitHub ↗` ·
 `Open the app full screen ↗` / `Open the demo full screen ↗` ·
 `Running app — not a screenshot` ·
 `Interactive · runs entirely in your browser · nothing leaves the page` ·

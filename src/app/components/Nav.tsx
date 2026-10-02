@@ -19,14 +19,12 @@ export function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [pastHero, setPastHero] = useState(false);
 
-  // The header used to be a top-down gradient that is transparent by the time
-  // it reaches the logo's baseline, so anything scrolling under it — a card's
-  // index and year on a phone, a heading on desktop — printed straight through
-  // "AG©" and "Menu ≡". Over the hero the gradient is right (the photograph
-  // should run under the bar); past it, the bar needs a ground of its own.
-  // The root is inset by the bar's own height, so the switch happens the
-  // moment the hero's bottom edge slides under the bar — before the next
-  // section's first line can reach it — rather than a bar-height later.
+  // Over the hero the bar is a gradient, so the photograph runs under it. Past
+  // the hero it needs a ground of its own: the gradient is transparent by the
+  // logo's baseline, and content scrolling under it would print through
+  // "AG©" and "Menu ≡". The root is inset by the bar's own height, so the
+  // switch happens the moment the hero's bottom edge slides under the bar,
+  // before the next section's first line can reach it.
   useEffect(() => {
     const hero = document.getElementById("top");
     const bar = rootRef.current;
@@ -115,9 +113,8 @@ export function Nav() {
 
         <div className="flex items-center gap-4 font-mono text-xs uppercase tracking-widest">
           <span className="hidden text-bone/60 md:inline">MTY {time}</span>
-          {/* The page is roughly sixteen screens tall. On a phone the only
-              control used to be "Contact ↓", so every other section could only
-              be reached by scrolling the whole way. */}
+          {/* The page is many screens tall, so on a phone every section needs
+              to be one tap away, not only Contact. */}
           <button
             type="button"
             onClick={() => setMenuOpen((open) => !open)}

@@ -58,10 +58,8 @@ export function Projects() {
         <p className="mb-6 font-mono text-xs uppercase tracking-[0.25em] text-muted">
           (03) — Selected work
         </p>
-        {/* Was "Built to move numbers", under which there was not a single
-            number — no users, hours, latency or cost on any of the nine. A
-            heading should promise what the section can actually show, and what
-            this one shows is working software you can open right here. */}
+        {/* The heading promises only what the section can show: working
+            software that opens right here, not outcomes it has no numbers for. */}
         <h2 className="font-display type-display-2 font-extrabold uppercase leading-none tracking-tight">
           Built to{" "}
           <span className="font-serif italic font-normal normal-case text-accent">
@@ -69,10 +67,8 @@ export function Projects() {
           </span>{" "}
           <span className="text-stroke">run</span>
         </h2>
-        {/* Was "real apps running on this page", which is only true on a wide
-            screen — the card previews are hidden below md, so on a phone the
-            copy promised something the visitor could not see. Launching still
-            runs the real app on every device, so that is what it claims now. */}
+        {/* The card previews are hidden below md, so this claims what holds on
+            every device: launching a card runs the real app. */}
         <p className="mt-6 max-w-md font-mono text-xs uppercase tracking-[0.2em] text-muted">
           Cards marked <span className="text-accent">live</span> run the real
           app — launch one and use it.
@@ -168,57 +164,45 @@ function ProjectCard({
               {project.role}
             </span>
             <span className="flex items-center gap-4">
-            {/* Deep link: lets a single project be sent to a single person,
-                and gives the route an internal link so it gets crawled. */}
-            <Link
-              href={`/work/${project.slug}`}
-              className="inline-flex min-h-11 items-center font-mono text-xs uppercase tracking-widest text-muted transition-colors hover:text-accent"
-            >
-              Details →
-            </Link>
-            {project.github && (
-              <a
-                href={project.github}
-                target="_blank"
-                rel="noopener noreferrer"
+              {/* Deep link: lets a single project be sent to a single person,
+                  and gives the route an internal link so it gets crawled. */}
+              <Link
+                href={`/work/${project.slug}`}
                 className="inline-flex min-h-11 items-center font-mono text-xs uppercase tracking-widest text-muted transition-colors hover:text-accent"
               >
-                GitHub ↗
-              </a>
-            )}
-            {demo ? (
-              <button
-                type="button"
-                onClick={() => onLaunch(project)}
-                className="group inline-flex min-h-11 items-center gap-2 rounded-full border border-accent/50 bg-accent/10 px-4 py-2.5 font-mono text-xs uppercase tracking-widest text-accent transition-colors hover:bg-accent hover:text-ink sm:px-5 sm:text-sm"
-              >
-                {demo.kind === "live"
-                  ? "Launch app"
-                  : demo.kind === "guided"
-                    ? "Play the demo"
-                    : "Play demo"}
-                <span className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1">
-                  ↗
-                </span>
-              </button>
-            ) : (
-              project.link && (
+                Details →
+              </Link>
+              {project.github && (
                 <a
-                  href={project.link}
-                  className="group inline-flex items-center gap-2 font-mono text-sm uppercase tracking-widest text-bone transition-colors hover:text-accent"
+                  href={project.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex min-h-11 items-center font-mono text-xs uppercase tracking-widest text-muted transition-colors hover:text-accent"
                 >
-                  View case
+                  GitHub ↗
+                </a>
+              )}
+              {demo && (
+                <button
+                  type="button"
+                  onClick={() => onLaunch(project)}
+                  className="group inline-flex min-h-11 items-center gap-2 rounded-full border border-accent/50 bg-accent/10 px-4 py-2.5 font-mono text-xs uppercase tracking-widest text-accent transition-colors hover:bg-accent hover:text-ink sm:px-5 sm:text-sm"
+                >
+                  {demo.kind === "live"
+                    ? "Launch app"
+                    : demo.kind === "guided"
+                      ? "Play the demo"
+                      : "Play demo"}
                   <span className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1">
                     ↗
                   </span>
-                </a>
-              )
-            )}
+                </button>
+              )}
             </span>
           </div>
         </div>
 
-        {/* visual: live mini-app, walkthrough, image, or generated gradient */}
+        {/* visual: live mini-app, walkthrough, screenshots, or generated gradient */}
         <div className="project-visual relative hidden overflow-hidden md:block">
           {demo ? (
             <DemoVisual project={project} onLaunch={onLaunch} />
@@ -227,14 +211,6 @@ function ProjectCard({
               shots={project.images}
               title={project.title}
               palette={project.palette}
-            />
-          ) : project.image ? (
-            <Image
-              src={project.image}
-              alt={`${project.title} — ${project.tagline}`}
-              fill
-              sizes="(min-width: 768px) 50vw, 100vw"
-              className="object-cover"
             />
           ) : (
             <GeneratedVisual project={project} index={index} />

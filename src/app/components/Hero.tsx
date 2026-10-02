@@ -91,11 +91,9 @@ export function Hero() {
           <p className="hero-fade max-w-md translate-y-4 text-balance text-base leading-relaxed text-bone opacity-0 md:text-lg">
             Web platforms and AI systems that turn busywork into momentum.
           </p>
-          {/* The only statement of level used to be the last line before the
-              footer, while this badge said "Available for work" — so a reader
-              spent the whole page assuming a working professional and had that
-              corrected at the very bottom. Saying it in the first seconds costs
-              nothing and stops the profile collapsing on arrival. */}
+          {/* State the level here, in the first seconds, rather than only at
+              the bottom of the page: a reader should know from the start that
+              this is a final-year student open to internships. */}
           <div className="hero-fade flex translate-y-4 items-start gap-3 font-mono text-xs uppercase tracking-widest text-bone opacity-0">
             <span className="relative mt-1 flex h-2 w-2 shrink-0">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60 motion-reduce:animate-none" />
