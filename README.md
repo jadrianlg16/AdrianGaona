@@ -153,7 +153,7 @@ Dockerfile
 
 ## Getting started
 
-**Prerequisites:** Node.js 20.9 or newer (CI runs 20 and 22) and npm 10. Docker is optional.
+**Prerequisites:** Node.js 20.9 or newer, as `engines` in `package.json` says; CI runs 22 and 24, the current LTS lines. npm 10. Docker is optional.
 
 ```bash
 git clone https://github.com/jadrianlg16/AdrianGaona.git && cd AdrianGaona
@@ -202,7 +202,7 @@ The rest of the site is layout and animation, checked by building it and using
 it.
 
 [`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs `npm ci`, then the
-four commands above, on Node 20 and 22 for every push.
+four commands above, on Node 22 and 24 for every push.
 
 ## Rebuilding the demos
 
