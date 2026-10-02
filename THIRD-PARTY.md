@@ -47,7 +47,7 @@ license text is at
 [`public/demos/chess/vendor/stockfish/LICENSE`](public/demos/chess/vendor/stockfish/LICENSE).
 
 - Upstream source: <https://github.com/official-stockfish/Stockfish>
-- WASM build source: <https://github.com/lichess-org/stockfish.wasm>
+- WASM build: Stockfish.js 18 (Chess.com / Nathan Rugg), <https://github.com/nmrugg/stockfish.js>, npm `stockfish@18.0.7`, `bin/` files unmodified.
 
 Per GPL-3.0 §6, the corresponding source for these binaries is available from
 the upstream repositories above. No modifications were made to the engine.
