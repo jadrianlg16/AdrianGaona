@@ -12,6 +12,12 @@ import { caseDemos } from "./demos";
  * Full-screen "app window" a project launches into: chrome bar with status,
  * open-in-new-tab for live demos, Esc/backdrop/✕ to close. Live demos load
  * the real embedded app; case demos render their interactive walkthrough.
+ *
+ * It behaves as a modal dialog: focus moves to the close button on open, Tab
+ * cycles inside the window (sentinels at either end catch focus leaving the
+ * iframe), and focus returns to the launching button on close. Esc pressed
+ * inside an embedded app stays with the app, which may use it for its own
+ * dialogs, so the close button is the way out from there.
  */
 export function DemoOverlay({
   project,
@@ -23,6 +29,7 @@ export function DemoOverlay({
   const rootRef = useRef<HTMLDivElement>(null);
   const backdropRef = useRef<HTMLDivElement>(null);
   const windowRef = useRef<HTMLDivElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
   const closing = useRef(false);
   const demo = project.demo!;
 
@@ -52,6 +59,24 @@ export function DemoOverlay({
       lenis?.start();
     };
   }, [close]);
+
+  // Focus in on open, back to the launching control on close.
+  useEffect(() => {
+    const opener = document.activeElement as HTMLElement | null;
+    closeRef.current?.focus({ preventScroll: true });
+    return () => opener?.focus({ preventScroll: true });
+  }, []);
+
+  /** Wraps Tab around the window: `edge` is the sentinel that took focus. */
+  const wrapFocus = (edge: "start" | "end") => {
+    const focusable = [
+      ...(windowRef.current?.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), iframe, input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      ) ?? []),
+    ].filter((el) => el.getClientRects().length > 0); // skip what is hidden at this width
+    if (!focusable.length) return;
+    (edge === "start" ? focusable[focusable.length - 1] : focusable[0]).focus();
+  };
 
   useGSAP(
     () => {
@@ -90,6 +115,7 @@ export function DemoOverlay({
         className="absolute inset-0 bg-ink/85 backdrop-blur-sm"
       />
 
+      <span tabIndex={0} onFocus={() => wrapFocus("start")} className="sr-only" />
       <div
         ref={windowRef}
         className="absolute inset-2 flex flex-col overflow-hidden rounded-xl border border-line bg-ink-soft shadow-2xl md:inset-6 lg:inset-x-14 lg:inset-y-8"
@@ -124,6 +150,7 @@ export function DemoOverlay({
               </a>
             )}
             <button
+              ref={closeRef}
               type="button"
               onClick={close}
               aria-label="Close demo"
@@ -152,6 +179,7 @@ export function DemoOverlay({
           )}
         </div>
       </div>
+      <span tabIndex={0} onFocus={() => wrapFocus("end")} className="sr-only" />
     </div>,
     document.body
   );
