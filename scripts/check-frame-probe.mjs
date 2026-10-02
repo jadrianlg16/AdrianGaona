@@ -1,5 +1,8 @@
 /**
- * Checks the adaptive-quality probe in components/AlpineScene.tsx.
+ * Checks the adaptive-quality probe in components/AlpineScene.tsx against
+ * synthetic frame timings. Runs as part of `npm test`, or on its own:
+ *
+ *   node scripts/check-frame-probe.mjs
  *
  * The state machine is mirrored here rather than imported, because in the
  * component it is a closure inside a WebGL effect that cannot run in Node.
@@ -9,9 +12,10 @@
  * rAF callback and lands on exactly 30fps. That is healthy, not slow. An
  * earlier version compared against targetFps and would have degraded quality
  * for every desktop visitor — hence the absolute floor.
- *
- *   node scripts/check-frame-probe.mjs
  */
+import assert from "node:assert/strict";
+import { test } from "node:test";
+
 const SMOOTHNESS_FLOOR_FPS = 24;
 
 function runProbe(frameGaps, { targetFps = 45, constrained = false } = {}) {
@@ -62,7 +66,7 @@ const cases = [
     expectDegraded: true,
   },
   {
-    name: "borderline ~34fps (just above the 75% floor)",
+    name: "~34fps: under the 45fps target, but smooth",
     gaps: rep(200, 29.4),
     expectDegraded: false,
   },
@@ -94,14 +98,13 @@ const cases = [
   },
 ];
 
-let failures = 0;
 for (const c of cases) {
-  const result = runProbe(c.gaps, { targetFps: 45, ...(c.opts ?? {}) });
-  const ok = result.degraded === c.expectDegraded;
-  if (!ok) failures += 1;
-  console.log(
-    `${ok ? "PASS" : "FAIL"}  ${c.name}\n        degraded=${result.degraded} (expected ${c.expectDegraded}), framesSampled=${result.probeFrames}`
-  );
+  test(c.name, () => {
+    const result = runProbe(c.gaps, { targetFps: 45, ...(c.opts ?? {}) });
+    assert.equal(
+      result.degraded,
+      c.expectDegraded,
+      `degraded=${result.degraded}, framesSampled=${result.probeFrames}`
+    );
+  });
 }
-console.log(failures === 0 ? "\nAll probe cases passed." : `\n${failures} FAILED`);
-process.exit(failures === 0 ? 0 : 1);
