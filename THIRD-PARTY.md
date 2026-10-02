@@ -51,9 +51,17 @@ the rest of this repository's code.
 
 ## Everything else
 
-The remaining demo bundles (`financial-sim`, `tasklists`) and the site itself
-use npm dependencies under MIT/ISC/Apache-2.0, with license text retained in
-the built output where the upstream package included it.
+The remaining demo bundles (`financial-sim`, `tasklists`, `howlx`,
+`transcript-archive`) are built from npm packages under permissive licenses
+such as MIT and ISC (React, lucide-react), with license text retained in the
+built output where the upstream package included it. The `howlx` bundle also
+ships the Alexandria typeface, which is licensed under the SIL Open Font
+License 1.1.
+
+The site itself installs its dependencies from npm at build time; they are not
+committed here. Most are MIT-licensed. GSAP and `@gsap/react` are distributed
+under GSAP's own no-charge
+[Standard License](https://gsap.com/standard-license).
 
 ---
 
