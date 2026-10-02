@@ -105,10 +105,6 @@ process automation, and analytics that give teams their hours back and make the
 numbers visible.
 `Process Automation` · `Internal Tools` · `Analytics & Dashboards` · `Systems Design`
 
-> The `Evals & Guardrails` chip is the only claim on the site with nothing behind
-> it anywhere — no project names an eval, a metric, a test set or an injection.
-> Either back it or drop it.
-
 ---
 
 ## (03) Selected work — `components/Projects.tsx`
@@ -140,14 +136,6 @@ gradient.** `live` runs the real app in a same-origin iframe. `guided` runs the
 product's own interface with its network replaced by fixtures — real UI, sample
 data, labelled as such everywhere it appears. `case` renders a scripted
 walkthrough from `components/demos/`, also labelled.
-
-> **One card still renders a bare gradient: Palladium.** Transcript Archive used
-> to be the other one — a public repo with the most technically convincing
-> description on the site, showing nothing. It is a local FastAPI/SQLite tool so
-> it cannot embed as `live`, but its React screen can: `demo/` in that repo
-> imports the app's own components with axios pointed at a captured snapshot of
-> the real archive. Palladium is private, so the same trick needs a decision
-> about what may be shown before it can be applied.
 
 ---
 
@@ -181,9 +169,6 @@ details nobody notices are the reason everything feels right.
 | `Download résumé` → `/downloads/adrian-gaona-resume.pdf` | 78 |
 | `Currently open to internships, freelance & ambitious ideas` | 87 |
 
-> The hero now carries the same status, so this reads as a closing restatement
-> rather than a correction arriving too late.
-
 ---
 
 ## Footer — `components/Footer.tsx`
@@ -213,9 +198,6 @@ adds these fixed strings:
 
 The on-page demo frame (`components/ProjectDemoFrame.tsx`) adds `Run the app
 here` and its explanation when it waits for a tap.
-
-> Apart from those two fields, these pages repeat the card's text. The routing,
-> metadata, structured data and share cards are in place; the writing is not.
 
 ---
 
