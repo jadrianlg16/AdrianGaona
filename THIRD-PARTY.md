@@ -6,19 +6,31 @@ third-party code that is redistributed here, most of it under permissive
 licenses recorded in the individual bundles. The items below need explicit
 attribution.
 
-## Transcript excerpts — Nate B Jones
+## Transcript excerpts — Nate B Jones and Nate Herk
 
 `public/demos/transcript-archive/` ships a snapshot of a personal research
-archive. Among the video titles and channel names are short caption excerpts
-from videos published by **Nate B Jones** (*AI News & Strategy Daily*), used to
-show what the archive's interface does with a transcript.
+archive: the titles, channel names and short caption excerpts of sixteen videos
+by two YouTube creators, used to show what the archive's interface does with a
+transcript. In total that is about 90 seconds of one video and six lines each
+from fifteen others:
 
-- About two minutes of one video, and six lines each of fourteen others.
-- Credited on screen inside the demo, with a link to the source video.
-- The project page quotes four sentences with timestamped links back.
+- **Nate B Jones** (*AI News & Strategy Daily*): about 90 seconds of one video,
+  which is the demo's featured transcript, and six lines each from five others.
+- **Nate Herk** (*Nate Herk | AI Automation*): six lines each from ten videos.
+
+How the sources are credited:
+
+- In the demo's library list, every video shows its title and channel name.
+  Opening a video shows its channel and a link to the source video on YouTube,
+  and each transcript line links to that moment in the video.
+- The demo's footer bar names Nate B Jones and links the featured video. It
+  does not name Nate Herk, whose videos are credited only through the channel
+  name and source link above.
+- The Transcript Archive project page on the site quotes four short passages
+  from Nate B Jones, each with a timestamped link back.
 
 These are quotations for illustration and commentary, not a republication of the
-work. Every one links to the original video. If the rights holder would rather
+work. Every excerpt links to its original video. If a rights holder would rather
 they were not here, remove `src/fixtures/archive.json` from the demo project and
 rebuild — the interface runs the same on any archive.
 

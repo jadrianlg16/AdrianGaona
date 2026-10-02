@@ -16,20 +16,7 @@ site says which is which.
 |---|---|
 | ![Chess Analyzer open in the demo overlay, showing the board and three engine lines](docs/demo-live.jpg) | ![HowlX open in the demo overlay, mid-tour, showing the upload dialog and the tour controls](docs/demo-guided.jpg) |
 
-## Contents
-
-- [What's on the site](#whats-on-the-site)
-- [How the demos work](#how-the-demos-work)
-- [Engineering highlights](#engineering-highlights)
-- [Tech stack and design decisions](#tech-stack-and-design-decisions)
-- [Project structure](#project-structure)
-- [Getting started](#getting-started)
-- [Rebuilding the demos](#rebuilding-the-demos)
-- [Checks](#checks)
-- [Configuration](#configuration)
-- [Limitations](#limitations)
-- [License](#license)
-- [Author](#author)
+**Contents:** [What's on the site](#whats-on-the-site) · [How the demos work](#how-the-demos-work) · [Engineering highlights](#engineering-highlights) · [Tech stack and design decisions](#tech-stack-and-design-decisions) · [Project structure](#project-structure) · [Getting started](#getting-started) · [Rebuilding the demos](#rebuilding-the-demos) · [Checks](#checks) · [Configuration](#configuration) · [Limitations](#limitations) · [License](#license) · [Author](#author)
 
 ## What's on the site
 
@@ -46,10 +33,9 @@ site says which is which.
 - **Scripted walkthroughs** for apps whose interface can't run without its
   backend: File Converter ([source](https://github.com/jadrianlg16/file-converter)),
   GravityDL and Audiobook Studio.
-- **A page per project** at `/work/<slug>`, for example
-  [/work/chess-analyzer](https://www.adriangaona.dev/work/chess-analyzer) or
-  [/work/howlx](https://www.adriangaona.dev/work/howlx), with its own share
-  image and structured data, so a single project can be sent to a single person.
+- **A page per project** at `/work/<slug>` (for example
+  [/work/howlx](https://www.adriangaona.dev/work/howlx)) with its own share image
+  and structured data, so one project can be sent to one person.
 - **A downloadable résumé** at `/downloads/adrian-gaona-resume.pdf`.
 
 ## How the demos work
@@ -67,36 +53,27 @@ same-origin <iframe>
   └─ ProjectDemoFrame   on-page frame on /work/<slug>
 ```
 
-Each demo has one of three kinds, declared per project in
-[`src/app/lib/data.ts`](src/app/lib/data.ts):
+The bundles are committed, so Vercel and Docker build this repo on its own,
+with no source repos present. [`next.config.ts`](next.config.ts) adds the
+directory-index rewrite that `public/` lacks.
 
-- **live**: the app's real production build, running entirely in the browser.
-  In the chess demo, Stockfish really is computing in the visitor's tab.
-- **guided**: an app that needs a server, rebuilt from its own components with
-  the network layer swapped for fixtures. Every click works and a scripted tour
-  plays until the visitor takes over. The data is a fixture: a call written for
-  the demo in HowlX, a captured snapshot of the real archive in Transcript Archive.
-- **case**: a scripted walkthrough component in
+Each demo has one of three kinds, a union type (`ProjectDemo`) in
+[`src/app/lib/data.ts`](src/app/lib/data.ts). The overlay and the project page
+label each demo from its kind, so a guided demo is never presented as a live one:
+
+- **live** ("live · running in your browser"): the app's real production
+  build. In the chess demo, Stockfish really is computing in the visitor's tab.
+- **guided** ("guided demo · real interface, sample data"): an app that needs a
+  server, rebuilt from its own components with the network layer swapped for
+  fixtures. Every click works and a scripted tour plays until the visitor takes
+  over. A `demoNote` printed under the frame says which parts are product code
+  and which are fixtures.
+- **case** ("interactive walkthrough"): a scripted walkthrough in
   [`src/app/components/demos/`](src/app/components/demos/), for apps whose
   interface can't be separated from their backend.
 
 ## Engineering highlights
 
-- **The demos are the real builds, committed.**
-  [`scripts/build-demos.mjs`](scripts/build-demos.mjs) builds each source repo
-  with its base path set to `/demos/<id>/` and copies the output into
-  `public/demos/`. Committing the output means Vercel and Docker build this repo
-  on its own, with no sibling repos present.
-  [`next.config.ts`](next.config.ts) adds the rewrite that `public/` lacks:
-  `/demos/<id>/` serves that app's `index.html`.
-- **Honest labels are part of the type.** `ProjectDemo` in
-  [`src/app/lib/data.ts`](src/app/lib/data.ts) is a union of `live`, `guided`
-  and `case`, and every surface labels them from it: the
-  [`DemoOverlay.tsx`](src/app/components/DemoOverlay.tsx) title bar reads
-  "live · running in your browser", "guided demo · real interface, sample data" or
-  "interactive walkthrough". Guided demos also carry a `demoNote` that the project
-  page prints under the frame, saying which parts are product code and which are
-  fixtures.
 - **On project pages, heavy demos wait until they are affordable.** The chess
   bundle ships a ~7 MB Stockfish WebAssembly binary.
   [`ProjectDemoFrame.tsx`](src/app/components/ProjectDemoFrame.tsx) starts a demo
@@ -121,8 +98,7 @@ Each demo has one of three kinds, declared per project in
 | Choice | Why |
 |---|---|
 | Next.js 15 (App Router), React 19, TypeScript, Tailwind CSS 4 | Every route is prerendered at build time, including one page and one share image per project. Metadata, sitemap, robots and manifest are file-based. |
-| GSAP + ScrollTrigger, Lenis | Scroll-driven motion and smooth scrolling. Lenis is stopped while a demo overlay is open, so the page underneath doesn't scroll. |
-| three.js | The snowfall over the hero image, with the adaptive quality tiers above. |
+| GSAP + ScrollTrigger, Lenis, three.js | Scroll-driven motion, smooth scrolling and the hero snowfall. Lenis is stopped while a demo overlay is open, so the page underneath doesn't scroll. |
 | Same-origin iframes for demos | Each app keeps its own build, dependencies and CSS, so no app can break another or the site. The same URL also opens full-screen in a new tab. |
 | One content file | Projects (with their demo kinds), capabilities, principles and contact details live in `src/app/lib/data.ts`. Adding a project is an entry there, plus its demo bundle or walkthrough component if it has one. |
 
@@ -133,10 +109,8 @@ scripts/
   build-demos.mjs          builds the source repos into public/demos/<id>/
   check-frame-probe.mjs    replays frame timings against the hero's quality rule
 public/
-  demos/                   committed bundles: chess, financial-sim, tasklists,
-                           howlx, transcript-archive
-  images/                  hero art, profile photo, HowlX screenshots
-  downloads/               résumé PDF
+  demos/                   committed bundles, one folder per demo
+  images/, downloads/      hero art, photos, screenshots; résumé PDF
 src/app/
   lib/data.ts              projects and their demo kinds, capabilities, contact
   components/
@@ -144,9 +118,7 @@ src/app/
     ProjectDemoFrame.tsx   the on-page demo frame on /work/<slug>
     AlpineScene.tsx        three.js hero with adaptive quality
     demos/                 scripted walkthroughs (kind "case")
-  work/[slug]/
-    page.tsx               per-project page with JSON-LD
-    opengraph-image.tsx    per-project share image
+  work/[slug]/             per-project page and share image
   layout.tsx, page.tsx     site shell and homepage
   sitemap.ts, robots.ts, manifest.ts, opengraph-image.tsx
 next.config.ts             /demos/<id>/ → index.html rewrite
@@ -174,8 +146,7 @@ npm run build
 npm start          # http://localhost:3000
 ```
 
-`npm run dev` and `npm run build` share the `.next/` folder. If you used the dev
-server after building, run `npm run build` again before `npm start`.
+If you ran the dev server after building, build again first: both use `.next/`.
 
 **Docker:**
 
@@ -193,13 +164,11 @@ node scripts/build-demos.mjs          # all five
 node scripts/build-demos.mjs chess    # one, by id
 ```
 
-Each source repo must be checked out at the relative path listed in `DEMOS` at
-the top of [`scripts/build-demos.mjs`](scripts/build-demos.mjs), with its
-dependencies installed (`npm ci` in that repo). An app can be embedded if it
-builds to static files, uses base-path-relative asset URLs
-(`import.meta.env.BASE_URL`) and needs no backend. The script builds Task
-Shuffler with `VITE_STORAGE=local`, which swaps its JSON server for
-`localStorage`.
+Each source repo must be checked out, with `npm ci` run in it, at the relative
+path listed in `DEMOS` at the top of
+[`scripts/build-demos.mjs`](scripts/build-demos.mjs). An embeddable app builds
+to static files, uses base-relative asset URLs (`import.meta.env.BASE_URL`) and
+needs no backend at runtime.
 
 ## Checks
 
@@ -213,11 +182,7 @@ node scripts/check-frame-probe.mjs  # hero quality rule against synthetic frame 
 
 ## Configuration
 
-The site reads no environment variables of its own.
-
-| Variable | Default | Purpose |
-|---|---|---|
-| `PORT` | `3000` | Port for `npm start`, read by Next.js. The Dockerfile sets it to `3000`. |
+No app-specific environment variables; `PORT` (default 3000) is read by Next.js.
 
 ## Limitations
 
@@ -227,14 +192,13 @@ The site reads no environment variables of its own.
   model runs and no call is transcribed. In the Transcript Archive demo, Fetch
   fails on purpose because there is no backend to reach YouTube. The
   walkthroughs are scripted re-creations of each app's flow, not the app itself.
-- **Rebuilding needs the source repos side by side.** The Transcript Archive
+- **Committed bundles can drift from their source.** Nothing checks that they
+  still match; rebuild after changing a source project. The Transcript Archive
   demo's source (`demo/` in yt-transcripts) is not on that repo's public default
-  branch yet, so its committed bundle can't be rebuilt from public code today.
-- **Nothing checks that a committed bundle still matches its source.** Rebuild
-  after changing a source project.
-- **The site URL is a constant.** `siteUrl` is repeated in `layout.tsx`,
-  `sitemap.ts`, `robots.ts` and `work/[slug]/page.tsx`. Change all four to host
-  the site under another domain.
+  branch yet, so its bundle can't be rebuilt from public code today.
+- **The site URL is hard-coded.** `https://adriangaona.dev` is written into
+  `layout.tsx`, `sitemap.ts`, `robots.ts` and `work/[slug]/page.tsx`. Change all
+  four to host the site under another domain.
 - **Analytics only work on Vercel.** Elsewhere, including the Docker image, the
   Vercel Analytics script request returns 404. The site still works.
 
@@ -243,8 +207,8 @@ The site reads no environment variables of its own.
 Copyright © 2026 Adrián Gaona. All rights reserved. The source is public so it
 can be read and evaluated; no license is granted to reuse or redistribute it.
 
-The demo bundles in `public/demos/` contain third-party code under its own
-licenses, listed in [THIRD-PARTY.md](THIRD-PARTY.md). The one with copyleft
+The demo bundles in `public/demos/` contain third-party code and transcript
+excerpts, listed in [THIRD-PARTY.md](THIRD-PARTY.md). The one with copyleft
 terms is **Stockfish 18** (GPL-3.0-or-later), shipped unmodified in
 `public/demos/chess/vendor/stockfish/` with its
 [license text](public/demos/chess/vendor/stockfish/LICENSE). It runs as a
