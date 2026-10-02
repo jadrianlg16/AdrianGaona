@@ -7,9 +7,9 @@ import type { NextConfig } from "next";
  * script-src keeps 'unsafe-inline' because Next.js inlines its bootstrap
  * scripts, and nonces would need a server render per request on a site that is
  * otherwise fully static. 'wasm-unsafe-eval' lets Stockfish compile its
- * WebAssembly. Google Fonts are loaded by the financial-sim and tasklists
- * demos. frame-ancestors 'self' allows the site to frame its own demos and
- * stops anyone else from framing any page.
+ * WebAssembly. The tasklists demo loads Google Fonts. frame-ancestors 'self'
+ * allows the site to frame its own demos and stops anyone else from framing
+ * any page.
  */
 const contentSecurityPolicy = [
   "default-src 'self'",
@@ -46,7 +46,7 @@ const nextConfig: NextConfig = {
     return [
       { source: "/:path*", headers: securityHeaders },
       // A demo framed with an opaque-origin sandbox (see src/app/lib/sandbox.ts)
-      // fetches its own module script and stylesheet in CORS mode, so its
+      // fetches its own scripts, stylesheets and fonts in CORS mode, so its
       // files must allow any origin. They are public static assets; this
       // exposes nothing.
       {
@@ -56,19 +56,21 @@ const nextConfig: NextConfig = {
     ];
   },
 
+  // A demo is served at /demos/<id>/ and resolves relative URLs (a service
+  // worker, a web manifest) against that trailing slash. Next.js would strip
+  // it with a redirect; this turns that off, src/middleware.ts adds the slash
+  // to demo URLs instead, and the redirect below keeps stripping it everywhere
+  // else.
+  skipTrailingSlashRedirect: true,
+
+  async redirects() {
+    return [{ source: "/:path((?!demos/).+)/", destination: "/:path", permanent: true }];
+  },
+
   // public/ has no directory-index resolution, so /demos/<id>/ needs an
   // explicit rewrite to the embedded app's index.html (see scripts/build-demos.mjs).
   async rewrites() {
-    return [
-      {
-        source: "/demos/:id",
-        destination: "/demos/:id/index.html",
-      },
-      {
-        source: "/demos/:id/",
-        destination: "/demos/:id/index.html",
-      },
-    ];
+    return [{ source: "/demos/:id/", destination: "/demos/:id/index.html" }];
   },
 };
 
