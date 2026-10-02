@@ -180,6 +180,9 @@ docker build -t portfolio .
 docker run --rm -p 3000:3000 portfolio
 ```
 
+The image runs Next's standalone server as an unprivileged user, so it holds
+only the traced runtime files, not the build toolchain.
+
 ## Tests, lint and CI
 
 ```bash

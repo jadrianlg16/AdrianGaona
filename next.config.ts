@@ -41,6 +41,9 @@ const nextConfig: NextConfig = {
   // stays correct on any machine.
   outputFileTracingRoot: process.cwd(),
   poweredByHeader: false,
+  // The Docker image ships Next's standalone server: only the traced runtime
+  // files, not the whole dev toolchain. Vercel builds without it.
+  ...(process.env.BUILD_STANDALONE === "1" ? { output: "standalone" as const } : {}),
 
   async headers() {
     return [
