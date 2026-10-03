@@ -133,7 +133,7 @@ function ProjectCard({
             {/* Titles wrap between words, but "TRANSCRIPT", "CONVERTER" and
                 "AUDIOBOOK" are each ~8.2em at this weight, wider than the copy
                 column at tablet widths (27px over at 820px). One --fit-em for
-                all nine cards keeps the deck's titles the same size. */}
+                every card keeps the deck's titles the same size. */}
             <h3
               style={{ "--fit-em": "8.3" } as React.CSSProperties}
               className="fit-line font-display type-display-3 font-bold uppercase leading-none tracking-tight"
