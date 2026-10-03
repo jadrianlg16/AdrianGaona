@@ -115,7 +115,7 @@ numbers visible.
 | `Built to actually run` — "actually" is the serif accent, "run" is outlined | 64–68 |
 | `Cards marked live run the real app — launch one and use it.` | 73 |
 
-Nine cards, all **data** — the `projects` array. Each has `title`, `tagline`,
+Eleven cards, all **data** — the `projects` array. Each has `title`, `tagline`,
 `description`, `year`, `role`, `stack`, `palette`, and optionally `github`,
 `images`, `demo`. Card order is array order.
 
@@ -124,18 +124,22 @@ Nine cards, all **data** — the `projects` array. Each has `title`, `tagline`,
 | 01 | Palladium | Notarial document management system | **gradient** | private |
 | 02 | HowlX | Every support call, turned into intelligence | **guided demo** + gallery | [howlx](https://github.com/jadrianlg16/howlx) |
 | 03 | Transcript Archive | Watch once, search forever | **guided demo** | [yt-transcripts](https://github.com/jadrianlg16/yt-transcripts) |
-| 04 | Chess Analyzer | A grandmaster engine, running in your tab | **live app** | [chess-analyzer](https://github.com/jadrianlg16/chess-analyzer) |
-| 05 | Financial Sim | Uber vs. new car, simulated to the peso | **live app** | [financial-sim](https://github.com/jadrianlg16/financial-sim) |
-| 06 | Task Shuffler | Decision fatigue, deleted | **live app** | [task-shuffler](https://github.com/jadrianlg16/task-shuffler) |
-| 07 | File Converter | 38 formats, one drop zone | walkthrough | [file-converter](https://github.com/jadrianlg16/file-converter) |
-| 08 | GravityDL | A download manager with gravity | walkthrough | deliberately unpublished |
-| 09 | Audiobook Studio | Paste a book, press play | walkthrough | private |
+| 04 | Learning Tutor | A tutor that asks before it tells | **gallery** | [learning-tutor](https://github.com/jadrianlg16/learning-tutor) |
+| 05 | Aurum | Every figure computed, every rule cited | **gallery** | [aurum](https://github.com/jadrianlg16/aurum) |
+| 06 | Chess Analyzer | A grandmaster engine, running in your tab | **live app** | [chess-analyzer](https://github.com/jadrianlg16/chess-analyzer) |
+| 07 | Financial Sim | Uber vs. new car, simulated to the peso | **live app** | [financial-sim](https://github.com/jadrianlg16/financial-sim) |
+| 08 | Task Shuffler | Decision fatigue, deleted | **live app** | [task-shuffler](https://github.com/jadrianlg16/task-shuffler) |
+| 09 | File Converter | 38 formats, one drop zone | walkthrough | [file-converter](https://github.com/jadrianlg16/file-converter) |
+| 10 | GravityDL | A download manager with gravity | walkthrough | deliberately unpublished |
+| 11 | Audiobook Studio | Paste a book, press play | walkthrough | [audiobook-studio](https://github.com/jadrianlg16/audiobook-studio) |
 
-So: **three live apps, two guided demos, three scripted walkthroughs, one
-gradient.** `live` runs the real app in a same-origin iframe. `guided` runs the
-product's own interface with its network replaced by fixtures — real UI, sample
-data, labelled as such everywhere it appears. `case` renders a scripted
-walkthrough from `components/demos/`, also labelled.
+So: **three live apps, two guided demos, three scripted walkthroughs, two
+screenshot galleries, one gradient.** `live` runs the real app in a same-origin
+iframe. `guided` runs the product's own interface with its network replaced by
+fixtures — real UI, sample data, labelled as such everywhere it appears. `case` renders a scripted
+walkthrough from `components/demos/`, also labelled. A card with no `demo` but
+with `images` shows them as an auto-advancing gallery badged "Product
+screenshots"; the screenshots live in `public/images/<slug>/`.
 
 ---
 

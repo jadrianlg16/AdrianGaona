@@ -32,7 +32,10 @@ site says which is which.
 
 - **Scripted walkthroughs** for apps whose interface can't run without its
   backend: File Converter ([source](https://github.com/jadrianlg16/file-converter)),
-  GravityDL and Audiobook Studio.
+  GravityDL and Audiobook Studio ([source](https://github.com/jadrianlg16/audiobook-studio)).
+- **Screenshot galleries** of the real interface for apps that need a server and
+  have no demo: Learning Tutor ([source](https://github.com/jadrianlg16/learning-tutor))
+  and Aurum ([source](https://github.com/jadrianlg16/aurum)).
 - **A page per project** at `/work/<slug>` (for example
   [/work/howlx](https://www.adriangaona.dev/work/howlx)) with its own share image
   and structured data, so one project can be sent to one person.
@@ -117,7 +120,7 @@ label each demo from its kind, so a guided demo is never presented as a live one
 | Next.js 15 (App Router), React 19, TypeScript, Tailwind CSS 4 | Every route is prerendered at build time, including one page and one share image per project. Metadata, sitemap, robots and manifest are file-based. |
 | GSAP + ScrollTrigger, Lenis, three.js | Scroll-driven motion, smooth scrolling and the hero snowfall. Lenis is stopped while a demo overlay is open, so the page underneath doesn't scroll. |
 | Same-origin iframes for demos | Each app keeps its own build, dependencies and CSS, so no app can break another or the site's styles. The same URL also opens full-screen in a new tab. Each frame's `sandbox` comes from [`src/app/lib/sandbox.ts`](src/app/lib/sandbox.ts); see the limitation on isolation below. |
-| One content file | Projects (with their demo kinds), capabilities, principles and contact details live in `src/app/lib/data.ts`. Adding a project is an entry there, plus its demo bundle or walkthrough component if it has one. |
+| One content file | Projects (with their demo kinds), capabilities, principles and contact details live in `src/app/lib/data.ts`. Adding a project is an entry there, plus its demo bundle, walkthrough component or screenshots (`public/images/<slug>/`) if it has them. |
 
 ## Project structure
 
