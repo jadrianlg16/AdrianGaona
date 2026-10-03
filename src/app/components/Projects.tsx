@@ -11,7 +11,7 @@ import { DemoOverlay } from "./DemoOverlay";
 import { caseDemos } from "./demos";
 
 /**
- * Stacked-deck showcase: each project is a full-viewport sticky card.
+ * Stacked-deck showcase: each project is a card at least a viewport tall.
  * As the next card scrolls over, the current one scales back and dims —
  * a physical "flipping through the portfolio" feel.
  *
@@ -78,7 +78,7 @@ export function Projects() {
       {projects.map((project, i) => (
         <div
           key={project.slug}
-          className="project-wrapper min-h-[100svh] md:h-[100svh]"
+          className="project-wrapper min-h-[100svh]"
         >
           <ProjectCard project={project} index={i} onLaunch={setOpenProject} />
         </div>
@@ -108,11 +108,16 @@ function ProjectCard({
 }) {
   const demo = project.demo;
 
+  // From md up the card is 88svh tall wherever its copy fits, and taller where
+  // it doesn't. It used to be exactly 88svh with overflow hidden, which on short
+  // or narrow screens cut off the end of the copy: the Details, GitHub and Play
+  // row went first (HowlX lost all of it at 1366x768). The 6svh padding keeps
+  // the same margins around the card either way.
   return (
-    <article className="project-sticky relative flex min-h-[100svh] items-center px-4 py-4 md:sticky md:top-0 md:h-[100svh] md:px-10 md:py-0">
+    <article className="project-sticky relative flex min-h-[100svh] items-center px-4 py-4 md:sticky md:top-0 md:px-10 md:py-[6svh]">
       <div
         className="project-card relative grid min-h-[calc(100svh-2rem)] w-full grid-rows-1 overflow-hidden rounded-2xl
-          border border-line bg-ink-soft md:h-[88svh] md:min-h-0 md:grid-cols-2 md:grid-rows-1 md:will-change-transform"
+          border border-line bg-ink-soft md:min-h-[88svh] md:grid-cols-2 md:grid-rows-1 md:will-change-transform"
       >
         {/* ambient glow keyed to the project palette */}
         <div
